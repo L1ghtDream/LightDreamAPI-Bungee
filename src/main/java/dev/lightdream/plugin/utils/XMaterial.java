@@ -1610,13 +1610,6 @@ public enum XMaterial {
             case "GRASS":
             case "BRICK":
             case "NETHER_BRICK":
-
-                // Illegal Elements
-                // Since both 1.12 and 1.13 have <type>_DOOR XMaterial will use it
-                // for 1.12 to parse the material, but it needs <type>_DOOR_ITEM.
-                // We'll trick XMaterial into thinking this needs to be parsed
-                // using the old methods.
-                // Some of these materials have their enum name added to the legacy list as well.
             case "DARK_OAK_DOOR":
             case "ACACIA_DOOR":
             case "BIRCH_DOOR":
