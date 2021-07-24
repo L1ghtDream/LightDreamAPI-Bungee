@@ -1,0 +1,5 @@
+name: SpigotPlugin
+version: ${project.version}
+main: dev.lightdream.${PROJECT_NAME}.Main
+authors: [ L1ghtDream ]
+website: https://lightdream.tk
