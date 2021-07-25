@@ -5,21 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dev.lightdream</groupId>
+    <artifactId>plugin</artifactId>
     <packaging>jar</packaging>
-
-    <properties>
-        <name>plugin</name>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <version>1.0</version>
 
     <url>https://lightdream.tk</url>
 
-
-    <name>${name}</name>
-    <artifactId>${name}</artifactId>
-    <version>1.0</version>
-
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <build>
         <plugins>
