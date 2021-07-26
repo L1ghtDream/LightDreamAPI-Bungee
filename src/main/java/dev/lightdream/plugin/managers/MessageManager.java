@@ -60,7 +60,5 @@ public class MessageManager {
         } else {
             target.sendMessage(Utils.color(plugin.getMessages().prefix + message));
         }
-
-
     }
 }

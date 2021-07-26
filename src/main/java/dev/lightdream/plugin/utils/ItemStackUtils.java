@@ -9,6 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -33,7 +34,7 @@ public class ItemStackUtils {
         return item;
     }
 
-    public static ItemStack makeItem(Item item) {
+    public static @NotNull ItemStack makeItem(@NotNull Item item) {
         try {
             ItemStack itemstack = makeItem(item.material, item.amount, item.displayName, item.lore);
             if (item.material == XMaterial.PLAYER_HEAD && item.headData != null) {
@@ -59,7 +60,7 @@ public class ItemStackUtils {
         }
     }
 
-    public static String serialize(ItemStack itemStack) {
+    public static @NotNull String serialize(@NotNull ItemStack itemStack) {
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             BukkitObjectOutputStream bukkitObjectOutputStream = new BukkitObjectOutputStream(byteArrayOutputStream);
@@ -73,7 +74,7 @@ public class ItemStackUtils {
         }
     }
 
-    public static ItemStack deserialize(String string) {
+    public static @NotNull ItemStack deserialize(@NotNull String string) {
         try {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(Base64.getDecoder().decode(string));
             BukkitObjectInputStream bukkitObjectInputStream = new BukkitObjectInputStream(byteArrayInputStream);

@@ -37,10 +37,11 @@ public class PAPI extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String identifier) {
-
         if (player == null) {
             return null;
         }
+
+        //Placeholders
 
         return null;
     }

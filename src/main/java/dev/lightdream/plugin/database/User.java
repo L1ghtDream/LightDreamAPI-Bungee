@@ -2,13 +2,11 @@ package dev.lightdream.plugin.database;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @SuppressWarnings("unused")
-@Getter
 @NoArgsConstructor
 @DatabaseTable(tableName = "users")
 public class User {

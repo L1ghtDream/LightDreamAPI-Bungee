@@ -1,8 +1,7 @@
-package dev.lightdream.plugin.dto;
+package dev.lightdream.plugin.utils;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import dev.lightdream.plugin.utils.Utils;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -13,6 +12,7 @@ import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -25,15 +25,15 @@ public class ItemBuilder {
 
     private ItemStack stack;
 
-    public ItemBuilder(Material mat) {
+    public ItemBuilder(@NotNull Material mat) {
         stack = new ItemStack(mat);
     }
 
-    public ItemBuilder(Material mat, short sh) {
+    public ItemBuilder(@NotNull Material mat, short sh) {
         stack = new ItemStack(mat, 1, sh);
     }
 
-    public ItemBuilder(ItemStack stack) {
+    public ItemBuilder(@NotNull ItemStack stack) {
         this.stack = stack;
     }
 
@@ -41,12 +41,12 @@ public class ItemBuilder {
         return stack.getItemMeta();
     }
 
-    public ItemBuilder setItemMeta(ItemMeta meta) {
+    public ItemBuilder setItemMeta(@NotNull ItemMeta meta) {
         stack.setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder setColor(Color color) {
+    public ItemBuilder setColor(@NotNull Color color) {
         LeatherArmorMeta meta = (LeatherArmorMeta) stack.getItemMeta();
         meta.setColor(color);
         setItemMeta(meta);
@@ -66,7 +66,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setBannerColor(DyeColor color) {
+    public ItemBuilder setBannerColor(@NotNull DyeColor color) {
         BannerMeta meta = (BannerMeta) stack.getItemMeta();
         meta.setBaseColor(color);
         setItemMeta(meta);
@@ -78,14 +78,14 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setHead(String owner) {
+    public ItemBuilder setHead(@NotNull String owner) {
         SkullMeta meta = (SkullMeta) stack.getItemMeta();
         meta.setOwner(owner);
         setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder setDisplayName(String displayname) {
+    public ItemBuilder setDisplayName(@NotNull String displayname) {
         ItemMeta meta = getItemMeta();
         if (meta == null) {
             return this;
@@ -95,19 +95,19 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setItemStack(ItemStack stack) {
+    public ItemBuilder setItemStack(@NotNull ItemStack stack) {
         this.stack = stack;
         return this;
     }
 
-    public ItemBuilder setLore(ArrayList<String> lore) {
+    public ItemBuilder setLore(@NotNull ArrayList<String> lore) {
         ItemMeta meta = getItemMeta();
         meta.setLore(lore);
         setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder setLore(List<String> lore) {
+    public ItemBuilder setLore(@NotNull List<String> lore) {
         ItemMeta meta = getItemMeta();
         if (lore.size() == 0) {
             return this;
@@ -117,7 +117,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setLore(String lore) {
+    public ItemBuilder setLore(@NotNull String lore) {
         ArrayList<String> loreList = new ArrayList<>();
         loreList.add(lore);
         ItemMeta meta = getItemMeta();
@@ -126,7 +126,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setLore(String[] lore) {
+    public ItemBuilder setLore(@NotNull String[] lore) {
         ArrayList<String> loreList = new ArrayList<>();
         Collections.addAll(loreList, lore);
         ItemMeta meta = getItemMeta();
@@ -135,36 +135,36 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addEnchant(Enchantment enchantment, int level) {
+    public ItemBuilder addEnchant(@NotNull Enchantment enchantment, int level) {
         ItemMeta meta = getItemMeta();
         meta.addEnchant(enchantment, level, true);
         setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder addItemFlag(ItemFlag flag) {
+    public ItemBuilder addItemFlag(@NotNull ItemFlag flag) {
         ItemMeta meta = getItemMeta();
         meta.addItemFlags(flag);
         setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder addNBTString(String attribute, String value) {
+    public ItemBuilder addNBTString(@NotNull String attribute, @NotNull String value) {
         stack = Utils.setNBT(stack, attribute, value);
         return this;
     }
 
-    public ItemBuilder addNBTInt(String attribute, int value) {
+    public ItemBuilder addNBTInt(@NotNull String attribute, int value) {
         stack = Utils.setNBT(stack, attribute, value);
         return this;
     }
 
-    public ItemBuilder addNBTStringList(String attribute, List<String> value) {
+    public ItemBuilder addNBTStringList(@NotNull String attribute, @NotNull List<String> value) {
         stack = Utils.setNBT(stack, attribute, value);
         return this;
     }
 
-    public ItemBuilder setHeadTexture(String value) {
+    public ItemBuilder setHeadTexture(@NotNull String value) {
         ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta meta = (SkullMeta) head.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), "");

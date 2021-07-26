@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class DatabaseManager {
@@ -58,7 +57,7 @@ public class DatabaseManager {
         this.userList = getUsers();
     }
 
-    private void registerTable(){
+    private void registerTable() {
 
     }
 
@@ -104,7 +103,7 @@ public class DatabaseManager {
     }
 
     public @NotNull User getUser(@NotNull UUID uuid) {
-        Optional<User> optionalUser = getUserList().stream().filter(user -> user.getUuid().equals(uuid)).findFirst();
+        Optional<User> optionalUser = getUserList().stream().filter(user -> user.uuid.equals(uuid)).findFirst();
 
         if (optionalUser.isPresent()) {
             return optionalUser.get();
@@ -116,7 +115,7 @@ public class DatabaseManager {
     }
 
     public @Nullable User getUser(@NotNull String name) {
-        Optional<User> optionalUser = getUserList().stream().filter(user -> user.getName().equals(name)).findFirst();
+        Optional<User> optionalUser = getUserList().stream().filter(user -> user.name.equals(name)).findFirst();
 
         return optionalUser.orElse(null);
     }

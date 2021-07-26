@@ -1,4 +1,4 @@
-package dev.lightdream.plugin.utils;
+package dev.lightdream.plugin.managers;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,13 +10,13 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 @SuppressWarnings("unused")
-public class Persist {
+public class FileManager {
 
     private final ObjectMapper objectMapper;
     private final PersistType persistType;
     private final Main plugin;
 
-    public Persist(Main plugin, PersistType persistType) {
+    public FileManager(Main plugin, PersistType persistType) {
         this.plugin =plugin;
         this.persistType = persistType;
         this.objectMapper = new ObjectMapper(persistType.getFactory());
@@ -71,13 +71,13 @@ public class Persist {
     public <T> T load(Class<T> clazz, File file) {
         if (file.exists()) {
             try {
-                save(clazz, file);
                 return objectMapper.readValue(file, clazz);
             } catch (IOException e) {
                 System.out.println("Failed to parse " + file + ": " + e.getMessage());
             }
         }
         try {
+            save(clazz.newInstance());
             return clazz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();

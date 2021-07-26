@@ -16,31 +16,21 @@ public abstract class Command {
     public final String usage;
     public final Main plugin;
 
-    public Command(Main plugin, @NotNull List<String> aliases, @NotNull String description, @NotNull String permission, boolean onlyForPlayers, boolean onlyForConsole, String usage) {
+    public Command(@NotNull Main plugin, @NotNull List<String> aliases, @NotNull String description, @NotNull String permission, boolean onlyForPlayers, boolean onlyForConsole, @NotNull String usage) {
         this.plugin = plugin;
         this.aliases = aliases;
         this.description = description;
         this.permission = permission;
         this.onlyForPlayers = onlyForPlayers;
         this.onlyForConsole = onlyForConsole;
-        this.usage = usage;
-    }
-
-    public Command(Main plugin, @NotNull List<String> aliases, @NotNull String description, @NotNull String permission, boolean onlyForPlayers, boolean onlyForConsole) {
-        this.plugin = plugin;
-        this.aliases = aliases;
-        this.description = description;
-        this.permission = permission;
-        this.onlyForPlayers = onlyForPlayers;
-        this.usage = "/oc " + aliases.get(0);
-        this.onlyForConsole = onlyForConsole;
+        this.usage = Main.PROJECT_ID + " " + usage;
     }
 
     public abstract void execute(Object sender, List<String> args);
 
     public abstract List<String> onTabComplete(Object commandSender, List<String> args);
 
-    public void sendUsage(Object sender){
+    public void sendUsage(Object sender) {
         plugin.getMessageManager().sendMessage(sender, usage);
     }
 }

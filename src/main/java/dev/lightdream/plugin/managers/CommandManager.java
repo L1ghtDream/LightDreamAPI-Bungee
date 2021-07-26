@@ -2,7 +2,6 @@ package dev.lightdream.plugin.managers;
 
 import dev.lightdream.plugin.Main;
 import dev.lightdream.plugin.commands.Command;
-import dev.lightdream.plugin.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -42,14 +41,14 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     public void sendUsage(CommandSender sender) {
         StringBuilder helpCommandOutput = new StringBuilder();
 
-        if(plugin.getMessages().helpCommand.size()== 0){
-            for(Command command : plugin.getCommands()){
-                if(sender.hasPermission(command.permission)){
+        if (plugin.getMessages().helpCommand.size() == 0) {
+            for (Command command : plugin.getCommands()) {
+                if (sender.hasPermission(command.permission)) {
                     helpCommandOutput.append(command.usage);
                 }
             }
-        }else{
-            for(String line: plugin.getMessages().helpCommand){
+        } else {
+            for (String line : plugin.getMessages().helpCommand) {
                 helpCommandOutput.append(line);
             }
         }
@@ -119,7 +118,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         return Collections.emptyList();
     }
 
-    private boolean hasPermission(CommandSender sender, String permission){
+    private boolean hasPermission(CommandSender sender, String permission) {
         return ((sender.hasPermission(permission) || permission.equalsIgnoreCase("")));
     }
 }
