@@ -8,6 +8,7 @@ import dev.lightdream.plugin.dto.SQL;
 import dev.lightdream.plugin.managers.*;
 import dev.lightdream.plugin.managers.FileManager;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public final class Main extends JavaPlugin {
     private EventManager eventManager;
     private InventoryManager inventoryManager;
     private MessageManager messageManager;
-    private PAPI papi;
+    private SchedulerManager schedulerManager;
 
     //Utils
     private FileManager fileManager;
@@ -59,7 +60,14 @@ public final class Main extends JavaPlugin {
         eventManager = new EventManager(this);
         inventoryManager = new InventoryManager(this);
         messageManager = new MessageManager(this);
-        papi = new PAPI(this);
+        schedulerManager = new SchedulerManager(this);
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new PAPI(this).register();
+        } else {
+            System.out.println("Could not find PlaceholderAPI! This plugin is required.");
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
     }
 
     @Override

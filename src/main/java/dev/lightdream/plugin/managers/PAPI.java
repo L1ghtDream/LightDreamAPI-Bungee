@@ -22,7 +22,7 @@ public class PAPI extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getAuthor() {
-        return "L!ghtDream";
+        return "L1ghtDream";
     }
 
     @Override

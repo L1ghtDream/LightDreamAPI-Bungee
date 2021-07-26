@@ -20,7 +20,7 @@ public abstract class Command {
         this.plugin = plugin;
         this.aliases = aliases;
         this.description = description;
-        this.permission = permission;
+        this.permission = Main.PROJECT_ID + "." + permission;
         this.onlyForPlayers = onlyForPlayers;
         this.onlyForConsole = onlyForConsole;
         this.usage = Main.PROJECT_ID + " " + usage;
