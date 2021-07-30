@@ -3,6 +3,7 @@ package dev.lightdream.plugin.commands;
 import dev.lightdream.plugin.Main;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,6 +19,6 @@ public class ReloadCommand extends Command{
 
     @Override
     public List<String> onTabComplete(Object commandSender, List<String> args) {
-        return null;
+        return new ArrayList<>();
     }
 }

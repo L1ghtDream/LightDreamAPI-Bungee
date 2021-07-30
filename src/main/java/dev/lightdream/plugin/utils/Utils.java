@@ -43,6 +43,12 @@ public class Utils {
         positions.forEach(pos -> inventory.setItem(pos, Utils.setNBT(fillItem, "gui_protect", true)));
     }
 
+    public static void fillInventory(@NotNull Inventory inventory, @NotNull ItemStack fillItem) {
+        for (int pos = 0; pos < inventory.getSize(); pos++) {
+            inventory.setItem(pos, Utils.setNBT(fillItem, "gui_protect", true));
+        }
+    }
+
     public static @NotNull List<String> color(@NotNull List<String> list) {
         List<String> output = new ArrayList<>();
         list.forEach(line -> output.add(color(line)));

@@ -40,16 +40,19 @@ public class CommandManager implements CommandExecutor, TabCompleter {
 
     public void sendUsage(CommandSender sender) {
         StringBuilder helpCommandOutput = new StringBuilder();
+        helpCommandOutput.append("\n");
 
         if (plugin.getMessages().helpCommand.size() == 0) {
             for (Command command : plugin.getCommands()) {
                 if (sender.hasPermission(command.permission)) {
                     helpCommandOutput.append(command.usage);
+                    helpCommandOutput.append("\n");
                 }
             }
         } else {
             for (String line : plugin.getMessages().helpCommand) {
                 helpCommandOutput.append(line);
+                helpCommandOutput.append("\n");
             }
         }
 
