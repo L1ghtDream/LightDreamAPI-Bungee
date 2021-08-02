@@ -19,7 +19,7 @@ public class JdaUtils {
         return embed;
     }
 
-    public static EmbedBuilder createEmbed(int r, int g, int b, String title, String text, String thumbnail) {
+    public static EmbedBuilder createEmbed(int r, int g, int b, String title, String thumbnail, String text) {
         EmbedBuilder embed = new EmbedBuilder();
 
         embed.setTitle(title, null);
