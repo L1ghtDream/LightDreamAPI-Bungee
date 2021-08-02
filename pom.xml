@@ -91,9 +91,15 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>dv8tion</id>
+            <name>m2-dv8tion</name>
+            <url>https://m2.dv8tion.net/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
+        <!-- SPIGOT -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
@@ -106,12 +112,16 @@
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- PLACEHOLDERS -->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.10.10</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- FILE -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -140,11 +150,8 @@
             <artifactId>snakeyaml</artifactId>
             <version>1.29</version>
         </dependency>
-        <dependency>
-            <groupId>de.tr7zw</groupId>
-            <artifactId>item-nbt-api</artifactId>
-            <version>2.8.0</version>
-        </dependency>
+
+        <!-- DATABASE -->
         <dependency>
             <groupId>com.j256.ormlite</groupId>
             <artifactId>ormlite-core</artifactId>
@@ -156,6 +163,13 @@
             <artifactId>ormlite-jdbc</artifactId>
             <version>5.3</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- UTILS -->
+        <dependency>
+            <groupId>de.tr7zw</groupId>
+            <artifactId>item-nbt-api</artifactId>
+            <version>2.8.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -174,13 +188,22 @@
             <version>7.3.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!--
+        <dependency>
+            <groupId>net.dv8tion</groupId>
+            <artifactId>JDA</artifactId>
+            <version>4.3.0_281</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gitlab.ruany</groupId>
+            <artifactId>LiteBansAPI</artifactId>
+            <version>0.3.4</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>
         </dependency>
-        -->
     </dependencies>
 </project>

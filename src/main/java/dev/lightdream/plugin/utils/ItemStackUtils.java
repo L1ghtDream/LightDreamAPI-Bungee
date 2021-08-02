@@ -4,19 +4,21 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import dev.lightdream.plugin.dto.Item;
+import org.bukkit.Bukkit;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @SuppressWarnings({"ConstantConditions", "unused"})
 public class ItemStackUtils {
@@ -82,6 +84,87 @@ public class ItemStackUtils {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return XMaterial.AIR.parseItem();
+        }
+    }
+
+    public static @NotNull String[] playerInventoryToBase64(@NotNull PlayerInventory playerInventory) throws IllegalStateException {
+        String content = toBase64(playerInventory);
+        String armor = itemStackArrayToBase64(Arrays.asList(playerInventory.getArmorContents()));
+
+        return new String[]{content, armor};
+    }
+
+    public static @NotNull String itemStackArrayToBase64(@NotNull List<ItemStack> items) throws IllegalStateException {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
+
+            dataOutput.writeInt(items.size());
+
+            for (ItemStack item : items) {
+                dataOutput.writeObject(item);
+            }
+
+            dataOutput.close();
+            return Base64Coder.encodeLines(outputStream.toByteArray());
+        } catch (Exception e) {
+            throw new IllegalStateException("Unable to save item stacks.", e);
+        }
+    }
+
+    public static @NotNull String toBase64(@NotNull Inventory inventory) throws IllegalStateException {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
+
+            dataOutput.writeInt(inventory.getSize());
+
+            for (int i = 0; i < inventory.getSize(); i++) {
+                dataOutput.writeObject(inventory.getItem(i));
+            }
+
+            dataOutput.close();
+            return Base64Coder.encodeLines(outputStream.toByteArray());
+        } catch (Exception e) {
+            throw new IllegalStateException("Unable to save item stacks.", e);
+        }
+    }
+
+    public static @NotNull Inventory fromBase64(@NotNull String data) throws IOException {
+        try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+            BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+            Inventory inventory = Bukkit.getServer().createInventory(null, dataInput.readInt());
+
+            for (int i = 0; i < inventory.getSize(); i++) {
+                inventory.setItem(i, (ItemStack) dataInput.readObject());
+            }
+
+            dataInput.close();
+            return inventory;
+        } catch (ClassNotFoundException e) {
+            throw new IOException("Unable to decode class type.", e);
+        }
+    }
+
+    public static @NotNull List<ItemStack> itemStackArrayFromBase64(@NotNull String data) throws IOException {
+        if (data.equals("")) {
+            return new ArrayList<>();
+        }
+        try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+            BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+            List<ItemStack> items = new ArrayList<>();
+            int size = dataInput.readInt();
+
+            for (int i = 0; i < size; i++) {
+                items.add((ItemStack) dataInput.readObject());
+            }
+
+            dataInput.close();
+            return items;
+        } catch (ClassNotFoundException e) {
+            throw new IOException("Unable to decode class type.", e);
         }
     }
 

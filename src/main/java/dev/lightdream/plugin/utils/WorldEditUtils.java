@@ -1,4 +1,4 @@
-package dev.lightdream.plugin.managers;
+package dev.lightdream.plugin.utils;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -23,15 +23,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class WorldEditManager {
+public class WorldEditUtils {
 
-    private final Main plugin;
-
-    public WorldEditManager(Main plugin) {
-        this.plugin = plugin;
-    }
-
-    public BlockArrayClipboard copy(PluginLocation pos1, PluginLocation pos2) {
+    public static BlockArrayClipboard copy(PluginLocation pos1, PluginLocation pos2) {
         World world = Bukkit.getWorld(pos1.world);
         CuboidRegion region = new CuboidRegion(BukkitAdapter.adapt(world), pos1.toBlockVector3(), pos2.toBlockVector3());
         BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
@@ -50,7 +44,7 @@ public class WorldEditManager {
         return clipboard;
     }
 
-    public void save(String subFolder, String name, BlockArrayClipboard clipboard) {
+    public static void save(String subFolder, String name, BlockArrayClipboard clipboard, Main plugin) {
         new File(plugin.getDataFolder().getPath() + "/" + subFolder).mkdirs();
         File file = new File(plugin.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schem");
         try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
@@ -60,7 +54,7 @@ public class WorldEditManager {
         }
     }
 
-    public void paste(PluginLocation pos1, PluginLocation pos2, Clipboard clipboard) {
+    public static void paste(PluginLocation pos1, PluginLocation pos2, Clipboard clipboard) {
         World world = Bukkit.getWorld(pos1.world);
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(new BukkitWorld(world))) {
             Operation operation = new ClipboardHolder(clipboard)
@@ -73,7 +67,7 @@ public class WorldEditManager {
         }
     }
 
-    public Clipboard load(String subFolder, String name) {
+    public static Clipboard load(String subFolder, String name, Main plugin) {
         Clipboard clipboard = null;
         File file = new File(plugin.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schem");
 

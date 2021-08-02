@@ -150,17 +150,17 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addNBTString(@NotNull String attribute, @NotNull String value) {
-        stack = Utils.setNBT(stack, attribute, value);
+        stack = NbtUtils.setNBT(stack, attribute, value);
         return this;
     }
 
     public ItemBuilder addNBTInt(@NotNull String attribute, int value) {
-        stack = Utils.setNBT(stack, attribute, value);
+        stack = NbtUtils.setNBT(stack, attribute, value);
         return this;
     }
 
     public ItemBuilder addNBTStringList(@NotNull String attribute, @NotNull List<String> value) {
-        stack = Utils.setNBT(stack, attribute, value);
+        stack = NbtUtils.setNBT(stack, attribute, value);
         return this;
     }
 

@@ -7,6 +7,7 @@ import dev.lightdream.plugin.dto.Messages;
 import dev.lightdream.plugin.dto.SQL;
 import dev.lightdream.plugin.managers.*;
 import dev.lightdream.plugin.managers.FileManager;
+import dev.lightdream.plugin.utils.WorldEditUtils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,7 +30,6 @@ public final class Main extends JavaPlugin {
     private InventoryManager inventoryManager;
     private MessageManager messageManager;
     private SchedulerManager schedulerManager;
-    private WorldEditManager worldEditManager;
 
     //Utils
     private FileManager fileManager;
@@ -62,7 +62,6 @@ public final class Main extends JavaPlugin {
         inventoryManager = new InventoryManager(this);
         messageManager = new MessageManager(this);
         schedulerManager = new SchedulerManager(this);
-        worldEditManager = new WorldEditManager(this);
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PAPI(this).register();
