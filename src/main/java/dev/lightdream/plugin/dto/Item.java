@@ -3,6 +3,7 @@ package dev.lightdream.plugin.dto;
 import dev.lightdream.plugin.utils.XMaterial;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"MethodDoesntCallSuperMethod", "unused"})
@@ -16,6 +17,13 @@ public class Item {
     public String headOwner;
     public List<String> lore;
     public Integer slot;
+
+    public Item(XMaterial material, int amount) {
+        this.material = material;
+        this.amount = amount;
+        this.lore = new ArrayList<>();
+        this.displayName = material.parseMaterial().name();
+    }
 
     public Item(XMaterial material, int amount, String displayName, List<String> lore) {
         this.material = material;

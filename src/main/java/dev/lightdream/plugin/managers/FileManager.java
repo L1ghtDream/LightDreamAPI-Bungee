@@ -8,6 +8,8 @@ import dev.lightdream.plugin.Main;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class FileManager {
@@ -48,10 +50,17 @@ public class FileManager {
     }
 
     private void save(Object instance, File file) {
+        StringBuilder newPath = new StringBuilder();
+        List<String> subPaths = Arrays.asList(file.getPath().split("/"));
+        for (int i = 0; i < subPaths.size() - 1; i++) {
+            newPath.append(subPaths.get(i));
+            newPath.append("/");
+        }
+        File newFile = new File(newPath.toString());
         try {
             objectMapper.writeValue(file, instance);
         } catch (IOException e) {
-            System.out.println("Failed to save " + file.toString() + ": " + e.getMessage());
+            System.out.println("Failed to save " + file + ": " + e.getMessage());
         }
     }
 

@@ -29,6 +29,7 @@ public final class Main extends JavaPlugin {
     private InventoryManager inventoryManager;
     private MessageManager messageManager;
     private SchedulerManager schedulerManager;
+    private WorldEditManager worldEditManager;
 
     //Utils
     private FileManager fileManager;
@@ -51,7 +52,7 @@ public final class Main extends JavaPlugin {
         commands.add(new ReloadCommand(this));
 
         //Managers
-        commandManager = new CommandManager(this, PROJECT_NAME.toLowerCase());
+        commandManager = new CommandManager(this, PROJECT_ID.toLowerCase());
         try {
             databaseManager = new DatabaseManager(this);
         } catch (SQLException e) {
@@ -61,6 +62,7 @@ public final class Main extends JavaPlugin {
         inventoryManager = new InventoryManager(this);
         messageManager = new MessageManager(this);
         schedulerManager = new SchedulerManager(this);
+        worldEditManager = new WorldEditManager(this);
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PAPI(this).register();
@@ -75,6 +77,7 @@ public final class Main extends JavaPlugin {
         //Save files
 
         //Save to db
+        databaseManager.saveUsers();
     }
 
     public void loadConfigs(){
