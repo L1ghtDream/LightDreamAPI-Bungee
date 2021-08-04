@@ -1,4 +1,4 @@
-package dev.lightdream.plugin.dto;
+package dev.lightdream.plugin.files.config;
 
 import dev.lightdream.plugin.Main;
 import lombok.NoArgsConstructor;

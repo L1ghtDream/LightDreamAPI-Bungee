@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class InventoryUtils {
 
     public static void fillInventory(@NotNull Inventory inventory, @NotNull ItemStack fillItem, @NotNull List<Integer> positions) {

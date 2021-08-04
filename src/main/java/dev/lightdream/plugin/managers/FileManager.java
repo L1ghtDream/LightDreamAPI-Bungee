@@ -19,7 +19,7 @@ public class FileManager {
     private final Main plugin;
 
     public FileManager(Main plugin, PersistType persistType) {
-        this.plugin =plugin;
+        this.plugin = plugin;
         this.persistType = persistType;
         this.objectMapper = new ObjectMapper(persistType.getFactory());
     }
@@ -27,6 +27,7 @@ public class FileManager {
     private static String getName(Class<?> clazz) {
         return clazz.getSimpleName().toLowerCase();
     }
+
     public static String getName(Object instance) {
         return getName(instance.getClass());
     }
@@ -34,9 +35,11 @@ public class FileManager {
     public static String getName(Type type) {
         return getName(type.getClass());
     }
+
     public File getFile(String name) {
         return new File(plugin.getDataFolder(), name + persistType.getExtension());
     }
+
     public File getFile(Class<?> clazz) {
         return getFile(getName(clazz));
     }
@@ -60,7 +63,7 @@ public class FileManager {
         try {
             objectMapper.writeValue(file, instance);
         } catch (IOException e) {
-            System.out.println("Failed to save " + file + ": " + e.getMessage());
+            plugin.getLogger().severe("Failed to save " + file + ": " + e.getMessage());
         }
     }
 
@@ -68,7 +71,7 @@ public class FileManager {
         try {
             return objectMapper.writeValueAsString(instance);
         } catch (IOException e) {
-            System.out.println("Failed to save " + instance.toString() + ": " + e.getMessage());
+            plugin.getLogger().severe("Failed to save " + instance.toString() + ": " + e.getMessage());
         }
         return "";
     }
@@ -82,7 +85,7 @@ public class FileManager {
             try {
                 return objectMapper.readValue(file, clazz);
             } catch (IOException e) {
-                System.out.println("Failed to parse " + file + ": " + e.getMessage());
+                plugin.getLogger().severe("Failed to parse " + file + ": " + e.getMessage());
             }
         }
         try {

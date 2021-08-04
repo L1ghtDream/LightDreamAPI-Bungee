@@ -2,12 +2,16 @@ package dev.lightdream.plugin;
 
 import dev.lightdream.plugin.commands.Command;
 import dev.lightdream.plugin.commands.ReloadCommand;
-import dev.lightdream.plugin.dto.Config;
-import dev.lightdream.plugin.dto.Messages;
-import dev.lightdream.plugin.dto.SQL;
+import dev.lightdream.plugin.files.config.Config;
+import dev.lightdream.plugin.files.config.GUIs;
+import dev.lightdream.plugin.files.config.Messages;
+import dev.lightdream.plugin.files.config.SQL;
 import dev.lightdream.plugin.managers.*;
-import dev.lightdream.plugin.managers.FileManager;
-import dev.lightdream.plugin.utils.WorldEditUtils;
+import dev.lightdream.plugin.utils.init.DatabaseUtils;
+import dev.lightdream.plugin.utils.init.MessageUtils;
+import dev.lightdream.plugin.utils.init.PlaceholderUtils;
+import dev.lightdream.plugin.utils.init.WorldEditUtils;
+import fr.minuskube.inv.SmartInvsPlugin;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,6 +22,9 @@ import java.util.List;
 
 @Getter
 public final class Main extends JavaPlugin {
+
+    public static Main instance;
+
     //Settings
     public final static String PROJECT_NAME = "SpigotTemplate";
     public final static String PROJECT_ID = "st";
@@ -25,10 +32,7 @@ public final class Main extends JavaPlugin {
 
     //Managers
     private CommandManager commandManager;
-    private DatabaseManager databaseManager;
     private EventManager eventManager;
-    private InventoryManager inventoryManager;
-    private MessageManager messageManager;
     private SchedulerManager schedulerManager;
 
     //Utils
@@ -37,36 +41,40 @@ public final class Main extends JavaPlugin {
     //DTO
     private Config settings;
     private Messages messages;
+    private GUIs GUIs;
     private SQL sql;
 
     @Override
     public void onEnable() {
+        instance = this;
+
+        fileManager = new FileManager(this, FileManager.PersistType.YAML);
+        loadConfigs();
 
         //Utils
-        fileManager = new FileManager(this, FileManager.PersistType.YAML);
+        MessageUtils.init(this);
+        PlaceholderUtils.init(this);
+        WorldEditUtils.init(this);
+        try {
+            DatabaseUtils.init(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        //Config
-        loadConfigs();
+        SmartInvsPlugin.manager().registerOpeners(new InventoryManager());
 
         //Commands
         commands.add(new ReloadCommand(this));
 
         //Managers
         commandManager = new CommandManager(this, PROJECT_ID.toLowerCase());
-        try {
-            databaseManager = new DatabaseManager(this);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         eventManager = new EventManager(this);
-        inventoryManager = new InventoryManager(this);
-        messageManager = new MessageManager(this);
         schedulerManager = new SchedulerManager(this);
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PAPI(this).register();
         } else {
-            System.out.println("Could not find PlaceholderAPI! This plugin is required.");
+            this.getLogger().severe("Could not find PlaceholderAPI! This plugin is required.");
             Bukkit.getPluginManager().disablePlugin(this);
         }
     }
@@ -76,12 +84,13 @@ public final class Main extends JavaPlugin {
         //Save files
 
         //Save to db
-        databaseManager.saveUsers();
+        DatabaseUtils.saveUsers();
     }
 
-    public void loadConfigs(){
+    public void loadConfigs() {
         settings = fileManager.load(Config.class);
         messages = fileManager.load(Messages.class);
         sql = fileManager.load(SQL.class);
+        GUIs = fileManager.load(GUIs.class);
     }
 }

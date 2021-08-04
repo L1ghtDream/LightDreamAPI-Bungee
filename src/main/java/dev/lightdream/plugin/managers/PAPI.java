@@ -5,7 +5,7 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"IfStatementWithIdenticalBranches", "unused"})
+@SuppressWarnings({"IfStatementWithIdenticalBranches", "unused", "FieldCanBeLocal"})
 public class PAPI extends PlaceholderExpansion {
 
     private final Main spigot;

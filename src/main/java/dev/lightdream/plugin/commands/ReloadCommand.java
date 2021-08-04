@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ReloadCommand extends Command{
+public class ReloadCommand extends Command {
     public ReloadCommand(@NotNull Main plugin) {
         super(plugin, Collections.singletonList("reload"), "Reloads the configs", "reload", false, false, "reload");
     }

@@ -1,6 +1,5 @@
-package dev.lightdream.plugin.dto;
+package dev.lightdream.plugin.files.dto;
 
-import dev.lightdream.plugin.utils.XMaterial;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -22,7 +21,11 @@ public class Item {
         this.material = material;
         this.amount = amount;
         this.lore = new ArrayList<>();
-        this.displayName = material.parseMaterial().name();
+        if (material.parseMaterial() == null) {
+            this.displayName = "Item";
+        } else {
+            this.displayName = material.parseMaterial().name();
+        }
     }
 
     public Item(XMaterial material, int amount, String displayName, List<String> lore) {

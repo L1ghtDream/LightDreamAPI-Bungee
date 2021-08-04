@@ -1,6 +1,7 @@
 package dev.lightdream.plugin.commands;
 
 import dev.lightdream.plugin.Main;
+import dev.lightdream.plugin.utils.init.MessageUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -31,6 +32,6 @@ public abstract class Command {
     public abstract List<String> onTabComplete(Object commandSender, List<String> args);
 
     public void sendUsage(Object sender) {
-        plugin.getMessageManager().sendMessage(sender, usage);
+        MessageUtils.sendMessage(sender, usage);
     }
 }

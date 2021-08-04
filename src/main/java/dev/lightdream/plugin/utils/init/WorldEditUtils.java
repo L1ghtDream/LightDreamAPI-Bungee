@@ -1,4 +1,4 @@
-package dev.lightdream.plugin.utils;
+package dev.lightdream.plugin.utils.init;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -14,7 +14,7 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import dev.lightdream.plugin.Main;
-import dev.lightdream.plugin.dto.PluginLocation;
+import dev.lightdream.plugin.files.dto.PluginLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -23,7 +23,15 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+@SuppressWarnings({"unused", "ResultOfMethodCallIgnored"})
 public class WorldEditUtils {
+
+    public static Main plugin;
+
+    public static void init(Main main) {
+        plugin = main;
+    }
+
 
     public static BlockArrayClipboard copy(PluginLocation pos1, PluginLocation pos2) {
         World world = Bukkit.getWorld(pos1.world);
@@ -44,7 +52,7 @@ public class WorldEditUtils {
         return clipboard;
     }
 
-    public static void save(String subFolder, String name, BlockArrayClipboard clipboard, Main plugin) {
+    public static void save(String subFolder, String name, BlockArrayClipboard clipboard) {
         new File(plugin.getDataFolder().getPath() + "/" + subFolder).mkdirs();
         File file = new File(plugin.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schem");
         try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
@@ -72,6 +80,9 @@ public class WorldEditUtils {
         File file = new File(plugin.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schem");
 
         ClipboardFormat format = ClipboardFormats.findByFile(file);
+        if (format == null) {
+            return null;
+        }
         try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
             clipboard = reader.read();
 

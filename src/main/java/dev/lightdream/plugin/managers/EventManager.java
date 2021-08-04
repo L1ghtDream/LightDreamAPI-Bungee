@@ -1,6 +1,7 @@
 package dev.lightdream.plugin.managers;
 
 import dev.lightdream.plugin.Main;
+import dev.lightdream.plugin.utils.init.DatabaseUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -16,6 +17,6 @@ public class EventManager implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        plugin.getDatabaseManager().getUser(event.getPlayer().getUniqueId());
+        DatabaseUtils.getUser(event.getPlayer().getUniqueId());
     }
 }

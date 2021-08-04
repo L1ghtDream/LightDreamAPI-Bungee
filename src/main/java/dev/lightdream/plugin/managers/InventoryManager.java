@@ -1,37 +1,30 @@
 package dev.lightdream.plugin.managers;
 
-import dev.lightdream.plugin.Main;
-import dev.lightdream.plugin.gui.GUI;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
+import fr.minuskube.inv.SmartInventory;
+import fr.minuskube.inv.SmartInvsPlugin;
+import fr.minuskube.inv.opener.InventoryOpener;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 
-@SuppressWarnings({"FieldCanBeLocal", "unused"})
-public class InventoryManager implements Listener {
+@SuppressWarnings("OptionalGetWithoutIsPresent")
+public class InventoryManager implements InventoryOpener {
 
-    private final Main plugin;
+    @Override
+    public Inventory open(SmartInventory inv, Player player) {
+        fr.minuskube.inv.InventoryManager manager = SmartInvsPlugin.manager();
+        Inventory handle = Bukkit.createInventory(player, inv.getRows() * inv.getColumns(), inv.getTitle());
 
-    public InventoryManager(Main plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        System.out.println("Event listener registered");
+        fill(handle, manager.getContents(player).get());
+
+        player.openInventory(handle);
+        return handle;
     }
 
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getClickedInventory() != null && event.getInventory().getHolder() != null && event.getInventory().getHolder() instanceof GUI) {
-            ((GUI) event.getInventory().getHolder()).onInventoryClick(event);
-        }
+    @Override
+    public boolean supports(InventoryType type) {
+        return type == InventoryType.CHEST;
     }
-
-    @EventHandler
-    public void onInventoryClose(InventoryCloseEvent event) {
-        if (event.getInventory() != null && event.getInventory().getHolder() != null && event.getInventory().getHolder() instanceof GUI) {
-            System.out.println("Forwarding the event");
-            ((GUI) event.getInventory().getHolder()).onInventoryClose(event);
-        }
-    }
-
 
 }

@@ -1,4 +1,4 @@
-package dev.lightdream.plugin.managers;
+package dev.lightdream.plugin.utils.init;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -8,8 +8,8 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.TableUtils;
 import dev.lightdream.plugin.Main;
-import dev.lightdream.plugin.database.User;
-import dev.lightdream.plugin.dto.SQL;
+import dev.lightdream.plugin.databases.User;
+import dev.lightdream.plugin.files.config.SQL;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
@@ -22,23 +22,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@SuppressWarnings("unused")
-public class DatabaseManager {
+@SuppressWarnings({"unused", "UnusedReturnValue"})
+public class DatabaseUtils {
 
-    private final Main plugin;
+    private static Main plugin;
 
-    private final SQL sqlConfig;
-    private final ConnectionSource connectionSource;
+    private static SQL sqlConfig;
+    private static ConnectionSource connectionSource;
 
-    private final Dao<User, UUID> userDao;
+    private static Dao<User, UUID> userDao;
 
     @Getter
-    private final List<User> userList;
+    private static List<User> userList;
 
-
-    public DatabaseManager(Main plugin) throws SQLException {
-        this.plugin = plugin;
-        this.sqlConfig = plugin.getSql();
+    public static void init(Main main) throws SQLException {
+        plugin = main;
+        sqlConfig = plugin.getSql();
         String databaseURL = getDatabaseURL();
 
         connectionSource = new JdbcConnectionSource(
@@ -50,18 +49,15 @@ public class DatabaseManager {
 
         TableUtils.createTableIfNotExists(connectionSource, User.class);
 
-        this.userDao = DaoManager.createDao(connectionSource, User.class);
+        userDao = DaoManager.createDao(connectionSource, User.class);
 
         userDao.setAutoCommit(getDatabaseConnection(), false);
 
-        this.userList = getUsers();
+        userList = getUsers();
     }
 
-    private void registerTable() {
-
-    }
-
-    private @NotNull String getDatabaseURL() {
+    private @NotNull
+    static String getDatabaseURL() {
         switch (sqlConfig.driver) {
             case MYSQL:
             case MARIADB:
@@ -78,11 +74,12 @@ public class DatabaseManager {
         }
     }
 
-    private DatabaseConnection getDatabaseConnection() throws SQLException {
+    private static DatabaseConnection getDatabaseConnection() throws SQLException {
         return connectionSource.getReadWriteConnection(null);
     }
 
-    public @NotNull List<User> getUsers() {
+    public @NotNull
+    static List<User> getUsers() {
         try {
             return userDao.queryForAll();
         } catch (SQLException exception) {
@@ -91,18 +88,8 @@ public class DatabaseManager {
         return Collections.emptyList();
     }
 
-    public void saveUsers() {
-        try {
-            for (User user : userList) {
-                userDao.createOrUpdate(user);
-            }
-            userDao.commit(getDatabaseConnection());
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    public @NotNull User getUser(@NotNull UUID uuid) {
+    public @NotNull
+    static User getUser(@NotNull UUID uuid) {
         Optional<User> optionalUser = getUserList().stream().filter(user -> user.uuid.equals(uuid)).findFirst();
 
         if (optionalUser.isPresent()) {
@@ -114,9 +101,21 @@ public class DatabaseManager {
         return user;
     }
 
-    public @Nullable User getUser(@NotNull String name) {
+    public @Nullable
+    static User getUser(@NotNull String name) {
         Optional<User> optionalUser = getUserList().stream().filter(user -> user.name.equals(name)).findFirst();
 
         return optionalUser.orElse(null);
+    }
+
+    public static void saveUsers() {
+        try {
+            for (User user : userList) {
+                userDao.createOrUpdate(user);
+            }
+            userDao.commit(getDatabaseConnection());
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
     }
 }

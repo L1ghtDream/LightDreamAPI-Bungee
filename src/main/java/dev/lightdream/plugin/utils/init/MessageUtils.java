@@ -1,4 +1,4 @@
-package dev.lightdream.plugin.managers;
+package dev.lightdream.plugin.utils.init;
 
 import de.themoep.minedown.MineDown;
 import dev.lightdream.plugin.Main;
@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
-public class MessageManager {
+public class MessageUtils {
 
-    private final Main plugin;
-    private boolean useMineDown = false;
+    private static Main plugin;
+    private static boolean useMineDown;
 
-    public MessageManager(Main plugin) {
-        this.plugin = plugin;
+    public static void init(Main main) {
+        plugin = main;
 
         List<String> mineDownVersions = Arrays.asList("1.16", "1.17");
         boolean useMineDown = false;
@@ -29,16 +29,17 @@ public class MessageManager {
                 break;
             }
         }
-        this.useMineDown = useMineDown;
+        MessageUtils.useMineDown = useMineDown;
     }
 
-    public void sendMessage(Object target, String message) {
+
+    public static void sendMessage(Object target, String message) {
         if (target instanceof CommandSender) {
             ((CommandSender) target).sendMessage(Utils.color(plugin.getMessages().prefix + message));
         }
     }
 
-    public void sendMessage(UUID target, String message) {
+    public static void sendMessage(UUID target, String message) {
         OfflinePlayer player = Bukkit.getOfflinePlayer(target);
         if (player != null) {
             if (player.isOnline()) {
@@ -47,14 +48,14 @@ public class MessageManager {
         }
     }
 
-    public void sendMessage(String target, String message) {
+    public static void sendMessage(String target, String message) {
         Player player = Bukkit.getPlayer(target);
         if (player != null) {
             sendMessage(player, message);
         }
     }
 
-    private void sendMessage(Player target, String message) {
+    private static void sendMessage(Player target, String message) {
         if (useMineDown) {
             target.spigot().sendMessage(new MineDown(plugin.getMessages().prefix + message).toComponent());
         } else {

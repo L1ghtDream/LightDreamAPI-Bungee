@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("unused")
 public class NbtUtils {
 
     public static @NotNull ItemStack setNBT(@NotNull ItemStack item, @NotNull String attribute, @NotNull Object value) {

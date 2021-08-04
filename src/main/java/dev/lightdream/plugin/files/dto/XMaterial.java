@@ -1,4 +1,4 @@
-package dev.lightdream.plugin.utils;
+package dev.lightdream.plugin.files.dto;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -1536,7 +1536,6 @@ public enum XMaterial {
     }
 
     @NotNull
-    @SuppressWarnings("deprecation")
     public ItemStack setType(@NotNull ItemStack item) {
         Objects.requireNonNull(item, "Cannot set material for null ItemStack");
         Material material = this.parseMaterial();
@@ -1569,13 +1568,11 @@ public enum XMaterial {
         return material.getId();
     }
 
-    @SuppressWarnings("deprecation")
     public byte getData() {
         return data;
     }
 
     @Nullable
-    @SuppressWarnings("deprecation")
     public ItemStack parseItem() {
         Material material = this.parseMaterial();
         if (material == null) return null;
@@ -1587,7 +1584,6 @@ public enum XMaterial {
         return this.material;
     }
 
-    @SuppressWarnings("deprecation")
     public boolean isSimilar(@NotNull ItemStack item) {
         Objects.requireNonNull(item, "Cannot compare with null ItemStack");
         if (item.getType() != this.parseMaterial()) return false;
