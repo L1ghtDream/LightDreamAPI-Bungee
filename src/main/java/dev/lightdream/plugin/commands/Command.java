@@ -2,6 +2,7 @@ package dev.lightdream.plugin.commands;
 
 import dev.lightdream.plugin.Main;
 import dev.lightdream.plugin.utils.init.MessageUtils;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -27,11 +28,11 @@ public abstract class Command {
         this.usage = Main.PROJECT_ID + " " + usage;
     }
 
-    public abstract void execute(Object sender, List<String> args);
+    public abstract void execute(CommandSender sender, List<String> args);
 
-    public abstract List<String> onTabComplete(Object commandSender, List<String> args);
+    public abstract List<String> onTabComplete(CommandSender sender, List<String> args);
 
-    public void sendUsage(Object sender) {
+    public void sendUsage(CommandSender sender) {
         MessageUtils.sendMessage(sender, usage);
     }
 }

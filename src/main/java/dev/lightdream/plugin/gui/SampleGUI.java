@@ -21,6 +21,7 @@ public class SampleGUI implements InventoryProvider {
                 .size(config.rows, config.columns)
                 .title(config.title)
                 .type(InventoryType.valueOf(config.type))
+                .parent(null)
                 .build();
     }
 

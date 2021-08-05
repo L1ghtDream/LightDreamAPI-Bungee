@@ -1,6 +1,8 @@
-package dev.lightdream.plugin.commands;
+package dev.lightdream.plugin.commands.commands;
 
 import dev.lightdream.plugin.Main;
+import dev.lightdream.plugin.commands.Command;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -13,12 +15,12 @@ public class ReloadCommand extends Command {
     }
 
     @Override
-    public void execute(Object sender, List<String> args) {
+    public void execute(CommandSender sender, List<String> args) {
         plugin.loadConfigs();
     }
 
     @Override
-    public List<String> onTabComplete(Object commandSender, List<String> args) {
+    public List<String> onTabComplete(CommandSender sender, List<String> args) {
         return new ArrayList<>();
     }
 }

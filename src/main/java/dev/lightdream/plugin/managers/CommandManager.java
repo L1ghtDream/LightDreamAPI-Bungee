@@ -16,22 +16,14 @@ import java.util.*;
 public class CommandManager implements CommandExecutor, TabCompleter {
 
     private final Main plugin;
-    private final List<Command> commands = new ArrayList<>();
+    private final List<Command> commands;
 
-    public CommandManager(Main plugin, String command) {
+    public CommandManager(Main plugin, String command, List<Command> commands) {
         this.plugin = plugin;
         plugin.getCommand(command).setExecutor(this);
         plugin.getCommand(command).setTabCompleter(this);
-        registerCommands();
-    }
-
-    public void registerCommands() {
-        plugin.getCommands().forEach(this::registerCommand);
-        commands.sort(Comparator.comparing(command -> command.aliases.get(0)));
-    }
-
-    public void registerCommand(Command command) {
-        commands.add(command);
+        this.commands = commands;
+        this.commands.sort(Comparator.comparing(com -> com.aliases.get(0)));
     }
 
     public void unregisterCommand(Command command) {
@@ -66,6 +58,12 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command bukkitCommand, String label, String[] args) {
         if (args.length == 0) {
+            for (Command command : commands) {
+                if (command.aliases.get(0).equals("")) {
+                    command.execute(sender, Arrays.asList(args));
+                    return true;
+                }
+            }
             sendUsage(sender);
             return true;
         }

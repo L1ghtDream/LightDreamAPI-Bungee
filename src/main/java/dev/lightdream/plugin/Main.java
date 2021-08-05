@@ -1,7 +1,7 @@
 package dev.lightdream.plugin;
 
 import dev.lightdream.plugin.commands.Command;
-import dev.lightdream.plugin.commands.ReloadCommand;
+import dev.lightdream.plugin.commands.commands.ReloadCommand;
 import dev.lightdream.plugin.files.config.Config;
 import dev.lightdream.plugin.files.config.GUIs;
 import dev.lightdream.plugin.files.config.Messages;
@@ -13,9 +13,12 @@ import dev.lightdream.plugin.utils.init.PlaceholderUtils;
 import dev.lightdream.plugin.utils.init.WorldEditUtils;
 import fr.minuskube.inv.SmartInvsPlugin;
 import lombok.Getter;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.security.auth.login.LoginException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +47,8 @@ public final class Main extends JavaPlugin {
     private GUIs GUIs;
     private SQL sql;
 
+    private JDA bot;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -61,13 +66,11 @@ public final class Main extends JavaPlugin {
             e.printStackTrace();
         }
 
-        SmartInvsPlugin.manager().registerOpeners(new InventoryManager());
-
         //Commands
         commands.add(new ReloadCommand(this));
 
         //Managers
-        commandManager = new CommandManager(this, PROJECT_ID.toLowerCase());
+        commandManager = new CommandManager(this, PROJECT_ID.toLowerCase(), commands);
         eventManager = new EventManager(this);
         schedulerManager = new SchedulerManager(this);
 
@@ -76,6 +79,13 @@ public final class Main extends JavaPlugin {
         } else {
             this.getLogger().severe("Could not find PlaceholderAPI! This plugin is required.");
             Bukkit.getPluginManager().disablePlugin(this);
+        }
+
+        //todo
+        try {
+            bot = JDABuilder.createDefault(settings.discordToken).build();
+        } catch (LoginException e) {
+            e.printStackTrace();
         }
     }
 
