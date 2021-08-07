@@ -1,4 +1,4 @@
-package dev.lightdream.plugin.utils.init;
+package dev.lightdream.plugin.utils;
 
 import dev.lightdream.plugin.Main;
 import dev.lightdream.plugin.databases.User;
@@ -8,12 +8,6 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class PlaceholderUtils {
-
-    public static Main plugin = null;
-
-    public static void init(Main main) {
-        plugin = main;
-    }
 
     public static String parse(String raw, User user) {
         String parsed = raw;

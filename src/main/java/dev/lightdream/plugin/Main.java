@@ -9,9 +9,6 @@ import dev.lightdream.plugin.files.config.SQL;
 import dev.lightdream.plugin.managers.*;
 import dev.lightdream.plugin.utils.init.DatabaseUtils;
 import dev.lightdream.plugin.utils.init.MessageUtils;
-import dev.lightdream.plugin.utils.init.PlaceholderUtils;
-import dev.lightdream.plugin.utils.init.WorldEditUtils;
-import fr.minuskube.inv.SmartInvsPlugin;
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -26,11 +23,10 @@ import java.util.List;
 @Getter
 public final class Main extends JavaPlugin {
 
-    public static Main instance;
-
     //Settings
     public final static String PROJECT_NAME = "SpigotTemplate";
     public final static String PROJECT_ID = "st";
+    public static Main instance;
     private final List<Command> commands = new ArrayList<>();
 
     //Managers
@@ -58,8 +54,6 @@ public final class Main extends JavaPlugin {
 
         //Utils
         MessageUtils.init(this);
-        PlaceholderUtils.init(this);
-        WorldEditUtils.init(this);
         try {
             DatabaseUtils.init(this);
         } catch (SQLException e) {
@@ -81,7 +75,6 @@ public final class Main extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
         }
 
-        //todo
         try {
             bot = JDABuilder.createDefault(settings.discordToken).build();
         } catch (LoginException e) {

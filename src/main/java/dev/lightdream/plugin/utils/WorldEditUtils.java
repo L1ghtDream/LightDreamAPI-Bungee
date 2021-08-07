@@ -1,4 +1,4 @@
-package dev.lightdream.plugin.utils.init;
+package dev.lightdream.plugin.utils;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -26,13 +26,6 @@ import java.io.IOException;
 @SuppressWarnings({"unused", "ResultOfMethodCallIgnored"})
 public class WorldEditUtils {
 
-    public static Main plugin;
-
-    public static void init(Main main) {
-        plugin = main;
-    }
-
-
     public static BlockArrayClipboard copy(PluginLocation pos1, PluginLocation pos2) {
         World world = Bukkit.getWorld(pos1.world);
         CuboidRegion region = new CuboidRegion(BukkitAdapter.adapt(world), pos1.toBlockVector3(), pos2.toBlockVector3());
@@ -53,8 +46,8 @@ public class WorldEditUtils {
     }
 
     public static void save(String subFolder, String name, BlockArrayClipboard clipboard) {
-        new File(plugin.getDataFolder().getPath() + "/" + subFolder).mkdirs();
-        File file = new File(plugin.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schem");
+        new File(Main.instance.getDataFolder().getPath() + "/" + subFolder).mkdirs();
+        File file = new File(Main.instance.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schem");
         try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
             writer.write(clipboard);
         } catch (IOException e) {

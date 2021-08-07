@@ -6,12 +6,14 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import dev.lightdream.plugin.Main;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "ResultOfMethodCallIgnored"})
 public class FileManager {
 
     private final ObjectMapper objectMapper;
@@ -60,6 +62,7 @@ public class FileManager {
             newPath.append("/");
         }
         File newFile = new File(newPath.toString());
+        newFile.mkdirs();
         try {
             objectMapper.writeValue(file, instance);
         } catch (IOException e) {
@@ -106,6 +109,27 @@ public class FileManager {
         return null;
     }
 
+    private void copyInputStreamToFile(InputStream inputStream, File file) throws IOException {
+        try (FileOutputStream outputStream = new FileOutputStream(file, false)) {
+            int read;
+            byte[] bytes = new byte[8192];
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+        }
+
+    }
+
+    private InputStream getFileFromResource(String fileName) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        return classLoader.getResourceAsStream(fileName);
+    }
+
+    public void saveDefault(String subfolder, String fileName) throws IOException {
+        new File(plugin.getDataFolder() + "/" + subfolder).mkdirs();
+        copyInputStreamToFile(getFileFromResource(fileName), new File(plugin.getDataFolder() + "/" + subfolder + "/" + fileName));
+    }
+
     public enum PersistType {
 
         YAML(".yml", new YAMLFactory()),
@@ -127,6 +151,5 @@ public class FileManager {
             return factory;
         }
     }
-
 
 }

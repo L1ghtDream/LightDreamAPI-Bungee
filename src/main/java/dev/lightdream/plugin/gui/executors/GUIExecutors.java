@@ -3,7 +3,7 @@ package dev.lightdream.plugin.gui.executors;
 @SuppressWarnings("unused")
 public enum GUIExecutors {
 
-    EXAMPLE(null);
+    BACK(null);
 
     public GUIExecutor executor;
 

@@ -2,6 +2,7 @@ package dev.lightdream.plugin.utils.init;
 
 import de.themoep.minedown.MineDown;
 import dev.lightdream.plugin.Main;
+import dev.lightdream.plugin.databases.User;
 import dev.lightdream.plugin.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -39,19 +40,22 @@ public class MessageUtils {
         }
     }
 
+    public static void sendMessage(String target, String message) {
+        sendMessage(DatabaseUtils.getUser(target), message);
+    }
+
+    public static void sendMessage(User user, String message) {
+        if (user != null) {
+            sendMessage(user.uuid, message);
+        }
+    }
+
     public static void sendMessage(UUID target, String message) {
         OfflinePlayer player = Bukkit.getOfflinePlayer(target);
         if (player != null) {
             if (player.isOnline()) {
                 sendMessage((Player) player, message);
             }
-        }
-    }
-
-    public static void sendMessage(String target, String message) {
-        Player player = Bukkit.getPlayer(target);
-        if (player != null) {
-            sendMessage(player, message);
         }
     }
 

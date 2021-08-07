@@ -22,10 +22,14 @@ public abstract class Command {
         this.plugin = plugin;
         this.aliases = aliases;
         this.description = description;
-        this.permission = Main.PROJECT_ID + "." + permission;
+        if (permission.equals("")) {
+            this.permission = Main.PROJECT_ID + "." + aliases.get(0);
+        } else {
+            this.permission = Main.PROJECT_ID + "." + permission;
+        }
         this.onlyForPlayers = onlyForPlayers;
         this.onlyForConsole = onlyForConsole;
-        this.usage = Main.PROJECT_ID + " " + usage;
+        this.usage = "/" + Main.PROJECT_ID + " " + aliases.get(0) + " " + usage;
     }
 
     public abstract void execute(CommandSender sender, List<String> args);

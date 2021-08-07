@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ReloadCommand extends Command {
     public ReloadCommand(@NotNull Main plugin) {
-        super(plugin, Collections.singletonList("reload"), "Reloads the configs", "reload", false, false, "reload");
+        super(plugin, Collections.singletonList("reload"), "Reloads the configs", "reload", false, false, "");
     }
 
     @Override
