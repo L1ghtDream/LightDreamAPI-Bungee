@@ -37,7 +37,7 @@ public class DatabaseUtils {
 
     public static void init(Main main) throws SQLException {
         plugin = main;
-        sqlConfig = plugin.getSql();
+        sqlConfig = plugin.sql;
         String databaseURL = getDatabaseURL();
 
         connectionSource = new JdbcConnectionSource(

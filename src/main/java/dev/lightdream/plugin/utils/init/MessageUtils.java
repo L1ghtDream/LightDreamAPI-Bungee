@@ -36,7 +36,7 @@ public class MessageUtils {
 
     public static void sendMessage(Object target, String message) {
         if (target instanceof CommandSender) {
-            ((CommandSender) target).sendMessage(Utils.color(plugin.getMessages().prefix + message));
+            ((CommandSender) target).sendMessage(Utils.color(plugin.messages.prefix + message));
         }
     }
 
@@ -61,9 +61,9 @@ public class MessageUtils {
 
     private static void sendMessage(Player target, String message) {
         if (useMineDown) {
-            target.spigot().sendMessage(new MineDown(plugin.getMessages().prefix + message).toComponent());
+            target.spigot().sendMessage(new MineDown(plugin.messages.prefix + message).toComponent());
         } else {
-            target.sendMessage(Utils.color(plugin.getMessages().prefix + message));
+            target.sendMessage(Utils.color(plugin.messages.prefix + message));
         }
     }
 }

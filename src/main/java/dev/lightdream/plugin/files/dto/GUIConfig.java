@@ -1,16 +1,14 @@
 package dev.lightdream.plugin.files.dto;
 
-import dev.lightdream.plugin.files.dto.Item;
-import dev.lightdream.plugin.files.dto.XMaterial;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class GUIConfig {
+public class GUIConfig {
 
     public String id;
     public String type = "CHEST";
@@ -18,7 +16,6 @@ public abstract class GUIConfig {
     public int rows = 6;
     public int columns = 9;
     public Item fillItem = new Item(XMaterial.GLASS_PANE, 1, "", new ArrayList<>());
-    public List<GUIItem> items;
-
+    public HashMap<String, GUIItem> items;
 
 }

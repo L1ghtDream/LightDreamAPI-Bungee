@@ -1,5 +1,6 @@
 package dev.lightdream.plugin.utils;
 
+import fr.minuskube.inv.content.SlotPos;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -27,6 +28,9 @@ public class Utils {
     }
 
     public static boolean checkExecute(double chance) {
+        if (chance >= 100) {
+            return true;
+        }
         double result = Math.random() * 101 + 0;
         return result < chance;
     }
@@ -57,6 +61,17 @@ public class Utils {
             Firework fw2 = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
             fw2.setFireworkMeta(fwm);
         }
+    }
+
+    public static SlotPos getSlotPosition(int slot) {
+        slot++;
+        int row = slot / 9; //6
+        int column = slot % 9;
+        if (column == 0) {
+            column = 9;
+            row--;
+        }
+        return new SlotPos(row, column - 1);
     }
 
 }

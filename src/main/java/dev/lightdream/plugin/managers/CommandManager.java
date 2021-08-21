@@ -34,25 +34,21 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         StringBuilder helpCommandOutput = new StringBuilder();
         helpCommandOutput.append("\n");
 
-        if (plugin.getMessages().helpCommand.size() == 0) {
-            for (Command command : plugin.getCommands()) {
+        if (plugin.messages.helpCommand.size() == 0) {
+            for (Command command : commands) {
                 if (sender.hasPermission(command.permission)) {
                     helpCommandOutput.append(command.usage);
                     helpCommandOutput.append("\n");
                 }
             }
         } else {
-            for (String line : plugin.getMessages().helpCommand) {
+            for (String line : plugin.messages.helpCommand) {
                 helpCommandOutput.append(line);
                 helpCommandOutput.append("\n");
             }
         }
 
         MessageUtils.sendMessage(sender, helpCommandOutput.toString());
-    }
-
-    public void dispatchCommand(String command) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
     }
 
     @Override
@@ -74,17 +70,17 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             }
 
             if (command.onlyForPlayers && !(sender instanceof Player)) {
-                MessageUtils.sendMessage(sender, plugin.getMessages().mustBeAPlayer);
+                MessageUtils.sendMessage(sender, plugin.messages.mustBeAPlayer);
                 return true;
             }
 
             if (command.onlyForConsole && !(sender instanceof ConsoleCommandSender)) {
-                MessageUtils.sendMessage(sender, plugin.getMessages().mustBeConsole);
+                MessageUtils.sendMessage(sender, plugin.messages.mustBeConsole);
                 return true;
             }
 
             if (!hasPermission(sender, command.permission)) {
-                MessageUtils.sendMessage(sender, plugin.getMessages().noPermission);
+                MessageUtils.sendMessage(sender, plugin.messages.noPermission);
                 return true;
             }
 
@@ -92,7 +88,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        MessageUtils.sendMessage(sender, plugin.getMessages().unknownCommand);
+        MessageUtils.sendMessage(sender, plugin.messages.unknownCommand);
         return true;
     }
 

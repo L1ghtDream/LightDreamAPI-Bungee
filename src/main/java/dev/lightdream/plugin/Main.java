@@ -9,7 +9,7 @@ import dev.lightdream.plugin.files.config.SQL;
 import dev.lightdream.plugin.managers.*;
 import dev.lightdream.plugin.utils.init.DatabaseUtils;
 import dev.lightdream.plugin.utils.init.MessageUtils;
-import lombok.Getter;
+import fr.minuskube.inv.InventoryManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import org.bukkit.Bukkit;
@@ -20,30 +20,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 public final class Main extends JavaPlugin {
 
     //Settings
     public final static String PROJECT_NAME = "SpigotTemplate";
     public final static String PROJECT_ID = "st";
     public static Main instance;
-    private final List<Command> commands = new ArrayList<>();
+    public final List<Command> commands = new ArrayList<>();
 
     //Managers
-    private CommandManager commandManager;
-    private EventManager eventManager;
-    private SchedulerManager schedulerManager;
+    public CommandManager commandManager;
+    public EventManager eventManager;
+    public SchedulerManager schedulerManager;
+    public InventoryManager inventoryManager;
 
     //Utils
-    private FileManager fileManager;
+    public FileManager fileManager;
 
     //DTO
-    private Config settings;
-    private Messages messages;
-    private GUIs GUIs;
-    private SQL sql;
+    public Config settings;
+    public Messages messages;
+    public GUIs GUIs;
+    public SQL sql;
 
-    private JDA bot;
+    public JDA bot;
 
     @Override
     public void onEnable() {
@@ -67,6 +67,8 @@ public final class Main extends JavaPlugin {
         commandManager = new CommandManager(this, PROJECT_ID.toLowerCase(), commands);
         eventManager = new EventManager(this);
         schedulerManager = new SchedulerManager(this);
+        inventoryManager = new InventoryManager(this);
+        inventoryManager.init();
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PAPI(this).register();

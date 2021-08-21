@@ -14,7 +14,7 @@ public class SampleGUI implements InventoryProvider {
     //https://minuskube.gitbook.io/smartinvs/guide/content_provider
 
     public static SmartInventory getInventory() {
-        GUIConfig config = Main.instance.getGUIs().sampleGUIConfig;
+        GUIConfig config = Main.instance.GUIs.sampleGUIConfig;
         return SmartInventory.builder()
                 .id(config.id)
                 .provider(new SampleGUI())
@@ -22,6 +22,7 @@ public class SampleGUI implements InventoryProvider {
                 .title(config.title)
                 .type(InventoryType.valueOf(config.type))
                 .parent(null)
+                .manager(Main.instance.inventoryManager)
                 .build();
     }
 
