@@ -12,7 +12,9 @@ import dev.lightdream.plugin.utils.init.MessageUtils;
 import fr.minuskube.inv.InventoryManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.security.auth.login.LoginException;
@@ -44,6 +46,8 @@ public final class Main extends JavaPlugin {
     public SQL sql;
 
     public JDA bot;
+
+    public Economy economy = null;
 
     @Override
     public void onEnable() {
@@ -82,6 +86,12 @@ public final class Main extends JavaPlugin {
         } catch (LoginException e) {
             e.printStackTrace();
         }
+
+        if (!setupEconomy() ) {
+            getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
     }
 
     @Override
@@ -89,7 +99,7 @@ public final class Main extends JavaPlugin {
         //Save files
 
         //Save to db
-        DatabaseUtils.saveUsers();
+        DatabaseUtils.save();
     }
 
     public void loadConfigs() {
@@ -98,4 +108,17 @@ public final class Main extends JavaPlugin {
         sql = fileManager.load(SQL.class);
         GUIs = fileManager.load(GUIs.class);
     }
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return economy != null;
+    }
+
 }

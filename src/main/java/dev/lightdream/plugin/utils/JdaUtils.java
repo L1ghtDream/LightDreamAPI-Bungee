@@ -1,6 +1,6 @@
 package dev.lightdream.plugin.utils;
 
-import dev.lightdream.plugin.files.dto.JdaField;
+import dev.lightdream.plugin.files.dto.jda.JdaField;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 @SuppressWarnings("unused")

@@ -23,14 +23,4 @@ public class PluginLocation {
     public BlockVector3 toBlockVector3() {
         return BlockVector3.at(x, y, z);
     }
-
-    @Override
-    public String toString() {
-        return "PluginLocation{" +
-                "world='" + world + '\'' +
-                ", x=" + x +
-                ", y=" + y +
-                ", z=" + z +
-                '}';
-    }
 }

@@ -10,8 +10,9 @@ import com.j256.ormlite.table.TableUtils;
 import dev.lightdream.plugin.Main;
 import dev.lightdream.plugin.databases.User;
 import dev.lightdream.plugin.files.config.SQL;
-import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,9 +33,6 @@ public class DatabaseUtils {
 
     private static Dao<User, UUID> userDao;
 
-    @Getter
-    private static List<User> userList;
-
     public static void init(Main main) throws SQLException {
         plugin = main;
         sqlConfig = plugin.sql;
@@ -52,12 +50,9 @@ public class DatabaseUtils {
         userDao = DaoManager.createDao(connectionSource, User.class);
 
         userDao.setAutoCommit(getDatabaseConnection(), false);
-
-        userList = getUsers();
     }
 
-    private @NotNull
-    static String getDatabaseURL() {
+    private static @NotNull String getDatabaseURL() {
         switch (sqlConfig.driver) {
             case MYSQL:
             case MARIADB:
@@ -78,8 +73,7 @@ public class DatabaseUtils {
         return connectionSource.getReadWriteConnection(null);
     }
 
-    public @NotNull
-    static List<User> getUsers() {
+    public static @NotNull List<User> getUsers() {
         try {
             return userDao.queryForAll();
         } catch (SQLException exception) {
@@ -88,34 +82,41 @@ public class DatabaseUtils {
         return Collections.emptyList();
     }
 
-    public @NotNull
-    static User getUser(@NotNull UUID uuid) {
-        Optional<User> optionalUser = getUserList().stream().filter(user -> user.uuid.equals(uuid)).findFirst();
+    public static @NotNull User getUser(@NotNull UUID uuid) {
+        Optional<User> optionalUser = getUsers().stream().filter(user -> user.uuid.equals(uuid)).findFirst();
 
         if (optionalUser.isPresent()) {
             return optionalUser.get();
         }
 
         User user = new User(uuid, Bukkit.getOfflinePlayer(uuid).getName());
-        userList.add(user);
+        save(user);
         return user;
     }
 
-    public @Nullable
-    static User getUser(@NotNull String name) {
-        Optional<User> optionalUser = getUserList().stream().filter(user -> user.name.equals(name)).findFirst();
+    public static @Nullable User getUser(@NotNull String name) {
+        Optional<User> optionalUser = getUsers().stream().filter(user -> user.name.equals(name)).findFirst();
 
         return optionalUser.orElse(null);
     }
 
-    public static void saveUsers() {
+    public static @NotNull User getUser(@NotNull OfflinePlayer player) {
+        return getUser(player.getUniqueId());
+    }
+
+    public static void save() {
         try {
-            for (User user : userList) {
-                userDao.createOrUpdate(user);
-            }
             userDao.commit(getDatabaseConnection());
         } catch (SQLException exception) {
             exception.printStackTrace();
+        }
+    }
+
+    public static void save(User user) {
+        try {
+            userDao.createOrUpdate(user);
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
     }
 }

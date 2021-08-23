@@ -11,11 +11,11 @@ import java.util.HashMap;
 public class GUIConfig {
 
     public String id;
-    public String type = "CHEST";
+    public String type;
     public String title;
-    public int rows = 6;
-    public int columns = 9;
-    public Item fillItem = new Item(XMaterial.GLASS_PANE, 1, "", new ArrayList<>());
+    public int rows;
+    public int columns;
+    public Item fillItem;
     public HashMap<String, GUIItem> items;
 
 }

@@ -18,16 +18,40 @@ public class JsonUtils {
     }
 
     public String getString(String attribute) {
-        return gson.fromJson(this.data, JsonObject.class).get(attribute).getAsString();
+        JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);
+        if (jsonObject == null) {
+            return "";
+        }
+        JsonElement jsonElement = jsonObject.get(attribute);
+        if (jsonElement == null) {
+            return "";
+        }
+        return jsonElement.getAsString();
     }
 
     public double getDouble(String attribute) {
-        return gson.fromJson(this.data, JsonObject.class).get(attribute).getAsDouble();
+        JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);
+        if (jsonObject == null) {
+            return 0;
+        }
+        JsonElement jsonElement = jsonObject.get(attribute);
+        if (jsonElement == null) {
+            return 0;
+        }
+        return jsonElement.getAsDouble();
     }
 
     public List<String> getStringList(String attribute) {
         List<String> output = new ArrayList<>();
-        for (JsonElement element : gson.fromJson(this.data, JsonObject.class).get(attribute).getAsJsonArray()) {
+        JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);
+        if (jsonObject == null) {
+            return output;
+        }
+        JsonElement jsonElement = jsonObject.get(attribute);
+        if (jsonElement == null) {
+            return output;
+        }
+        for (JsonElement element : jsonElement.getAsJsonArray()) {
             output.add(element.getAsString());
         }
         return output;
@@ -35,7 +59,15 @@ public class JsonUtils {
 
     public List<Integer> getIntList(String attribute) {
         List<Integer> output = new ArrayList<>();
-        for (JsonElement element : gson.fromJson(this.data, JsonObject.class).get(attribute).getAsJsonArray()) {
+        JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);
+        if (jsonObject == null) {
+            return output;
+        }
+        JsonElement jsonElement = jsonObject.get(attribute);
+        if (jsonElement == null) {
+            return output;
+        }
+        for (JsonElement element : jsonElement.getAsJsonArray()) {
             output.add(element.getAsInt());
         }
         return output;

@@ -5,6 +5,7 @@ import dev.lightdream.plugin.utils.init.DatabaseUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class EventManager implements Listener {
 
@@ -16,7 +17,13 @@ public class EventManager implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerInit(PlayerJoinEvent event) {
         DatabaseUtils.getUser(event.getPlayer().getUniqueId());
+        plugin.schedulerManager.balance.put(event.getPlayer().getUniqueId(), plugin.economy.getBalance(event.getPlayer()));
+    }
+
+    @EventHandler
+    public void onPlayerDelete(PlayerQuitEvent event) {
+        plugin.schedulerManager.balance.remove(event.getPlayer().getUniqueId());
     }
 }
