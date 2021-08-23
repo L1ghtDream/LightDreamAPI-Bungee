@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unused")
 @NoArgsConstructor
 public class Messages {
 

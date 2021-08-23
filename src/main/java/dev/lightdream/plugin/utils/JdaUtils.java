@@ -3,7 +3,6 @@ package dev.lightdream.plugin.utils;
 import dev.lightdream.plugin.files.dto.jda.JdaField;
 import net.dv8tion.jda.api.EmbedBuilder;
 
-@SuppressWarnings("unused")
 public class JdaUtils {
 
     public static EmbedBuilder createEmbed(int r, int g, int b, String title, String thumbnail, JdaField... fields) {

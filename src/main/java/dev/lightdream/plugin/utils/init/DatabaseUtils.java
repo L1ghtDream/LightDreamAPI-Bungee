@@ -12,7 +12,6 @@ import dev.lightdream.plugin.databases.User;
 import dev.lightdream.plugin.files.config.SQL;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@SuppressWarnings({"unused", "UnusedReturnValue"})
 public class DatabaseUtils {
 
     private static Main plugin;

@@ -3,7 +3,6 @@ package dev.lightdream.plugin.files.dto;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @AllArgsConstructor

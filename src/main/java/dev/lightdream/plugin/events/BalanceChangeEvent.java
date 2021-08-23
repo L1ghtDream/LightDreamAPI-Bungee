@@ -23,6 +23,7 @@ public class BalanceChangeEvent extends Event {
         this.finalBalance = finalBalance;
     }
 
+    @SuppressWarnings("unused")
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }

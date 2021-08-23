@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-@SuppressWarnings("unused")
 public abstract class Command {
 
     public final @NotNull List<String> aliases;

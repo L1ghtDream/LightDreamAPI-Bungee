@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-@SuppressWarnings("unused")
 @NoArgsConstructor
 @AllArgsConstructor
 public class PluginLocation {

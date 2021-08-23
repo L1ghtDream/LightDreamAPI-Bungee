@@ -3,7 +3,6 @@ package dev.lightdream.plugin.managers;
 import dev.lightdream.plugin.Main;
 import dev.lightdream.plugin.commands.Command;
 import dev.lightdream.plugin.utils.init.MessageUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -12,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-@SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfStringBuilder", "DuplicatedCode"})
+@SuppressWarnings({"MismatchedQueryAndUpdateOfStringBuilder"})
 public class CommandManager implements CommandExecutor, TabCompleter {
 
     private final Main plugin;
@@ -24,10 +23,6 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         plugin.getCommand(command).setTabCompleter(this);
         this.commands = commands;
         this.commands.sort(Comparator.comparing(com -> com.aliases.get(0)));
-    }
-
-    public void unregisterCommand(Command command) {
-        commands.remove(command);
     }
 
     public void sendUsage(CommandSender sender) {

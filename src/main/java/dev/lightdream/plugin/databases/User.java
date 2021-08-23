@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-@SuppressWarnings("unused")
 @NoArgsConstructor
 @DatabaseTable(tableName = "users")
 public class User {
 
+    @SuppressWarnings("unused")
     @DatabaseField(columnName = "id", generatedId = true, canBeNull = false)
     public int id;
     @DatabaseField(columnName = "uuid", unique = true)

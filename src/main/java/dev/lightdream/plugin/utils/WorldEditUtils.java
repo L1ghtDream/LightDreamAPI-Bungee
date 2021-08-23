@@ -23,7 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-@SuppressWarnings({"unused", "ResultOfMethodCallIgnored"})
+@SuppressWarnings({"ResultOfMethodCallIgnored"})
 public class WorldEditUtils {
 
     public static BlockArrayClipboard copy(PluginLocation pos1, PluginLocation pos2) {

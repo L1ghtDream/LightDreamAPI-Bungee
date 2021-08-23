@@ -8,7 +8,6 @@ import fr.minuskube.inv.content.InventoryProvider;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 
-@SuppressWarnings("unused")
 public class SampleGUI implements InventoryProvider {
 
     //https://minuskube.gitbook.io/smartinvs/guide/content_provider

@@ -3,7 +3,6 @@ package dev.lightdream.plugin.files.config;
 import dev.lightdream.plugin.Main;
 import lombok.NoArgsConstructor;
 
-@SuppressWarnings("unused")
 @NoArgsConstructor
 public class SQL {
 
