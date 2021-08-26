@@ -12,15 +12,13 @@ import java.util.Collections;
 import java.util.List;
 
 public class VersionCommand extends Command {
-
-
     public VersionCommand(@NotNull LightDreamPlugin plugin) {
         super(plugin, Collections.singletonList("version"), "", "", false, false, "");
     }
 
     @Override
     public void execute(CommandSender sender, List<String> args) {
-        MessageUtils.sendMessage(sender, plugin.baseLang.version.replace("%project_name%", plugin.projectName).replace("%version%", plugin.version));
+        MessageUtils.sendMessage(sender, API.instance.baseLang.version.replace("%project_name%", API.instance.projectName).replace("%version%", API.instance.version));
     }
 
     @Override
