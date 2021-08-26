@@ -6,8 +6,6 @@ import dev.lightdream.api.files.config.Config;
 import dev.lightdream.api.files.config.JdaConfig;
 import dev.lightdream.api.files.config.Lang;
 import dev.lightdream.api.files.config.SQLConfig;
-import dev.lightdream.api.files.config.base.BaseConfig;
-import dev.lightdream.api.files.config.base.BaseJdaConfig;
 import dev.lightdream.api.managers.CommandManager;
 import dev.lightdream.api.managers.FileManager;
 import dev.lightdream.api.managers.local.LocalDatabaseManager;
@@ -57,9 +55,9 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         //Files
         fileManager = new FileManager(this, FileManager.PersistType.YAML);
         sqlConfig = fileManager.load(SQLConfig.class);
-        baseConfig = fileManager.load(BaseConfig.class);
-        baseJdaConfig = fileManager.load(BaseJdaConfig.class);
-        baseLang = (Lang) fileManager.load(LangUtils.getLang("dev.lightdream.api.files.config.base.lang.base_" + baseConfig.lang));
+        baseConfig = fileManager.load(Config.class);
+        baseJdaConfig = fileManager.load(JdaConfig.class);
+        baseLang = (Lang) fileManager.load(LangUtils.getLang(LightDreamPlugin.class, baseConfig.lang));
         loadConfigs();
 
         //Managers

@@ -3,7 +3,7 @@ package dev.lightdream.api.files.config;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Lang {
+public class Lang {
 
     public String mustBeAPlayer = "You must be a player to use this command.";
     public String mustBeConsole = "You must be console to use this command.";

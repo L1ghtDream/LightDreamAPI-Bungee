@@ -1,7 +1,6 @@
 package dev.lightdream.api;
 
 import dev.lightdream.api.files.config.Config;
-import dev.lightdream.api.files.config.base.BaseJdaConfig;
 import dev.lightdream.api.managers.BalanceChangeEventRunnable;
 import dev.lightdream.api.managers.PAPI;
 import dev.lightdream.api.utils.MessageUtils;
@@ -18,7 +17,7 @@ public final class API extends LightDreamPlugin {
     //Settings
     public final static String PROJECT_NAME = "LightDreamAPI";
     public final static String PROJECT_ID = "ld-api";
-    public final static String VERSION = "1.14";
+    public final static String VERSION = "1.16";
     public static API instance;
     public Config config;
 

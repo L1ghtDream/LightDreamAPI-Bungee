@@ -5,12 +5,9 @@ import lombok.SneakyThrows;
 public class LangUtils {
 
     @SneakyThrows
-    public static Class<?> getLang(String lang) {
-        return Class.forName(lang);
+    public static Class<?> getLang(Class<?> main, String lang) {
+        return Class.forName(main.getPackage().getName() + ".files.config.lang." + lang);
     }
-    /*
-    dev.lightdream.api.files.config.local.lang.en_us
-    dev.lightdream.api.files.local.lang.en_us
-     */
-
 }
+
+
