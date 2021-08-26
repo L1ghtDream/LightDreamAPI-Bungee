@@ -36,8 +36,6 @@ public abstract class DatabaseManager {
                 sqlSettings.password,
                 DatabaseTypeUtils.createDatabaseType(databaseURL)
         );
-
-        TableUtils.createTableIfNotExists(connectionSource, User.class);
     }
 
     private @NotNull String getDatabaseURL() {
@@ -58,7 +56,7 @@ public abstract class DatabaseManager {
     }
 
     @SneakyThrows
-    private DatabaseConnection getDatabaseConnection() {
+    public DatabaseConnection getDatabaseConnection() {
         return connectionSource.getReadWriteConnection(null);
     }
 

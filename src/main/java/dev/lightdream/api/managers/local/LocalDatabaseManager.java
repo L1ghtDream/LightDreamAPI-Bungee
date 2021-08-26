@@ -15,8 +15,12 @@ import java.util.UUID;
 
 @SuppressWarnings("unchecked")
 public class LocalDatabaseManager extends DatabaseManager {
+
+    @SneakyThrows
     public LocalDatabaseManager(LightDreamPlugin plugin) {
         super(plugin);
+        createTable(User.class);
+        createDao(User.class).setAutoCommit(getDatabaseConnection(), false);
     }
 
     @SneakyThrows
