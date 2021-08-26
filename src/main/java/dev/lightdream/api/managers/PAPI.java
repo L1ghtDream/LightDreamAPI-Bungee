@@ -53,7 +53,7 @@ public class PAPI extends PlaceholderExpansion {
         return null;
     }
 
-    public String parse(OfflinePlayer player, String text) {
+    public static String parse(OfflinePlayer player, String text) {
         return PlaceholderAPI.setPlaceholders(player, text);
     }
 }
