@@ -18,4 +18,8 @@ public class JdaEmbed {
     public String description;
     public List<JdaField> fields;
 
+    public void parse(String target, String replacement) {
+        fields.forEach(field -> field.content = field.content.replace(target, replacement));
+    }
+
 }

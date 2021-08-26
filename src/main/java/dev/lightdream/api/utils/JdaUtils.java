@@ -1,32 +1,20 @@
 package dev.lightdream.api.utils;
 
-import dev.lightdream.api.files.dto.jda.JdaField;
+import dev.lightdream.api.files.dto.jda.JdaEmbed;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 public class JdaUtils {
 
-    public static EmbedBuilder createEmbed(int r, int g, int b, String title, String thumbnail, JdaField... fields) {
+    public static EmbedBuilder createEmbed(JdaEmbed jdaEmbed) {
         EmbedBuilder embed = new EmbedBuilder();
 
-        embed.setTitle(title, null);
-        embed.setColor(new java.awt.Color(r, g, b));
-        for (JdaField field : fields) {
-            embed.addField(field.title, field.content, field.inline);
-        }
-        embed.setThumbnail(thumbnail);
-
+        embed.setThumbnail(jdaEmbed.thumbnail);
+        jdaEmbed.fields.forEach(field -> embed.addField(field.title, field.content, field.inline));
+        embed.setTitle(jdaEmbed.title, null);
+        embed.setColor(new java.awt.Color(jdaEmbed.red, jdaEmbed.green, jdaEmbed.blue));
+        embed.setDescription(jdaEmbed.description);
         embed.setFooter("Author: LightDream#4379");
-        return embed;
-    }
 
-    public static EmbedBuilder createEmbed(int r, int g, int b, String title, String thumbnail, String text) {
-        EmbedBuilder embed = new EmbedBuilder();
-
-        embed.setTitle(title, null);
-        embed.setColor(new java.awt.Color(r, g, b));
-        embed.setDescription(text);
-        embed.setThumbnail(thumbnail);
-        embed.setFooter("Author: LightDream#4379");
         return embed;
     }
 }
