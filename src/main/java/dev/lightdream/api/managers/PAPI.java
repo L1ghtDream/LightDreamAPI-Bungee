@@ -2,11 +2,12 @@ package dev.lightdream.api.managers;
 
 import dev.lightdream.api.API;
 import dev.lightdream.api.LightDreamPlugin;
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"IfStatementWithIdenticalBranches", "unused", "FieldCanBeLocal"})
+@SuppressWarnings({"unused", "FieldCanBeLocal"})
 public class PAPI extends PlaceholderExpansion {
 
     private final API api;
@@ -44,11 +45,15 @@ public class PAPI extends PlaceholderExpansion {
 
         for (LightDreamPlugin plugin : api.plugins) {
             String parse = plugin.parsePapi(player, identifier);
-            if(!parse.equals("")){
+            if (!parse.equals("")) {
                 return parse;
             }
         }
 
         return null;
+    }
+
+    public String parse(OfflinePlayer player, String text) {
+        return PlaceholderAPI.setPlaceholders(player, text);
     }
 }
