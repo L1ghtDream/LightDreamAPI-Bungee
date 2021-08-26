@@ -17,7 +17,7 @@ public final class API extends LightDreamPlugin {
     //Settings
     public final static String PROJECT_NAME = "LightDreamAPI";
     public final static String PROJECT_ID = "ld-api";
-    public final static String VERSION = "1.19";
+    public final static String VERSION = "1.20";
     public static API instance;
     public Config config;
 
@@ -62,5 +62,9 @@ public final class API extends LightDreamPlugin {
 
     @Override
     public void loadConfigs() {
+    }
+
+    @Override
+    public void loadBaseCommands() {
     }
 }

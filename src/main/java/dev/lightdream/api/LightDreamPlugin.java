@@ -66,6 +66,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
 
         //Commands
         baseCommands.add(new VersionCommand(this));
+        loadBaseCommands();
         new CommandManager(this, projectID, baseCommands);
 
         //Bot
@@ -81,5 +82,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
     public abstract @NotNull String parsePapi(OfflinePlayer player, String identifier);
 
     public abstract void loadConfigs();
+
+    public abstract void loadBaseCommands();
 
 }
