@@ -1,8 +1,14 @@
-name: SpigotPlugin
+name: LightDreamAPI
 version: ${project.version}
-main: dev.lightdream.plugin.Main
+main: dev.lightdream.api.API
 authors: [ L1ghtDream ]
-website: https://lightdream.tk
+website: https://lightdream.dev
+depend:
+  - Vault
+softdepend:
+  - PlaceholderAPI
+  - WorldEdit
+  - WorldGuard
 commands:
-  st:
+  ld-api:
     description: NA
