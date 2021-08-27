@@ -68,25 +68,25 @@ public class Utils {
     public static boolean compareItemToItemStack(ItemStack itemStack, Item item) {
         if (itemStack == null) {
             return false;
-        } else {
-            ItemMeta meta = itemStack.getItemMeta();
-            if (!itemStack.getType().equals(item.material.parseMaterial())) {
-                return false;
-            } else if (!meta.getDisplayName().equals(item.displayName)) {
-                return false;
-            } else if (!meta.getLore().equals(item.lore)) {
-                return false;
-            } else {
-                for (String attribute : item.nbtTags.keySet()) {
-                    Object value = item.nbtTags.get(attribute);
-                    Object itemStackValue = NbtUtils.getNBT(itemStack, attribute);
-                    if (!value.equals(itemStackValue)) {
-                        return false;
-                    }
-                }
+        }
+        ItemMeta meta = itemStack.getItemMeta();
+        if (!itemStack.getType().equals(item.material.parseMaterial())) {
+            return false;
+        }
+        if (!meta.getDisplayName().equals(item.displayName)) {
+            return false;
+        }
+        if (!meta.getLore().equals(item.lore)) {
+            return false;
+        }
+        for (String attribute : item.nbtTags.keySet()) {
+            Object value = item.nbtTags.get(attribute);
+            Object itemStackValue = NbtUtils.getNBT(itemStack, attribute);
+            if (!value.equals(itemStackValue)) {
                 return false;
             }
         }
+        return true;
     }
 
     public static SlotPos getSlotPosition(int slot) {
