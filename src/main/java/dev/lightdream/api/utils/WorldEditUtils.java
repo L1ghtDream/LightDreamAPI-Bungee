@@ -13,7 +13,7 @@ import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
-import dev.lightdream.api.API;
+import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.files.dto.PluginLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -45,9 +45,9 @@ public class WorldEditUtils {
         return clipboard;
     }
 
-    public static void save(String subFolder, String name, BlockArrayClipboard clipboard) {
-        new File(API.instance.getDataFolder().getPath() + "/" + subFolder).mkdirs();
-        File file = new File(API.instance.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schem");
+    public static void save(String subFolder, String name, BlockArrayClipboard clipboard, LightDreamPlugin plugin) {
+        new File(plugin.getDataFolder().getPath() + "/" + subFolder).mkdirs();
+        File file = new File(plugin.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schem");
         try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
             writer.write(clipboard);
         } catch (IOException e) {
@@ -81,7 +81,7 @@ public class WorldEditUtils {
         }
     }
 
-    public static Clipboard load(String subFolder, String name, API plugin) {
+    public static Clipboard load(String subFolder, String name, LightDreamPlugin plugin) {
         Clipboard clipboard = null;
         File file = new File(plugin.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schem");
 
