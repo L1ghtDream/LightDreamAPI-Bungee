@@ -1,6 +1,7 @@
 package dev.lightdream.api.utils;
 
 import dev.lightdream.api.files.dto.Item;
+import dev.lightdream.api.files.dto.PluginLocation;
 import fr.minuskube.inv.content.SlotPos;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -98,6 +99,14 @@ public class Utils {
             row--;
         }
         return new SlotPos(row, column - 1);
+    }
+
+    public static PluginLocation maxPluginLocation(PluginLocation pos1, PluginLocation pos2) {
+        return new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z));
+    }
+
+    public static PluginLocation minPluginLocation(PluginLocation pos1, PluginLocation pos2) {
+        return new PluginLocation(pos1.world, Math.max(pos1.x, pos2.x), Math.max(pos1.y, pos2.y), Math.max(pos1.z, pos2.z));
     }
 
 

@@ -22,4 +22,17 @@ public class PluginLocation {
     public BlockVector3 toBlockVector3() {
         return BlockVector3.at(x, y, z);
     }
+
+    public boolean smaller(PluginLocation pos) {
+        if (pos.x > x ||
+                pos.y > y ||
+                pos.z > z) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean bigger(PluginLocation pos) {
+        return !smaller(pos);
+    }
 }
