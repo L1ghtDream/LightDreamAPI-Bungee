@@ -1,12 +1,16 @@
 package dev.lightdream.api.utils;
 
+import dev.lightdream.api.files.dto.Item;
+import fr.minuskube.inv.content.SlotPos;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -61,7 +65,30 @@ public class Utils {
         }
     }
 
-    /*
+    public static boolean compareItemToItemStack(ItemStack itemStack, Item item) {
+        if (itemStack == null) {
+            return false;
+        } else {
+            ItemMeta meta = itemStack.getItemMeta();
+            if (!itemStack.getType().equals(item.material.parseMaterial())) {
+                return false;
+            } else if (!meta.getDisplayName().equals(item.displayName)) {
+                return false;
+            } else if (!meta.getLore().equals(item.lore)) {
+                return false;
+            } else {
+                for (String attribute : item.nbtTags.keySet()) {
+                    Object value = item.nbtTags.get(attribute);
+                    Object itemStackValue = NbtUtils.getNBT(itemStack, attribute);
+                    if (!value.equals(itemStackValue)) {
+                        return false;
+                    }
+                }
+                return false;
+            }
+        }
+    }
+
     public static SlotPos getSlotPosition(int slot) {
         slot++;
         int row = slot / 9; //6
@@ -73,6 +100,5 @@ public class Utils {
         return new SlotPos(row, column - 1);
     }
 
-     */
 
 }
