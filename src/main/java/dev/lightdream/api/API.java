@@ -17,7 +17,7 @@ public final class API extends LightDreamPlugin {
     //Settings
     public final static String PROJECT_NAME = "LightDreamAPI";
     public final static String PROJECT_ID = "ld-api";
-    public final static String VERSION = "1.28";
+    public final static String VERSION = "1.29";
     public static API instance;
     public Config config;
 
