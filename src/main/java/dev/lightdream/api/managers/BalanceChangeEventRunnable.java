@@ -20,7 +20,7 @@ public class BalanceChangeEventRunnable {
     public void registerBalanceChangeEvent() {
         Bukkit.getScheduler().runTaskTimerAsynchronously(api, () -> Bukkit.getOnlinePlayers().forEach(player -> {
             double finalBalance = api.economy.getBalance(player);
-            double initialBalance = balance.get(player.getUniqueId());
+            double initialBalance = balance.getOrDefault(player.getUniqueId(), 0.0);
 
             if (initialBalance != finalBalance) {
                 BalanceChangeEvent event = new BalanceChangeEvent(player, initialBalance, finalBalance);
