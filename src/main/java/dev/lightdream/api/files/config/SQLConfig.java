@@ -8,7 +8,7 @@ public class SQLConfig {
 
     public Driver driver = Driver.SQLITE;
     public String host = "localhost";
-    public String database = API.PROJECT_NAME;
+    public String database = API.instance.projectName;
     public String username = "";
     public String password = "";
     public int port = 3306;

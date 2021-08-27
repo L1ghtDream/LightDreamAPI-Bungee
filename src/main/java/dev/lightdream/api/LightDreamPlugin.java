@@ -15,6 +15,7 @@ import lombok.SneakyThrows;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,6 +39,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
 
     //Managers
     public Economy economy;
+    public Permission permission;
     public FileManager fileManager;
     public LocalDatabaseManager databaseManager;
 
@@ -63,6 +65,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
 
         //Managers
         this.economy = API.instance.economy;
+        this.permission = API.instance.permission;
         databaseManager = new LocalDatabaseManager(this);
 
         //Commands
