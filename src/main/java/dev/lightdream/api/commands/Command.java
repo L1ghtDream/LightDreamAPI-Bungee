@@ -15,10 +15,10 @@ public abstract class Command {
     public final boolean onlyForPlayers;
     public final boolean onlyForConsole;
     public final String usage;
-    private final LightDreamPlugin plugin;
+    public final LightDreamPlugin pluginInstance;
 
     public Command(@NotNull LightDreamPlugin plugin, @NotNull List<String> aliases, @NotNull String description, @NotNull String permission, boolean onlyForPlayers, boolean onlyForConsole, @NotNull String usage) {
-        this.plugin = plugin;
+        this.pluginInstance = plugin;
         this.aliases = aliases;
         this.description = description;
         if (permission.equals("")) {

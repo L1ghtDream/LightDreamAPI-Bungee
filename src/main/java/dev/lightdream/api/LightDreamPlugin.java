@@ -1,6 +1,7 @@
 package dev.lightdream.api;
 
 import dev.lightdream.api.commands.Command;
+import dev.lightdream.api.commands.commands.ReloadCommand;
 import dev.lightdream.api.commands.commands.VersionCommand;
 import dev.lightdream.api.files.config.Config;
 import dev.lightdream.api.files.config.JdaConfig;
@@ -65,6 +66,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         databaseManager = new LocalDatabaseManager(this);
 
         //Commands
+        baseCommands.add(new ReloadCommand(this));
         baseCommands.add(new VersionCommand(this));
         loadBaseCommands();
         new CommandManager(this, projectID, baseCommands);
