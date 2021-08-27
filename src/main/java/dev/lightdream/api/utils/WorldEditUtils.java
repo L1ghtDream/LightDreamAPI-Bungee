@@ -68,6 +68,19 @@ public class WorldEditUtils {
         }
     }
 
+    public static void paste(PluginLocation pos, Clipboard clipboard) {
+        World world = Bukkit.getWorld(pos.world);
+        try (EditSession editSession = WorldEdit.getInstance().newEditSession(new BukkitWorld(world))) {
+            Operation operation = new ClipboardHolder(clipboard)
+                    .createPaste(editSession)
+                    .to(pos.toBlockVector3())
+                    .build();
+            Operations.complete(operation);
+        } catch (WorldEditException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Clipboard load(String subFolder, String name, API plugin) {
         Clipboard clipboard = null;
         File file = new File(plugin.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schem");
