@@ -18,7 +18,7 @@ public class VersionCommand extends Command {
 
     @Override
     public void execute(CommandSender sender, List<String> args) {
-        MessageUtils.sendMessage(sender, pluginInstance.version.replace("%project_name%", pluginInstance.projectName).replace("%version%", pluginInstance.version));
+        MessageUtils.sendMessage(sender, pluginInstance.baseLang.version.replace("%project_name%", pluginInstance.projectName).replace("%version%", pluginInstance.version));
     }
 
     @Override
