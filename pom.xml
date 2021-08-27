@@ -7,7 +7,7 @@
     <groupId>dev.lightdream</groupId>
     <artifactId>LightDreamAPI</artifactId>
     <packaging>jar</packaging>
-    <version>1.34</version>
+    <version>1.35</version>
 
     <url>https://lightdream.dev</url>
 
@@ -42,6 +42,9 @@
                 <executions>
                     <execution>
                         <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
                         <configuration>
                             <relocations>
                                 <relocation>
