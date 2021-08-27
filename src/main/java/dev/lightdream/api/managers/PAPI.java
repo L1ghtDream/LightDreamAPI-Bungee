@@ -16,6 +16,9 @@ public class PAPI extends PlaceholderExpansion {
         this.api = api;
     }
 
+    public static String parse(OfflinePlayer player, String text) {
+        return PlaceholderAPI.setPlaceholders(player, text);
+    }
 
     @Override
     public boolean canRegister() {
@@ -51,9 +54,5 @@ public class PAPI extends PlaceholderExpansion {
         }
 
         return null;
-    }
-
-    public static String parse(OfflinePlayer player, String text) {
-        return PlaceholderAPI.setPlaceholders(player, text);
     }
 }

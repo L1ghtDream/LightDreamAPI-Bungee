@@ -73,7 +73,7 @@ public class JsonUtils {
         return output;
     }
 
-    public JsonElement getJsonElement(String attribute){
+    public JsonElement getJsonElement(String attribute) {
         List<Integer> output = new ArrayList<>();
         JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);
         if (jsonObject == null) {

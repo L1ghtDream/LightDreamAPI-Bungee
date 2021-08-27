@@ -8,7 +8,6 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.TableUtils;
 import dev.lightdream.api.LightDreamPlugin;
-import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.config.SQLConfig;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;

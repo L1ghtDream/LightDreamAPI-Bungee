@@ -1,6 +1,5 @@
 package dev.lightdream.api.commands.commands;
 
-import dev.lightdream.api.API;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.commands.Command;
 import dev.lightdream.api.utils.MessageUtils;
