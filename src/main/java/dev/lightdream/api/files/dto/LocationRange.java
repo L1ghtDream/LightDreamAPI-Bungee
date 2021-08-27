@@ -2,8 +2,10 @@ package dev.lightdream.api.files.dto;
 
 import dev.lightdream.api.utils.Utils;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 public class LocationRange {
 
     public PluginLocation pos1;
