@@ -11,6 +11,7 @@ import com.sk89q.worldedit.extent.clipboard.io.*;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import dev.lightdream.api.LightDreamPlugin;
@@ -28,12 +29,12 @@ public class WorldEditUtils {
 
     public static BlockArrayClipboard copy(PluginLocation pos1, PluginLocation pos2) {
         World world = Bukkit.getWorld(pos1.world);
-        CuboidRegion region = new CuboidRegion(BukkitAdapter.adapt(world), pos1.toBlockVector3(), pos2.toBlockVector3());
+        CuboidRegion region = new CuboidRegion(BukkitAdapter.adapt(world), BlockVector3.at(pos1.x, pos1.y, pos1.z), BlockVector3.at(pos2.x, pos2.y, pos2.z));
         BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
 
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(world))) {
             ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(
-                    editSession, region, clipboard, new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z)).toBlockVector3()
+                    editSession, region, clipboard, BlockVector3.at(Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z))
             );
             try {
                 Operations.complete(forwardExtentCopy);
@@ -60,7 +61,7 @@ public class WorldEditUtils {
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(new BukkitWorld(world))) {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
-                    .to(new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z)).toBlockVector3())
+                    .to(BlockVector3.at(Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z)))
                     .build();
             Operations.complete(operation);
         } catch (WorldEditException e) {
@@ -73,7 +74,7 @@ public class WorldEditUtils {
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(new BukkitWorld(world))) {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
-                    .to(pos.toBlockVector3())
+                    .to(BlockVector3.at(pos.x, pos.y, pos.z))
                     .build();
             Operations.complete(operation);
         } catch (WorldEditException e) {
