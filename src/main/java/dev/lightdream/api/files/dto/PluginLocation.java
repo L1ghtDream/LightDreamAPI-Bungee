@@ -10,9 +10,16 @@ import org.bukkit.Location;
 public class PluginLocation {
 
     public String world;
-    public float x;
-    public float y;
-    public float z;
+    public double x;
+    public double y;
+    public double z;
+
+    public PluginLocation(Location location){
+        this.world = location.getWorld().getName();
+        this.x = location.getX();
+        this.y = location.getY();
+        this.z = location.getZ();
+    }
 
     public Location toLocation() {
         return new Location(Bukkit.getWorld(world), x, y, z);
