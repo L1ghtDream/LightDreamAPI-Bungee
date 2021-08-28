@@ -3,6 +3,11 @@ package dev.lightdream.api.databases;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import lombok.NoArgsConstructor;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -21,6 +26,14 @@ public class User {
     public User(UUID uuid, String name) {
         this.uuid = uuid;
         this.name = name;
+    }
+
+    public @Nullable Player getPlayer(){
+        return Bukkit.getPlayer(uuid);
+    }
+
+    public @NotNull OfflinePlayer getOfflinePlayer(){
+        return Bukkit.getOfflinePlayer(uuid);
     }
 
 }
