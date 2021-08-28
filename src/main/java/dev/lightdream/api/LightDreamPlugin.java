@@ -11,6 +11,7 @@ import dev.lightdream.api.managers.CommandManager;
 import dev.lightdream.api.managers.FileManager;
 import dev.lightdream.api.managers.local.LocalDatabaseManager;
 import dev.lightdream.api.utils.LangUtils;
+import fr.minuskube.inv.InventoryManager;
 import lombok.SneakyThrows;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -42,6 +43,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
     public Permission permission;
     public FileManager fileManager;
     public LocalDatabaseManager databaseManager;
+    public InventoryManager inventoryManager;
 
     //Commands
     public List<Command> baseCommands = new ArrayList<>();
@@ -67,6 +69,8 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         this.economy = API.instance.economy;
         this.permission = API.instance.permission;
         databaseManager = new LocalDatabaseManager(this);
+        inventoryManager = new InventoryManager(this);
+        inventoryManager.init();
 
         //Commands
         baseCommands.add(new ReloadCommand(this));
