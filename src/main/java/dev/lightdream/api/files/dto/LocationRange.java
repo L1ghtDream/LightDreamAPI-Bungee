@@ -15,7 +15,7 @@ public class LocationRange {
         PluginLocation min = Utils.minPluginLocation(pos1, pos2);
         PluginLocation max = Utils.maxPluginLocation(pos1, pos2);
 
-        if (min.bigger(pos) ||
+        if (min.bigger(pos) &&
                 max.smaller(pos)) {
             return false;
         }

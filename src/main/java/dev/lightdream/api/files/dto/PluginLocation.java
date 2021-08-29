@@ -26,15 +26,14 @@ public class PluginLocation {
     }
 
     public boolean smaller(PluginLocation pos) {
-        if (pos.x > x ||
-                pos.y > y ||
-                pos.z > z) {
-            return false;
-        }
-        return true;
+        return !(pos.x >= x) &&
+                !(pos.y >= y) &&
+                !(pos.z >= z);
     }
 
     public boolean bigger(PluginLocation pos) {
-        return !smaller(pos);
+        return !(pos.x <= x) &&
+                !(pos.y <= y) &&
+                !(pos.z <= z);
     }
 }
