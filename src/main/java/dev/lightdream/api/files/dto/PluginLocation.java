@@ -14,7 +14,7 @@ public class PluginLocation {
     public double y;
     public double z;
 
-    public PluginLocation(Location location){
+    public PluginLocation(Location location) {
         this.world = location.getWorld().getName();
         this.x = location.getX();
         this.y = location.getY();
@@ -26,19 +26,15 @@ public class PluginLocation {
     }
 
     public boolean smaller(PluginLocation pos) {
-        if (pos.x >= x &&
+        return pos.x >= x &&
                 pos.y >= y &&
-                pos.z >= z) {
-            return false;
-        }
-        return true;
+                pos.z >= z;
     }
 
     public boolean bigger(PluginLocation pos) {
-        if (pos.x <= x &&
+        return pos.x <= x &&
                 pos.y <= y &&
-                pos.z <= z) {
-            return false;
-        }
-        return true;    }
+                pos.z <= z;
+    }
+
 }

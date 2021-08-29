@@ -102,11 +102,11 @@ public class Utils {
     }
 
     public static PluginLocation maxPluginLocation(PluginLocation pos1, PluginLocation pos2) {
-        return new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z));
+        return new PluginLocation(pos1.world, Math.max(pos1.x, pos2.x), Math.max(pos1.y, pos2.y), Math.max(pos1.z, pos2.z));
     }
 
     public static PluginLocation minPluginLocation(PluginLocation pos1, PluginLocation pos2) {
-        return new PluginLocation(pos1.world, Math.max(pos1.x, pos2.x), Math.max(pos1.y, pos2.y), Math.max(pos1.z, pos2.z));
+        return new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z));
     }
 
 
