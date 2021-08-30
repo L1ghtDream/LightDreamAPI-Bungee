@@ -53,7 +53,7 @@ public class WorldEditUtils {
 
     @SneakyThrows
     public static CuboidClipboard load(String subFolder, String name, LightDreamPlugin plugin) {
-        File file = new File(plugin.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schem");
+        File file = new File(plugin.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schematic");
         return CuboidClipboard.loadSchematic(file);
     }
 
