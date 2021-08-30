@@ -7,7 +7,7 @@
     <groupId>dev.lightdream</groupId>
     <artifactId>LightDreamAPI</artifactId>
     <packaging>jar</packaging>
-    <version>1.53</version>
+    <version>1.54</version>
 
     <url>https://lightdream.dev</url>
 
@@ -215,7 +215,7 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.3.0-SNAPSHOT</version>
+            <version>6.1.3-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

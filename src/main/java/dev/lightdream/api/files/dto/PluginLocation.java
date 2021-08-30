@@ -1,10 +1,12 @@
 package dev.lightdream.api.files.dto;
 
+import com.sk89q.worldedit.Vector;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,7 +40,11 @@ public class PluginLocation {
                 pos.z <= z;
     }
 
-    public Block getBlock(){
+    public Vector toVector() {
+        return new Vector(x, y, z);
+    }
+
+    public Block getBlock() {
         return Bukkit.getWorld(world).getBlockAt(toLocation());
     }
 }
