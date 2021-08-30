@@ -58,11 +58,19 @@ public class MessageUtils {
         }
     }
 
-    private static void sendMessage(Player target, String message) {
+    public static void sendMessage(Player target, String message) {
         if (useMineDown) {
             target.spigot().sendMessage(new MineDown(message).toComponent());
         } else {
             target.sendMessage(Utils.color(message));
+        }
+    }
+
+    public static void broadcast(String message) {
+        if (useMineDown) {
+            Bukkit.broadcastMessage(Arrays.toString(new MineDown(message).toComponent()));
+        } else {
+            Bukkit.broadcastMessage(Utils.color(message));
         }
     }
 }
