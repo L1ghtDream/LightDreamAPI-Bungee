@@ -47,4 +47,8 @@ public class PluginLocation {
     public Block getBlock() {
         return Bukkit.getWorld(world).getBlockAt(toLocation());
     }
+
+    public PluginLocation clone() {
+        return new PluginLocation(world, x, y, z);
+    }
 }
