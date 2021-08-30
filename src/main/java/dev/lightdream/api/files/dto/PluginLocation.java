@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,14 +38,7 @@ public class PluginLocation {
                 pos.z <= z;
     }
 
-
-    @Override
-    public String toString() {
-        return "PluginLocation{" +
-                "world='" + world + '\'' +
-                ", x=" + x +
-                ", y=" + y +
-                ", z=" + z +
-                '}';
+    public Block getBlock(){
+        return Bukkit.getWorld(world).getBlockAt(toLocation());
     }
 }
