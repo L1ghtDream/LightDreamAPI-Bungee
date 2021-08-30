@@ -1,6 +1,5 @@
 package dev.lightdream.api.files.dto;
 
-import dev.lightdream.api.API;
 import dev.lightdream.api.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -40,15 +39,13 @@ public class LocationRange {
 
         World world = Bukkit.getWorld(min.world);
 
-        Bukkit.getScheduler().runTaskAsynchronously(API.instance, () -> {
-            for (int x = (int) min.x; x <= max.x; x++) {
-                for (int y = (int) min.y; y <= max.y; y++) {
-                    for (int z = (int) min.z; z <= max.z; z++) {
-                        output.add(world.getBlockAt(x, y, z));
-                    }
+        for (int x = (int) min.x; x <= max.x; x++) {
+            for (int y = (int) min.y; y <= max.y; y++) {
+                for (int z = (int) min.z; z <= max.z; z++) {
+                    output.add(world.getBlockAt(x, y, z));
                 }
             }
-        });
+        }
 
         return output;
     }
