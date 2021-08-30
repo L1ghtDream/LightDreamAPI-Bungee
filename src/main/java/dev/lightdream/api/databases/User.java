@@ -45,4 +45,8 @@ public class User {
         return new PluginLocation(player.getLocation());
     }
 
+    public boolean isOnline(){
+        return getOfflinePlayer().isOnline();
+    }
+
 }
