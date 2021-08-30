@@ -51,4 +51,14 @@ public class PluginLocation {
     public PluginLocation clone() {
         return new PluginLocation(world, x, y, z);
     }
+
+    @Override
+    public String toString() {
+        return "PluginLocation{" +
+                "world='" + world + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
+    }
 }
