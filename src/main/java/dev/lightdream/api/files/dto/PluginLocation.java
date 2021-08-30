@@ -37,4 +37,14 @@ public class PluginLocation {
                 pos.z <= z;
     }
 
+
+    @Override
+    public String toString() {
+        return "PluginLocation{" +
+                "world='" + world + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
+    }
 }

@@ -88,6 +88,11 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         getLogger().info(ChatColor.GREEN + projectName + "(by github.com/L1ghtDream) has been enabled");
     }
 
+    @Override
+    public void onDisable() {
+        databaseManager.save();
+    }
+
     public abstract @NotNull String parsePapi(OfflinePlayer player, String identifier);
 
     public abstract void loadConfigs();
