@@ -36,7 +36,7 @@ public class PluginLocation {
     }
 
     public Location toLocation() {
-        return new Location(Bukkit.getWorld(world), x, y, z, rotationY, rotationX);
+        return new Location(Bukkit.getWorld(world), x, y, z, rotationX, rotationY);
     }
 
     public boolean smaller(PluginLocation pos) {
