@@ -16,8 +16,8 @@ public class PluginLocation {
     public double x;
     public double y;
     public double z;
-    public double rotationX;
-    public double rotationY;
+    public float rotationX;
+    public float rotationY;
 
     public PluginLocation(Location location) {
         this.world = location.getWorld().getName();
@@ -28,15 +28,15 @@ public class PluginLocation {
         this.rotationY = location.getPitch();
     }
 
-    public PluginLocation(String world, double x,double y, double z){
+    public PluginLocation(String world, double x, double y, double z) {
         this.world = world;
-        this.x=x;
-        this.y=y;
-        this.z=z;
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     public Location toLocation() {
-        return new Location(Bukkit.getWorld(world), x, y, z);
+        return new Location(Bukkit.getWorld(world), x, y, z, rotationY, rotationX);
     }
 
     public boolean smaller(PluginLocation pos) {
