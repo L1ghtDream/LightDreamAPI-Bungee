@@ -16,12 +16,16 @@ public class PluginLocation {
     public double x;
     public double y;
     public double z;
+    public double rotationX;
+    public double rotationY;
 
     public PluginLocation(Location location) {
         this.world = location.getWorld().getName();
         this.x = location.getX();
         this.y = location.getY();
         this.z = location.getZ();
+        this.rotationX = location.getYaw();
+        this.rotationY = location.getPitch();
     }
 
     public Location toLocation() {
@@ -49,7 +53,7 @@ public class PluginLocation {
     }
 
     public PluginLocation clone() {
-        return new PluginLocation(world, x, y, z);
+        return new PluginLocation(world, x, y, z, rotationX, rotationY);
     }
 
     @Override
