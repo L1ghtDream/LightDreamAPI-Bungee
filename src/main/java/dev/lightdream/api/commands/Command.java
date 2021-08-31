@@ -5,6 +5,7 @@ import dev.lightdream.api.utils.MessageUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Command {
@@ -19,7 +20,10 @@ public abstract class Command {
 
     public Command(@NotNull LightDreamPlugin plugin, @NotNull List<String> aliases, @NotNull String description, @NotNull String permission, boolean onlyForPlayers, boolean onlyForConsole, @NotNull String usage) {
         this.pluginInstance = plugin;
-        this.aliases = aliases;
+        this.aliases = new ArrayList<>();
+        for (String alias : aliases) {
+            this.aliases.add(alias.toLowerCase());
+        }
         this.description = description;
         if (permission.equals("")) {
             this.permission = plugin.projectID + "." + aliases.get(0);

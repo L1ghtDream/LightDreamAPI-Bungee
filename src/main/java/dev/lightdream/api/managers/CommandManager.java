@@ -60,7 +60,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         }
 
         for (Command command : commands) {
-            if (!(command.aliases.contains(args[0]))) {
+            if (!(command.aliases.contains(args[0].toLowerCase()))) {
                 continue;
             }
 
