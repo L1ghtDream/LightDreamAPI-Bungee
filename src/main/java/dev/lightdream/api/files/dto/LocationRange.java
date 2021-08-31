@@ -59,4 +59,11 @@ public class LocationRange {
         return task.get();
     }
 
+    @Override
+    public String toString() {
+        return "LocationRange{" +
+                "pos1=" + pos1 +
+                ", pos2=" + pos2 +
+                '}';
+    }
 }
