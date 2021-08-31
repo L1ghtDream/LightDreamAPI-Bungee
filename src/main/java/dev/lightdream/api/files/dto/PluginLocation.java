@@ -28,6 +28,13 @@ public class PluginLocation {
         this.rotationY = location.getPitch();
     }
 
+    public PluginLocation(String world, double x,double y, double z){
+        this.world = world;
+        this.x=x;
+        this.y=y;
+        this.z=z;
+    }
+
     public Location toLocation() {
         return new Location(Bukkit.getWorld(world), x, y, z);
     }
