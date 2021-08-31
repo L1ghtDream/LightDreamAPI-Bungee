@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -45,8 +46,20 @@ public class User {
         return new PluginLocation(player.getLocation());
     }
 
-    public boolean isOnline(){
+    public boolean isOnline() {
         return getOfflinePlayer().isOnline();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(uuid, user.uuid) && Objects.equals(name, user.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, uuid, name);
+    }
 }
