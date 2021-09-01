@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GUI implements InventoryProvider {
-    private final LightDreamPlugin plugin;
+    public final LightDreamPlugin plugin;
     public GUIConfig config;
 
     public GUI(LightDreamPlugin plugin) {
