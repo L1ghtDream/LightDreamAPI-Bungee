@@ -55,12 +55,12 @@ public abstract class GUI implements InventoryProvider {
 
     }
 
-    public abstract String parse(String raw, User user, String... values);
+    public abstract String parse(String raw, Player player, String... values);
 
-    public List<String> parse(List<String> raw, User user, String... values) {
+    public List<String> parse(List<String> raw, Player player, String... values) {
         List<String> output = new ArrayList<>();
 
-        raw.forEach(line -> output.add(parse(line, user, values)));
+        raw.forEach(line -> output.add(parse(line, player, values)));
 
         return output;
     }
