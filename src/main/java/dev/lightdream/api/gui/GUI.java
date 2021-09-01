@@ -41,8 +41,13 @@ public abstract class GUI implements InventoryProvider {
     public void init(Player player, InventoryContents contents) {
         contents.fill(ClickableItem.empty(ItemBuilder.makeItem(config.fillItem)));
 
-        config.items.forEach((key, value) -> {
-            GUIItem item = value.deepClone();
+        List<GUIItem> items = new ArrayList<>();
+
+        for (String key : config.items.keySet()) {
+            items.add(config.items.get(key));
+        }
+        for(int i=items.size()-1;i>=0;i++){
+            GUIItem item = items.get(i).deepClone();
 
             if (canAddItem(item.item)) {
                 item.item.displayName = parse(item.item.displayName, player);
@@ -58,8 +63,8 @@ public abstract class GUI implements InventoryProvider {
                     });
                 }));
             }
-
-        });
+        }
+        System.out.println(items);
     }
 
     @Override
