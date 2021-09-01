@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.GUIConfig;
+import dev.lightdream.api.files.dto.Item;
 import dev.lightdream.api.utils.ItemBuilder;
 import dev.lightdream.api.utils.Utils;
 import fr.minuskube.inv.ClickableItem;
@@ -41,7 +42,13 @@ public abstract class GUI implements InventoryProvider {
         contents.fill(ClickableItem.empty(ItemBuilder.makeItem(config.fillItem)));
 
         config.items.forEach((key, item) -> {
-            contents.set(Utils.getSlotPosition(item.item.slot), ClickableItem.of(ItemBuilder.makeItem(item.item), e -> {
+            Item builder  = item.item.clone();
+
+            builder.displayName = parse(builder.displayName, player);
+            builder.lore = parse(builder.lore, player);
+            builder.headOwner = parse(builder.displayName, player);
+
+            contents.set(Utils.getSlotPosition(builder.slot), ClickableItem.of(ItemBuilder.makeItem(builder), e -> {
                 List<String> functions = item.getFunctions();
                 functions.forEach(function -> {
                     functionCall(player, function, item.getFunctionArgs(function));
@@ -55,12 +62,12 @@ public abstract class GUI implements InventoryProvider {
 
     }
 
-    public abstract String parse(String raw, Player player, String... values);
+    public abstract String parse(String raw, Player player);
 
-    public List<String> parse(List<String> raw, Player player, String... values) {
+    public List<String> parse(List<String> raw, Player player) {
         List<String> output = new ArrayList<>();
 
-        raw.forEach(line -> output.add(parse(line, player, values)));
+        raw.forEach(line -> output.add(parse(line, player)));
 
         return output;
     }

@@ -37,7 +37,7 @@ public final class API extends LightDreamPlugin {
         permission = setupPermissions();
 
         //Register
-        init("LightDreamAPI", "ld-api", "1.68");
+        init("LightDreamAPI", "ld-api", "1.69");
     }
 
     @Override
