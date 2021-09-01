@@ -64,7 +64,6 @@ public abstract class GUI implements InventoryProvider {
                 }));
             }
         }
-        System.out.println(items);
     }
 
     @Override
