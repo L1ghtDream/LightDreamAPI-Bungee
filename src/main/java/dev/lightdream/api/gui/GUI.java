@@ -2,7 +2,6 @@ package dev.lightdream.api.gui;
 
 import com.google.gson.JsonElement;
 import dev.lightdream.api.LightDreamPlugin;
-import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.GUIConfig;
 import dev.lightdream.api.files.dto.Item;
 import dev.lightdream.api.utils.ItemBuilder;
@@ -42,18 +41,21 @@ public abstract class GUI implements InventoryProvider {
         contents.fill(ClickableItem.empty(ItemBuilder.makeItem(config.fillItem)));
 
         config.items.forEach((key, item) -> {
-            Item builder  = item.item.clone();
+            Item builder = item.item.clone();
 
-            builder.displayName = parse(builder.displayName, player);
-            builder.lore = parse(builder.lore, player);
-            builder.headOwner = parse(builder.displayName, player);
+            if (canAddItem(builder)) {
+                builder.displayName = parse(builder.displayName, player);
+                builder.lore = parse(builder.lore, player);
+                builder.headOwner = parse(builder.displayName, player);
 
-            contents.set(Utils.getSlotPosition(builder.slot), ClickableItem.of(ItemBuilder.makeItem(builder), e -> {
-                List<String> functions = item.getFunctions();
-                functions.forEach(function -> {
-                    functionCall(player, function, item.getFunctionArgs(function));
-                });
-            }));
+                contents.set(Utils.getSlotPosition(builder.slot), ClickableItem.of(ItemBuilder.makeItem(builder), e -> {
+                    List<String> functions = item.getFunctions();
+                    functions.forEach(function -> {
+                        functionCall(player, function, item.getFunctionArgs(function));
+                    });
+                }));
+            }
+
         });
     }
 
@@ -77,5 +79,7 @@ public abstract class GUI implements InventoryProvider {
     public abstract InventoryProvider getProvider();
 
     public abstract void functionCall(Player player, String function, JsonElement args);
+
+    public abstract boolean canAddItem(Item item);
 
 }
