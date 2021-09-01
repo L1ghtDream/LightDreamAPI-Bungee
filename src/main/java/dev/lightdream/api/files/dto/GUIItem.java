@@ -22,5 +22,15 @@ public class GUIItem {
         return new JsonUtils(this.args).getJsonElement(function);
     }
 
+    public GUIItem clone() {
+        String args = this.args;
+        return new GUIItem(item, args);
+    }
+
+    public GUIItem deepClone() {
+        String args = this.args;
+        return new GUIItem(item.clone(), args);
+    }
+
 
 }

@@ -3,6 +3,7 @@ package dev.lightdream.api.gui;
 import com.google.gson.JsonElement;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.files.dto.GUIConfig;
+import dev.lightdream.api.files.dto.GUIItem;
 import dev.lightdream.api.files.dto.Item;
 import dev.lightdream.api.utils.ItemBuilder;
 import dev.lightdream.api.utils.Utils;
@@ -40,15 +41,17 @@ public abstract class GUI implements InventoryProvider {
     public void init(Player player, InventoryContents contents) {
         contents.fill(ClickableItem.empty(ItemBuilder.makeItem(config.fillItem)));
 
-        config.items.forEach((key, item) -> {
-            Item builder = item.item.clone();
+        config.items.forEach((key, value) -> {
+            GUIItem item = value.deepClone();
 
-            if (canAddItem(builder)) {
-                builder.displayName = parse(builder.displayName, player);
-                builder.lore = parse(builder.lore, player);
-                builder.headOwner = parse(builder.displayName, player);
+            if (canAddItem(item.item)) {
+                item.item.displayName = parse(item.item.displayName, player);
+                item.item.lore = parse(item.item.lore, player);
+                item.item.headOwner = parse(item.item.displayName, player);
 
-                contents.set(Utils.getSlotPosition(builder.slot), ClickableItem.of(ItemBuilder.makeItem(builder), e -> {
+                item.args = parse(item.args, player);
+
+                contents.set(Utils.getSlotPosition(item.item.slot), ClickableItem.of(ItemBuilder.makeItem(item.item), e -> {
                     List<String> functions = item.getFunctions();
                     functions.forEach(function -> {
                         functionCall(player, function, item.getFunctionArgs(function));
