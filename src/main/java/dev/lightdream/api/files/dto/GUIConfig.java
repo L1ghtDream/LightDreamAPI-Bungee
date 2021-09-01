@@ -17,4 +17,14 @@ public class GUIConfig {
     public Item fillItem;
     public HashMap<String, GUIItem> items;
 
+    public GUIConfig(String id, String type, String title, int rows, Item fillItem, HashMap<String, GUIItem> items) {
+        this.id = id;
+        this.type = type;
+        this.title = title;
+        this.rows = rows;
+        this.columns = 9;
+        this.fillItem = fillItem;
+        this.items = items;
+    }
+
 }
