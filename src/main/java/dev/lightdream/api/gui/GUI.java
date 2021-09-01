@@ -42,14 +42,16 @@ public abstract class GUI implements InventoryProvider {
         contents.fill(ClickableItem.empty(ItemBuilder.makeItem(config.fillItem)));
 
         List<GUIItem> items = new ArrayList<>();
+        List<String> keys = new ArrayList<>();
 
         for (String key : config.items.keySet()) {
             items.add(config.items.get(key));
+            keys.add(key);
         }
         for (int i = items.size() - 1; i >= 0; i--) {
             GUIItem item = items.get(i).deepClone();
 
-            if (canAddItem(item.item)) {
+            if (canAddItem(item.item, keys.get(i))) {
                 item.item.displayName = parse(item.item.displayName, player);
                 item.item.lore = parse(item.item.lore, player);
                 item.item.headOwner = parse(item.item.displayName, player);
@@ -87,6 +89,6 @@ public abstract class GUI implements InventoryProvider {
 
     public abstract void functionCall(Player player, String function, JsonElement args);
 
-    public abstract boolean canAddItem(Item item);
+    public abstract boolean canAddItem(Item item, String key);
 
 }
