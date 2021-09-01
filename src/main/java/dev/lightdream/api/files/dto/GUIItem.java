@@ -32,5 +32,11 @@ public class GUIItem {
         return new GUIItem(item.clone(), args);
     }
 
-
+    @Override
+    public String toString() {
+        return "GUIItem{" +
+                "item=" + item +
+                ", args='" + args + '\'' +
+                '}';
+    }
 }

@@ -46,7 +46,7 @@ public abstract class GUI implements InventoryProvider {
         for (String key : config.items.keySet()) {
             items.add(config.items.get(key));
         }
-        for(int i=items.size()-1;i>=0;i++){
+        for (int i = items.size() - 1; i >= 0; i--) {
             GUIItem item = items.get(i).deepClone();
 
             if (canAddItem(item.item)) {
