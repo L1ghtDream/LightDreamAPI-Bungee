@@ -7,7 +7,7 @@
     <groupId>dev.lightdream</groupId>
     <artifactId>LightDreamAPI</artifactId>
     <packaging>jar</packaging>
-    <version>1.77</version>
+    <version>1.78</version>
 
     <url>https://lightdream.dev</url>
 
