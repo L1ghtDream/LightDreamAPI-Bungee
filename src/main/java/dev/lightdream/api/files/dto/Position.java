@@ -1,14 +1,17 @@
 package dev.lightdream.api.files.dto;
 
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.sk89q.worldedit.Vector;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class Position {
+public class Position extends KeyDeserializer {
 
     public double x;
     public double y;
@@ -49,5 +52,10 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y, z);
+    }
+
+    @Override
+    public Object deserializeKey(String key, DeserializationContext ctxt) {
+        return null;
     }
 }
