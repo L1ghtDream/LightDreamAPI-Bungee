@@ -75,9 +75,12 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         new CommandManager(this, projectID, baseCommands);
 
         //Bot
-        if (baseJdaConfig.useJDA) {
-            bot = JDABuilder.createDefault(baseJdaConfig.botToken).build();
+        if (baseJdaConfig != null) {
+            if (baseJdaConfig.useJDA) {
+                bot = JDABuilder.createDefault(baseJdaConfig.botToken).build();
+            }
         }
+
 
         //Register
         API.instance.plugins.add(this);
@@ -86,7 +89,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
 
     public abstract @NotNull String parsePapi(OfflinePlayer player, String identifier);
 
-    public void loadConfigs(){
+    public void loadConfigs() {
         sqlConfig = fileManager.load(SQLConfig.class);
         baseConfig = fileManager.load(Config.class);
         baseJdaConfig = fileManager.load(JdaConfig.class);
