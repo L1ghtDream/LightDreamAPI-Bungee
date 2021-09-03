@@ -10,9 +10,9 @@ import java.util.Objects;
 @NoArgsConstructor
 public class Position {
 
-    public int x;
-    public int y;
-    public int z;
+    public double x;
+    public double y;
+    public double z;
 
     public PluginLocation getPluginLocation(String world) {
         return new PluginLocation(world, x, y, z);

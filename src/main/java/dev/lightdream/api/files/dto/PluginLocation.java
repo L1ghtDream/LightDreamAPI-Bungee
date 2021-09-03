@@ -15,9 +15,6 @@ import java.util.Objects;
 public class PluginLocation extends Position {
 
     public String world;
-    public double x;
-    public double y;
-    public double z;
     public float rotationX;
     public float rotationY;
 
@@ -50,7 +47,7 @@ public class PluginLocation extends Position {
     }
 
     public PluginLocation clone() {
-        return new PluginLocation(world, x, y, z, rotationX, rotationY);
+        return new PluginLocation(toLocation());
     }
 
     @Override
