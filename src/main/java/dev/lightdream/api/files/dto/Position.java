@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class Position extends KeyDeserializer {
+public class Position {
 
     public double x;
     public double y;
@@ -52,10 +52,5 @@ public class Position extends KeyDeserializer {
     @Override
     public int hashCode() {
         return Objects.hash(x, y, z);
-    }
-
-    @Override
-    public Object deserializeKey(String key, DeserializationContext ctxt) {
-        return null;
     }
 }
