@@ -34,7 +34,7 @@ public class PluginLocation extends Position {
         this.z = z;
     }
 
-    public PluginLocation(String world, double x, double y, double z, int rotationX, int rotationY) {
+    public PluginLocation(String world, double x, double y, double z, float rotationX, float rotationY) {
         this.world = world;
         this.x = x;
         this.y = y;
@@ -89,6 +89,6 @@ public class PluginLocation extends Position {
     }
 
     public PluginLocation newOffset(Position position) {
-        return new PluginLocation(world, x + position.x, y + position.y, z + position.z);
+        return new PluginLocation(world, x + position.x, y + position.y, z + position.z, rotationX, rotationY);
     }
 }
