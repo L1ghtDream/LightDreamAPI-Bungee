@@ -59,7 +59,6 @@ public abstract class LightDreamPlugin extends JavaPlugin {
 
         //Files
         fileManager = new FileManager(this, FileManager.PersistType.YAML);
-
         loadConfigs();
 
         //Managers

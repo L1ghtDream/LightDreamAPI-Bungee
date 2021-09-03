@@ -37,7 +37,7 @@ public final class API extends LightDreamPlugin {
         permission = setupPermissions();
 
         //Register
-        init("LightDreamAPI", "ld-api", "1.86");
+        init("LightDreamAPI", "ld-api", "1.87");
     }
 
     @Override
@@ -63,10 +63,6 @@ public final class API extends LightDreamPlugin {
                 return version;
         }
         return "";
-    }
-
-    @Override
-    public void loadConfigs() {
     }
 
     @Override
