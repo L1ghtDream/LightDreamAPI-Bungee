@@ -59,10 +59,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
 
         //Files
         fileManager = new FileManager(this, FileManager.PersistType.YAML);
-        sqlConfig = fileManager.load(SQLConfig.class);
-        baseConfig = fileManager.load(Config.class);
-        baseJdaConfig = fileManager.load(JdaConfig.class);
-        baseLang = (Lang) fileManager.load(LangUtils.getLang(LightDreamPlugin.class, baseConfig.lang));
+
         loadConfigs();
 
         //Managers
@@ -90,7 +87,12 @@ public abstract class LightDreamPlugin extends JavaPlugin {
 
     public abstract @NotNull String parsePapi(OfflinePlayer player, String identifier);
 
-    public abstract void loadConfigs();
+    public void loadConfigs(){
+        sqlConfig = fileManager.load(SQLConfig.class);
+        baseConfig = fileManager.load(Config.class);
+        baseJdaConfig = fileManager.load(JdaConfig.class);
+        baseLang = (Lang) fileManager.load(LangUtils.getLang(LightDreamPlugin.class, baseConfig.lang));
+    }
 
     public abstract void loadBaseCommands();
 
