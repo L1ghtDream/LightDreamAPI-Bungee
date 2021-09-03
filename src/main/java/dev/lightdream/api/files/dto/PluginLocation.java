@@ -1,6 +1,5 @@
 package dev.lightdream.api.files.dto;
 
-import com.sk89q.worldedit.Vector;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
@@ -13,7 +12,7 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class PluginLocation {
+public class PluginLocation extends Position {
 
     public String world;
     public double x;
@@ -42,27 +41,11 @@ public class PluginLocation {
         return new Location(Bukkit.getWorld(world), x, y, z, rotationX, rotationY);
     }
 
-    public boolean smaller(PluginLocation pos) {
-        return pos.x >= x &&
-                pos.y >= y &&
-                pos.z >= z;
-    }
-
-    public boolean bigger(PluginLocation pos) {
-        return pos.x <= x &&
-                pos.y <= y &&
-                pos.z <= z;
-    }
-
-    public Vector toVector() {
-        return new Vector(x, y, z);
-    }
-
     public Block getBlock() {
         return Bukkit.getWorld(world).getBlockAt(toLocation());
     }
 
-    public void setBlock(Material material){
+    public void setBlock(Material material) {
         getBlock().setType(material);
     }
 
@@ -91,5 +74,11 @@ public class PluginLocation {
     @Override
     public int hashCode() {
         return Objects.hash(world, x, y, z);
+    }
+
+    public void offset(Position position) {
+        this.x += position.x;
+        this.y += position.y;
+        this.z += position.z;
     }
 }
