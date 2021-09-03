@@ -34,6 +34,15 @@ public class PluginLocation extends Position {
         this.z = z;
     }
 
+    public PluginLocation(String world, double x, double y, double z, int rotationX, int rotationY) {
+        this.world = world;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.rotationX = rotationX;
+        this.rotationY = rotationY;
+    }
+
     public Location toLocation() {
         return new Location(Bukkit.getWorld(world), x, y, z, rotationX, rotationY);
     }
