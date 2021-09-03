@@ -86,5 +86,10 @@ public abstract class DatabaseManager {
         ((Dao<Object, Integer>) daoMap.get(object.getClass())).createOrUpdate(object);
     }
 
+    @SneakyThrows
+    public void delete(Object object){
+        ((Dao<Object, Integer>) daoMap.get(object.getClass())).delete(object);
+    }
+
 
 }
