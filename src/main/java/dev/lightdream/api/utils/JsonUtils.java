@@ -57,6 +57,22 @@ public class JsonUtils {
         return output;
     }
 
+    public List<Integer> getIntegerList(String attribute) {
+        List<Integer> output = new ArrayList<>();
+        JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);
+        if (jsonObject == null) {
+            return output;
+        }
+        JsonElement jsonElement = jsonObject.get(attribute);
+        if (jsonElement == null) {
+            return output;
+        }
+        for (JsonElement element : jsonElement.getAsJsonArray()) {
+            output.add(element.getAsInt());
+        }
+        return output;
+    }
+
     public List<Integer> getIntList(String attribute) {
         List<Integer> output = new ArrayList<>();
         JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);
