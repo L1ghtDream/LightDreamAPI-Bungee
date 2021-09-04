@@ -1,12 +1,9 @@
 package dev.lightdream.api.files.dto;
 
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.sk89q.worldedit.Vector;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import java.io.IOException;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -52,5 +49,15 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y, z);
+    }
+
+    public void flip() {
+        double tmp = this.x;
+        this.x = this.z;
+        this.z = tmp;
+    }
+
+    public Position newFlip() {
+        return new Position(this.z, y, this.x);
     }
 }
