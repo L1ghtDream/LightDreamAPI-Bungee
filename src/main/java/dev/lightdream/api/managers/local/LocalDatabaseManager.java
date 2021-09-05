@@ -50,4 +50,10 @@ public class LocalDatabaseManager extends DatabaseManager {
         return getUser(player.getUniqueId());
     }
 
+    public @Nullable User getUser(int id) {
+        Optional<User> optionalUser = getUsers().stream().filter(user -> user.id == id).findFirst();
+
+        return optionalUser.orElse(null);
+    }
+
 }
