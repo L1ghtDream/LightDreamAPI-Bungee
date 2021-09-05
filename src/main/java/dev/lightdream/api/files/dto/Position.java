@@ -60,4 +60,13 @@ public class Position {
     public Position newFlip() {
         return new Position(this.z, y, this.x);
     }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
+    }
 }
