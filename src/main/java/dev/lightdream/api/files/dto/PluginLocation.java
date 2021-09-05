@@ -88,8 +88,18 @@ public class PluginLocation extends Position {
         this.z += position.z;
     }
 
+    public void offset(double x, double y, double z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+    }
+
     public PluginLocation newOffset(Position position) {
         return new PluginLocation(world, x + position.x, y + position.y, z + position.z, rotationX, rotationY);
+    }
+
+    public PluginLocation newOffset(double x, double y, double z) {
+        return new PluginLocation(world, x + x, y + y, z + z, rotationX, rotationY);
     }
 
     public void unOffset(Position position) {
