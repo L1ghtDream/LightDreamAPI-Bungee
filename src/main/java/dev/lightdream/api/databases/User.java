@@ -55,11 +55,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(uuid, user.uuid) && Objects.equals(name, user.name);
+        return id == user.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, uuid, name);
+        return Objects.hash(id);
     }
 }
