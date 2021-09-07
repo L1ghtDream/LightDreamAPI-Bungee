@@ -3,6 +3,7 @@ package dev.lightdream.api;
 import dev.lightdream.api.files.config.Config;
 import dev.lightdream.api.managers.BalanceChangeEventRunnable;
 import dev.lightdream.api.managers.PAPI;
+import dev.lightdream.api.utils.BookUtils;
 import dev.lightdream.api.utils.MessageUtils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -37,7 +38,8 @@ public final class API extends LightDreamPlugin {
         permission = setupPermissions();
 
         //Register
-        init("LightDreamAPI", "ld-api", "1.98");
+        init("LightDreamAPI", "ld-api", "1.99");
+
     }
 
     @Override
