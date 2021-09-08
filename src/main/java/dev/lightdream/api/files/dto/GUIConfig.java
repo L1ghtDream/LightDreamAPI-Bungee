@@ -17,6 +17,7 @@ public class GUIConfig {
     public Item fillItem;
     public HashMap<String, GUIItem> items;
 
+    @SuppressWarnings("unused")
     public GUIConfig(String id, String type, String title, int rows, Item fillItem, HashMap<String, GUIItem> items) {
         this.id = id;
         this.type = type;

@@ -10,14 +10,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class CustomBookOpenEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-
+    @Getter
+    private final Player player;
     @Getter
     @Setter
     private boolean cancelled;
-
-    @Getter
-    private final Player player;
-
     @Getter
     @Setter
     private Hand hand;
@@ -32,12 +29,13 @@ public class CustomBookOpenEvent extends Event implements Cancellable {
         this.hand = offHand ? Hand.OFF_HAND : Hand.MAIN_HAND;
     }
 
-    @Override
-    public HandlerList getHandlers() {
+    @SuppressWarnings("unused")
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
+    @Override
+    public HandlerList getHandlers() {
         return handlers;
     }
 

@@ -30,6 +30,7 @@ public class Utils {
         return ChatColor.translateAlternateColorCodes('&', str);
     }
 
+    @SuppressWarnings("unused")
     public static boolean checkExecute(double chance) {
         if (chance >= 100) {
             return true;
@@ -38,11 +39,13 @@ public class Utils {
         return result < chance;
     }
 
+    @SuppressWarnings("unused")
     public static int generateRandom(int low, int high) {
         Random r = new Random();
         return r.nextInt(high - low) + low;
     }
 
+    @SuppressWarnings("unused")
     public static double generateRandom(double a, double b) {
         if (b < a) {
             return Math.random() * (a - b + 1) + b;
@@ -50,6 +53,7 @@ public class Utils {
         return Math.random() * (b - a + 1) + a;
     }
 
+    @SuppressWarnings("unused")
     public static void spawnFireworks(@NotNull Location location, int amount, @NotNull Color color, boolean flicker) {
         Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
         FireworkMeta fwm = fw.getFireworkMeta();
@@ -66,6 +70,7 @@ public class Utils {
         }
     }
 
+    @SuppressWarnings("unused")
     public static boolean compareItemToItemStack(ItemStack itemStack, Item item) {
         if (itemStack == null) {
             return false;

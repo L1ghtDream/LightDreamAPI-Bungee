@@ -23,4 +23,16 @@ public class SQLConfig {
         SQLITE
     }
 
+    @Override
+    public String toString() {
+        return "SQLConfig{" +
+                "driver=" + driver +
+                ", host='" + host + '\'' +
+                ", database='" + database + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", port=" + port +
+                ", useSSL=" + useSSL +
+                '}';
+    }
 }

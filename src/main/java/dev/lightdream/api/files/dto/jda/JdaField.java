@@ -11,6 +11,7 @@ public class JdaField {
     public String content;
     public boolean inline;
 
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public JdaField clone() {
         return new JdaField(title, content, inline);
     }

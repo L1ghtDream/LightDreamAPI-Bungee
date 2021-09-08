@@ -14,7 +14,7 @@ import org.bukkit.World;
 
 import java.io.File;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "unused"})
 public class WorldEditUtils {
 
     public static BlockArrayClipboard copy(PluginLocation pos1, PluginLocation pos2) throws WorldEditException {
@@ -31,18 +31,7 @@ public class WorldEditUtils {
         return clipboard;
     }
 
-    /*
-    //todo
-    public static void save(String subFolder, String name, BlockArrayClipboard clipboard, LightDreamPlugin plugin) {
-        new File(plugin.getDataFolder().getPath() + "/" + subFolder).mkdirs();
-        File file = new File(plugin.getDataFolder().getPath() + "/" + subFolder + "/" + name + ".schem");
-        try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
-            writer.write(clipboard);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-     */
+    //TODO save schematic function
 
     @SneakyThrows
     public static void paste(PluginLocation pos, CuboidClipboard clipboard) {

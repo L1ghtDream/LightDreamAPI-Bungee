@@ -1,7 +1,7 @@
 package dev.lightdream.api.commands;
 
 import dev.lightdream.api.LightDreamPlugin;
-import dev.lightdream.api.utils.MessageUtils;
+import dev.lightdream.api.utils.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +39,8 @@ public abstract class Command {
 
     public abstract List<String> onTabComplete(CommandSender sender, List<String> args);
 
+    @SuppressWarnings("unused")
     public void sendUsage(CommandSender sender) {
-        MessageUtils.sendMessage(sender, usage);
+        pluginInstance.messageManager.sendMessage(sender, new MessageBuilder(usage));
     }
 }

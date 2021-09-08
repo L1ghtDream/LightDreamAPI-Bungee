@@ -19,10 +19,12 @@ public class JdaEmbed {
     public String description;
     public List<JdaField> fields;
 
+    @SuppressWarnings("unused")
     public void parse(String target, String replacement) {
         fields.forEach(field -> field.content = field.content.replace(target, replacement));
     }
 
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public JdaEmbed clone() {
         List<JdaField> fields = new ArrayList<>();
         this.fields.forEach(field -> fields.add(field.clone()));

@@ -2,12 +2,13 @@ package dev.lightdream.api.commands.commands;
 
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.commands.Command;
-import dev.lightdream.api.utils.MessageUtils;
+import dev.lightdream.api.utils.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class VersionCommand extends Command {
@@ -17,7 +18,10 @@ public class VersionCommand extends Command {
 
     @Override
     public void execute(CommandSender sender, List<String> args) {
-        MessageUtils.sendMessage(sender, pluginInstance.baseLang.version.replace("%project_name%", pluginInstance.projectName).replace("%version%", pluginInstance.version));
+        pluginInstance.messageManager.sendMessage(sender, new MessageBuilder(pluginInstance.baseLang.version).addPlaceholders(new HashMap<String, String>() {{
+            put("project_name", pluginInstance.projectName);
+            put("version", pluginInstance.version);
+        }}));
     }
 
     @Override

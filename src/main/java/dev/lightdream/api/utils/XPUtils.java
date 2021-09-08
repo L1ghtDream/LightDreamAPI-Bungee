@@ -2,6 +2,7 @@ package dev.lightdream.api.utils;
 
 import org.bukkit.entity.Player;
 
+@SuppressWarnings("unused")
 public class XPUtils {
 
     public static int getTotalExperience(int level) {
@@ -22,8 +23,8 @@ public class XPUtils {
     }
 
     public static void setTotalExperience(Player player, int amount) {
-        int level = 0;
-        int xp = 0;
+        int level;
+        int xp;
         float a = 0;
         float b = 0;
         float c = -amount;

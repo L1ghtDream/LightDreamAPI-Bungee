@@ -51,6 +51,7 @@ public class PluginLocation extends Position {
         return Bukkit.getWorld(world).getBlockAt(toLocation());
     }
 
+    @SuppressWarnings("unused")
     public void setBlock(Material material) {
         getBlock().setType(material);
     }
@@ -82,36 +83,43 @@ public class PluginLocation extends Position {
         return Objects.hash(world, x, y, z);
     }
 
+    @SuppressWarnings("unused")
     public void offset(Position position) {
         this.x += position.x;
         this.y += position.y;
         this.z += position.z;
     }
 
+    @SuppressWarnings("unused")
     public void offset(double x, double y, double z) {
         this.x += x;
         this.y += y;
         this.z += z;
     }
 
+    @SuppressWarnings("unused")
     public PluginLocation newOffset(Position position) {
         return new PluginLocation(world, x + position.x, y + position.y, z + position.z, rotationX, rotationY);
     }
 
+    @SuppressWarnings("unused")
     public PluginLocation newOffset(double x, double y, double z) {
-        return new PluginLocation(world, x + x, y + y, z + z, rotationX, rotationY);
+        return new PluginLocation(world, this.x + x, this.y + y, this.z + z, rotationX, rotationY);
     }
 
+    @SuppressWarnings("unused")
     public void unOffset(Position position) {
         this.x -= position.x;
         this.y -= position.y;
         this.z -= position.z;
     }
 
+    @SuppressWarnings("unused")
     public PluginLocation newUnOffset(Position position) {
         return new PluginLocation(world, x - position.x, y - position.y, z - position.z, rotationX, rotationY);
     }
 
+    @SuppressWarnings("unused")
     public Position toPosition() {
         return new Position(x, y, z);
     }

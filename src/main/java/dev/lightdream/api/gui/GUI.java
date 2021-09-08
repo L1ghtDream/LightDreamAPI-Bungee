@@ -17,6 +17,7 @@ import org.bukkit.event.inventory.InventoryType;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public abstract class GUI implements InventoryProvider {
     public final LightDreamPlugin plugin;
     public GUIConfig config;
@@ -60,9 +61,7 @@ public abstract class GUI implements InventoryProvider {
 
                 contents.set(Utils.getSlotPosition(item.item.slot), ClickableItem.of(ItemBuilder.makeItem(item.item), e -> {
                     List<String> functions = item.getFunctions();
-                    functions.forEach(function -> {
-                        functionCall(player, function, item.getFunctionArgs(function));
-                    });
+                    functions.forEach(function -> functionCall(player, function, item.getFunctionArgs(function)));
                 }));
             }
         }

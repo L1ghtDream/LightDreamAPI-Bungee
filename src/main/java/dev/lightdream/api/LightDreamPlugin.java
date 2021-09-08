@@ -9,8 +9,8 @@ import dev.lightdream.api.files.config.Lang;
 import dev.lightdream.api.files.config.SQLConfig;
 import dev.lightdream.api.managers.CommandManager;
 import dev.lightdream.api.managers.FileManager;
+import dev.lightdream.api.managers.MessageManager;
 import dev.lightdream.api.managers.local.LocalDatabaseManager;
-import dev.lightdream.api.utils.LangUtils;
 import fr.minuskube.inv.InventoryManager;
 import lombok.SneakyThrows;
 import net.dv8tion.jda.api.JDA;
@@ -23,6 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class LightDreamPlugin extends JavaPlugin {
@@ -44,12 +45,16 @@ public abstract class LightDreamPlugin extends JavaPlugin {
     public FileManager fileManager;
     public LocalDatabaseManager databaseManager;
     public InventoryManager inventoryManager;
+    public MessageManager messageManager;
 
     //Commands
     public List<Command> baseCommands = new ArrayList<>();
 
     //Bot
     public JDA bot;
+
+    //Langs
+    public HashMap<String, Lang> langs = new HashMap<>();
 
     @SneakyThrows
     public void init(String projectName, String projectID, String version) {
@@ -64,9 +69,10 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         //Managers
         this.economy = API.instance.economy;
         this.permission = API.instance.permission;
-        databaseManager = new LocalDatabaseManager(this);
-        inventoryManager = new InventoryManager(this);
-        inventoryManager.init();
+        this.databaseManager = new LocalDatabaseManager(this);
+        this.inventoryManager = new InventoryManager(this);
+        this.inventoryManager.init();
+        this.messageManager = instantiateMessageManager();
 
         //Commands
         baseCommands.add(new ReloadCommand(this));
@@ -93,9 +99,15 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         sqlConfig = fileManager.load(SQLConfig.class);
         baseConfig = fileManager.load(Config.class);
         baseJdaConfig = fileManager.load(JdaConfig.class);
-        baseLang = (Lang) fileManager.load(LangUtils.getLang(LightDreamPlugin.class, baseConfig.lang));
+        baseConfig.langs.forEach(lang -> {
+            Lang l = fileManager.load(Lang.class, fileManager.getFile(lang));
+            langs.put(lang, l);
+        });
+        baseLang = langs.get(baseConfig.baseLang);
     }
 
     public abstract void loadBaseCommands();
+
+    public abstract MessageManager instantiateMessageManager();
 
 }

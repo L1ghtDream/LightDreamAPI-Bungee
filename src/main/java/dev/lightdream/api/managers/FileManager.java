@@ -92,7 +92,7 @@ public class FileManager {
             }
         }
         try {
-            save(clazz.newInstance());
+            save(clazz.newInstance(), file);
             return clazz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();

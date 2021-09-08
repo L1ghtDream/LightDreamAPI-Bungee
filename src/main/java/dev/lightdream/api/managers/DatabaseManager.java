@@ -18,7 +18,7 @@ import java.util.HashMap;
 @SuppressWarnings("unchecked")
 public abstract class DatabaseManager {
 
-    private final LightDreamPlugin plugin;
+    public final LightDreamPlugin plugin;
     private final SQLConfig sqlSettings;
     private final ConnectionSource connectionSource;
     HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
@@ -86,8 +86,9 @@ public abstract class DatabaseManager {
         ((Dao<Object, Integer>) daoMap.get(object.getClass())).createOrUpdate(object);
     }
 
+    @SuppressWarnings("unused")
     @SneakyThrows
-    public void delete(Object object){
+    public void delete(Object object) {
         ((Dao<Object, Integer>) daoMap.get(object.getClass())).delete(object);
     }
 

@@ -2,7 +2,7 @@ package dev.lightdream.api.managers;
 
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.commands.Command;
-import dev.lightdream.api.utils.MessageUtils;
+import dev.lightdream.api.utils.MessageBuilder;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -29,7 +29,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         StringBuilder helpCommandOutput = new StringBuilder();
         helpCommandOutput.append("\n");
 
-        if (plugin.baseLang.helpCommand.size() == 0) {
+        if (plugin.baseLang.helpCommand.equals("")) {
             for (Command command : commands) {
                 if (sender.hasPermission(command.permission)) {
                     helpCommandOutput.append(command.usage);
@@ -37,13 +37,10 @@ public class CommandManager implements CommandExecutor, TabCompleter {
                 }
             }
         } else {
-            for (String line : plugin.baseLang.helpCommand) {
-                helpCommandOutput.append(line);
-                helpCommandOutput.append("\n");
-            }
+            helpCommandOutput.append(plugin.baseLang.helpCommand);
         }
 
-        MessageUtils.sendMessage(sender, helpCommandOutput.toString());
+        plugin.messageManager.sendMessage(sender, new MessageBuilder(helpCommandOutput.toString()));
     }
 
     @Override
@@ -65,17 +62,17 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             }
 
             if (command.onlyForPlayers && !(sender instanceof Player)) {
-                MessageUtils.sendMessage(sender, plugin.baseLang.mustBeAPlayer);
+                plugin.messageManager.sendMessage(sender, new MessageBuilder(plugin.baseLang.mustBeAPlayer));
                 return true;
             }
 
             if (command.onlyForConsole && !(sender instanceof ConsoleCommandSender)) {
-                MessageUtils.sendMessage(sender, plugin.baseLang.mustBeConsole);
+                plugin.messageManager.sendMessage(sender, new MessageBuilder(plugin.baseLang.mustBeConsole));
                 return true;
             }
 
             if (!hasPermission(sender, command.permission)) {
-                MessageUtils.sendMessage(sender, plugin.baseLang.noPermission);
+                plugin.messageManager.sendMessage(sender, new MessageBuilder(plugin.baseLang.noPermission));
                 return true;
             }
 
@@ -83,7 +80,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        MessageUtils.sendMessage(sender, plugin.baseLang.unknownCommand);
+        plugin.messageManager.sendMessage(sender, new MessageBuilder(plugin.baseLang.unknownCommand));
         return true;
     }
 

@@ -17,6 +17,7 @@ public class JsonUtils {
         this.data = data;
     }
 
+    @SuppressWarnings("unused")
     public String getString(String attribute) {
         JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);
         if (jsonObject == null) {
@@ -29,6 +30,7 @@ public class JsonUtils {
         return jsonElement.getAsString();
     }
 
+    @SuppressWarnings("unused")
     public double getDouble(String attribute) {
         JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);
         if (jsonObject == null) {
@@ -57,6 +59,7 @@ public class JsonUtils {
         return output;
     }
 
+    @SuppressWarnings("unused")
     public List<Integer> getIntegerList(String attribute) {
         List<Integer> output = new ArrayList<>();
         JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);
@@ -73,22 +76,7 @@ public class JsonUtils {
         return output;
     }
 
-    public List<Integer> getIntList(String attribute) {
-        List<Integer> output = new ArrayList<>();
-        JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);
-        if (jsonObject == null) {
-            return output;
-        }
-        JsonElement jsonElement = jsonObject.get(attribute);
-        if (jsonElement == null) {
-            return output;
-        }
-        for (JsonElement element : jsonElement.getAsJsonArray()) {
-            output.add(element.getAsInt());
-        }
-        return output;
-    }
-
+    @SuppressWarnings("unused")
     public JsonElement getJsonElement(String attribute) {
         List<Integer> output = new ArrayList<>();
         JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);

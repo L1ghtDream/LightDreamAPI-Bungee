@@ -2,6 +2,7 @@ package dev.lightdream.api.databases;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.files.dto.PluginLocation;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
@@ -24,10 +25,13 @@ public class User {
     public UUID uuid;
     @DatabaseField(columnName = "name", unique = true)
     public String name;
+    @DatabaseField(columnName = "lang")
+    public String lang;
 
-    public User(UUID uuid, String name) {
+    public User(UUID uuid, String name, String lang) {
         this.uuid = uuid;
         this.name = name;
+        this.lang = lang;
     }
 
     public @Nullable Player getPlayer() {
@@ -38,6 +42,7 @@ public class User {
         return Bukkit.getOfflinePlayer(uuid);
     }
 
+    @SuppressWarnings("unused")
     public @Nullable PluginLocation getLocation() {
         Player player = getPlayer();
         if (player == null) {
@@ -46,6 +51,7 @@ public class User {
         return new PluginLocation(player.getLocation());
     }
 
+    @SuppressWarnings("unused")
     public boolean isOnline() {
         return getOfflinePlayer().isOnline();
     }
@@ -61,5 +67,10 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void setLang(String lang, LightDreamPlugin plugin) {
+        this.lang = lang;
+        plugin.databaseManager.save(this);
     }
 }

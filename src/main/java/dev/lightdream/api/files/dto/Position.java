@@ -14,6 +14,7 @@ public class Position {
     public double y;
     public double z;
 
+    @SuppressWarnings("unused")
     public PluginLocation getPluginLocation(String world) {
         return new PluginLocation(world, x, y, z);
     }
@@ -34,6 +35,7 @@ public class Position {
         return new Vector(x, y, z);
     }
 
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public Position clone() {
         return new Position(x, y, z);
     }
@@ -51,12 +53,14 @@ public class Position {
         return Objects.hash(x, y, z);
     }
 
+    @SuppressWarnings("unused")
     public void flip() {
         double tmp = this.x;
         this.x = this.z;
         this.z = tmp;
     }
 
+    @SuppressWarnings("unused")
     public Position newFlip() {
         return new Position(this.z, y, this.x);
     }

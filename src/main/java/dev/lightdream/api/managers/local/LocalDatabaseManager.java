@@ -35,7 +35,7 @@ public class LocalDatabaseManager extends DatabaseManager {
             return optionalUser.get();
         }
 
-        User user = new User(uuid, Bukkit.getOfflinePlayer(uuid).getName());
+        User user = new User(uuid, Bukkit.getOfflinePlayer(uuid).getName(), plugin.baseConfig.baseLang);
         save(user);
         return user;
     }
@@ -50,6 +50,7 @@ public class LocalDatabaseManager extends DatabaseManager {
         return getUser(player.getUniqueId());
     }
 
+    @SuppressWarnings("unused")
     public @Nullable User getUser(int id) {
         Optional<User> optionalUser = getUsers().stream().filter(user -> user.id == id).findFirst();
 

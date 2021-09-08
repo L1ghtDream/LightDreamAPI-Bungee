@@ -121,7 +121,7 @@ public final class NmsBookHelper {
         }
     }
 
-    @SuppressWarnings("unchecked") // reflections = unchecked warnings
+    @SuppressWarnings({"unchecked", "ConstantConditions"}) // reflections = unchecked warnings
     public static void setPages(BookMeta meta, BaseComponent[][] components) {
         try {
             List<Object> pages = (List<Object>) craftMetaBookField.get(meta);
@@ -129,14 +129,13 @@ public final class NmsBookHelper {
                 pages.clear();
             }
             for (BaseComponent[] c : components) {
-                if(c == null){
+                if (c == null) {
                     continue;
                 }
                 final String json = ComponentSerializer.toString(c);
                 if (craftMetaBookInternalAddPageMethod != null) {
                     craftMetaBookInternalAddPageMethod.invoke(meta, json);
-                }
-                else {
+                } else {
                     // Are pages always not null pre 1.16?
                     pages.add(chatSerializerA.invoke(null, json));
                 }
@@ -164,32 +163,17 @@ public final class NmsBookHelper {
     }
 
     public static BaseComponent[] jsonToComponents(String json) {
-        return new BaseComponent[] { new TextComponent(json) };
+        return new BaseComponent[]{new TextComponent(json)};
     }
 
     private static String itemToJson(ItemStack item) {
         try {
-            // net.minecraft.server.ItemStack nmsItemStack =
-            // CraftItemStack.asNMSCopy(itemStack);
             Object nmsItemStack = nmsCopy(item);
-
-            // net.minecraft.server.NBTTagCompound compound = new NBTTagCompound();
-            // compound = nmsItemStack.save(compound);
             Object emptyTag = nbtTagCompoundConstructor.newInstance();
             Object json = nmsItemStackSave.invoke(nmsItemStack, emptyTag);
             return json.toString();
         } catch (Exception e) {
             throw new UnsupportedVersionException(e);
-        }
-    }
-
-    public static class UnsupportedVersionException extends RuntimeException {
-        @Getter
-        private final String version = NmsBookHelper.version;
-
-        public UnsupportedVersionException(Exception e) {
-            super("Error while executing reflections, submit to developers the following log (version: "
-                    + NmsBookHelper.version + ")", e);
         }
     }
 
@@ -234,6 +218,16 @@ public final class NmsBookHelper {
             return Class.forName("org.bukkit.craftbukkit." + version + "." + path);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Cannot find CraftBukkit class at path: " + path, e);
+        }
+    }
+
+    public static class UnsupportedVersionException extends RuntimeException {
+        @Getter
+        private final String version = NmsBookHelper.version;
+
+        public UnsupportedVersionException(Exception e) {
+            super("Error while executing reflections, submit to developers the following log (version: "
+                    + NmsBookHelper.version + ")", e);
         }
     }
 }

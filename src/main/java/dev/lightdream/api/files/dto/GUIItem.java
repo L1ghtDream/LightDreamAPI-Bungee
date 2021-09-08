@@ -22,6 +22,7 @@ public class GUIItem {
         return new JsonUtils(this.args).getJsonElement(function);
     }
 
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public GUIItem clone() {
         String args = this.args;
         return new GUIItem(item, args);

@@ -3,6 +3,7 @@ package dev.lightdream.api.utils;
 import dev.lightdream.api.files.dto.jda.JdaEmbed;
 import net.dv8tion.jda.api.EmbedBuilder;
 
+@SuppressWarnings("unused")
 public class JdaUtils {
 
     public static EmbedBuilder createEmbed(JdaEmbed jdaEmbed) {
