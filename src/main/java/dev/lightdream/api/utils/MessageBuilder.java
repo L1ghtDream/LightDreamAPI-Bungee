@@ -2,10 +2,7 @@ package dev.lightdream.api.utils;
 
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class MessageBuilder {
 
@@ -72,5 +69,18 @@ public class MessageBuilder {
                 ", placeholders=" + placeholders +
                 ", values=" + values +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MessageBuilder that = (MessageBuilder) o;
+        return Objects.equals(base, that.base);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(base);
     }
 }

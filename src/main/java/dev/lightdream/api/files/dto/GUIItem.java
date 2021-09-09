@@ -32,36 +32,28 @@ public class GUIItem {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class GUIItemArgs {
-        public HashMap<String, Object> functions;
+        public HashMap<MessageBuilder, MessageBuilder> functions;
 
         public List<String> getFunctions() {
-            return new ArrayList<>(this.functions.keySet());
+            List<String> functions =  new ArrayList<>();
+            for (MessageBuilder message : this.functions.keySet()) {
+                functions.add(message.getBase());
+            }
+            return functions;
         }
 
         public Object getFunctionArgs(String function) {
-            return functions.get(function);
+            return functions.get(new MessageBuilder(function));
         }
 
-        @SuppressWarnings({"unchecked", "MethodDoesntCallSuperMethod"})
+        @SuppressWarnings({"MethodDoesntCallSuperMethod", "unchecked"})
         public GUIItemArgs clone() {
-            return new GUIItemArgs((HashMap<String, Object>) functions.clone());
+            return new GUIItemArgs((HashMap<MessageBuilder, MessageBuilder>) functions.clone());
         }
 
         public GUIItemArgs parse(BiConsumer<MessageBuilder, MessageBuilder> parser) {
             HashMap<MessageBuilder, MessageBuilder> functions = new HashMap<>();
-            System.out.println("1 " + functions);
-            new HashMap<MessageBuilder, MessageBuilder>(){{
-                put(new MessageBuilder("function - %test%"), new MessageBuilder("arg - %test%"));
-            }}.forEach((function, arg) -> {
-                System.out.println("2 " + arg);
-                parser.andThen((f,a)->{
-                    System.out.println("3 " + f);
-                    System.out.println("4 " + a);
-                    functions.put(f,a);
-                }).accept(function, arg);
-                System.out.println("5 " + arg);
-            });
-            System.out.println("6 " + functions);
+            this.functions.forEach((function, arg) -> parser.andThen(functions::put).accept(function, arg));
             return this;
         }
 

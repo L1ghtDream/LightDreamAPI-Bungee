@@ -1,6 +1,5 @@
 package dev.lightdream.api.gui;
 
-import com.avaje.ebeaninternal.server.core.Message;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.files.dto.GUIConfig;
 import dev.lightdream.api.files.dto.GUIItem;
@@ -80,18 +79,15 @@ public abstract class GUI implements InventoryProvider {
 
     public abstract String parse(String raw, Player player);
 
-    public MessageBuilder parse(MessageBuilder raw, Player player){
+    public MessageBuilder parse(MessageBuilder raw, Player player) {
         return raw.setBase(parse(raw.getBase(), player));
     }
 
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("UnusedAssignment")
     public GUIItem.GUIItemArgs parse(GUIItem.GUIItemArgs args, Player player) {
         return args.parse((function, arg) -> {
             function = parse(function, player);
-            System.out.println("2.1 " + arg.getClass());
-            System.out.println("2.2 " +arg.getClass().getTypeName());
-            System.out.println("2.3 " +arg.getClass().getName());
             arg = parse(arg, player);
         });
 

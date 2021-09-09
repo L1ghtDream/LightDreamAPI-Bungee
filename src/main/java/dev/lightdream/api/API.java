@@ -54,7 +54,7 @@ public final class API {
         messageManager = new MessageManager(plugin);
 
         //Register
-        plugin.init("LightDreamAPI", "ld-api", "2.19", this);
+        plugin.init("LightDreamAPI", "ld-api", "2.20", this);
     }
 
     public void onDisable() {
