@@ -29,6 +29,7 @@ public class GUIItem {
     }
 
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class GUIItemArgs {
         public HashMap<String, Object> functions;
 
@@ -47,9 +48,9 @@ public class GUIItem {
 
         public GUIItemArgs parse(BiConsumer<String, Object> parser) {
             HashMap<String, Object> functions = new HashMap<>();
-
+            System.out.println(functions);
             this.functions.forEach((function, arg) -> parser.andThen(functions::put).accept(function, arg));
-
+            System.out.println(functions);
             return new GUIItemArgs(functions);
         }
 
