@@ -1,6 +1,9 @@
 package dev.lightdream.api;
 
 import dev.lightdream.api.commands.commands.ChoseLangCommand;
+import dev.lightdream.api.files.config.Config;
+import dev.lightdream.api.files.config.Lang;
+import dev.lightdream.api.files.config.SQLConfig;
 import dev.lightdream.api.managers.BalanceChangeEventRunnable;
 import dev.lightdream.api.managers.LangManager;
 import dev.lightdream.api.managers.MessageManager;
@@ -51,13 +54,12 @@ public final class API {
         messageManager = new MessageManager(plugin);
 
         //Register
-        plugin.init("LightDreamAPI", "ld-api", "2.12", this);
+        plugin.init("LightDreamAPI", "ld-api", "2.13", this);
     }
 
     public void onDisable() {
         plugin.databaseManager.save();
     }
-
 
     private Economy setupEconomy() {
         RegisteredServiceProvider<Economy> rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
@@ -88,5 +90,12 @@ public final class API {
 
     public void registerLangManager() {
         langManager = new LangManager(plugin, plugin.getLangs());
+    }
+
+    public void loadConfigs() {
+        plugin.sqlConfig = plugin.fileManager.load(SQLConfig.class, plugin.fileManager.getFile("LightDreamAPI", SQLConfig.class.getName()));
+        plugin.baseConfig = plugin.fileManager.load(Config.class, plugin.fileManager.getFile("LightDreamAPI", Config.class.getName()));
+        //plugin.baseJdaConfig = plugin.fileManager.load(JdaConfig.class, plugin.fileManager.getFile("LightDreamAPI", JdaConfig.class.getName()));
+        plugin.baseLang = plugin.fileManager.load(Lang.class, plugin.fileManager.getFile("LightDreamAPI", plugin.baseConfig.baseLang));
     }
 }

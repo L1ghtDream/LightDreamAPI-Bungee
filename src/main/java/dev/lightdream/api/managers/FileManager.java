@@ -42,6 +42,10 @@ public class FileManager {
         return new File(plugin.getDataFolder(), name + persistType.getExtension());
     }
 
+    public File getFile(String folder, String name) {
+        return new File(new File("plugins/" + folder + "/"), name + persistType.getExtension());
+    }
+
     public File getFile(Class<?> clazz) {
         return getFile(getName(clazz));
     }

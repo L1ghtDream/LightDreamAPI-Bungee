@@ -53,9 +53,18 @@ public abstract class LightDreamPlugin extends JavaPlugin {
     //Bot
     public JDA bot;
 
+    //API
+    public API api;
+
     @SuppressWarnings("unused")
     @SneakyThrows
     public void init(String projectName, String projectID, String version) {
+        if(API.instance == null){
+            api = new API(this);
+        }else{
+            api = API.instance;
+        }
+
         this.projectName = projectName;
         this.projectID = projectID;
         this.version = version;
@@ -92,6 +101,11 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         getLogger().info(ChatColor.GREEN + projectName + "(by github.com/L1ghtDream) has been enabled");
     }
 
+    @Override
+    public void onDisable() {
+        api.onDisable();
+    }
+
     @SneakyThrows
     public void init(String projectName, String projectID, String version, API api) {
         this.projectName = projectName;
@@ -100,7 +114,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
 
         //Files
         fileManager = new FileManager(this, FileManager.PersistType.YAML);
-        loadConfigs();
+        api.loadConfigs();
 
         //Managers
         api.registerLangManager();
@@ -126,7 +140,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
 
 
         //Register
-        API.instance.plugins.add(this);
+        api.plugins.add(this);
         getLogger().info(ChatColor.GREEN + projectName + "(by github.com/L1ghtDream) has been enabled");
     }
 
@@ -136,7 +150,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         sqlConfig = fileManager.load(SQLConfig.class);
         baseConfig = fileManager.load(Config.class);
         baseJdaConfig = fileManager.load(JdaConfig.class);
-        baseLang = fileManager.load(Lang.class, fileManager.getFile(baseConfig));
+        baseLang = fileManager.load(Lang.class, fileManager.getFile(baseConfig.baseLang));
     }
 
     public abstract void loadBaseCommands();
