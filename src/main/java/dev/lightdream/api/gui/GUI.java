@@ -1,6 +1,5 @@
 package dev.lightdream.api.gui;
 
-import com.google.gson.JsonElement;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.files.dto.GUIConfig;
 import dev.lightdream.api.files.dto.GUIItem;
@@ -51,7 +50,7 @@ public abstract class GUI implements InventoryProvider {
             keys.add(key);
         }
         for (int i = items.size() - 1; i >= 0; i--) {
-            GUIItem item = items.get(i).deepClone();
+            GUIItem item = items.get(i).clone();
 
             if (canAddItem(item.item, keys.get(i))) {
                 item.item.displayName = parse(item.item.displayName, player);
@@ -75,6 +74,19 @@ public abstract class GUI implements InventoryProvider {
 
     public abstract String parse(String raw, Player player);
 
+    @SuppressWarnings("unchecked")
+    public GUIItem.GUIItemArgs parse(GUIItem.GUIItemArgs args, Player player) {
+        return args.parse((function, arg) -> {
+            function = parse(function, player);
+            if (arg instanceof String) {
+                arg = parse((String) arg, player);
+            } else if (arg instanceof List) {
+                arg = parse((List<String>) arg, player);
+            }
+        });
+
+    }
+
     public List<String> parse(List<String> raw, Player player) {
         List<String> output = new ArrayList<>();
 
@@ -87,16 +99,16 @@ public abstract class GUI implements InventoryProvider {
 
     public abstract InventoryProvider getProvider();
 
-    public abstract void functionCall(Player player, String function, JsonElement args);
+    public abstract void functionCall(Player player, String function, Object args);
 
     public abstract boolean canAddItem(Item item, String key);
 
-    public void open(Player player){
+    public void open(Player player) {
         getInventory().open(player);
     }
 
-    public void open(CommandSender sender){
-        if(!(sender instanceof Player)){
+    public void open(CommandSender sender) {
+        if (!(sender instanceof Player)) {
             return;
         }
         getInventory().open((Player) sender);
