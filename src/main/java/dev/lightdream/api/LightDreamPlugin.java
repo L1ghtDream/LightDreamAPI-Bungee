@@ -53,6 +53,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
     //Bot
     public JDA bot;
 
+    @SuppressWarnings("unused")
     @SneakyThrows
     public void init(String projectName, String projectID, String version) {
         this.projectName = projectName;
@@ -76,6 +77,44 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         baseCommands.add(new ReloadCommand(this));
         baseCommands.add(new VersionCommand(this));
         loadBaseCommands();
+        new CommandManager(this, projectID, baseCommands);
+
+        //Bot
+        if (baseJdaConfig != null) {
+            if (baseJdaConfig.useJDA) {
+                bot = JDABuilder.createDefault(baseJdaConfig.botToken).build();
+            }
+        }
+
+
+        //Register
+        API.instance.plugins.add(this);
+        getLogger().info(ChatColor.GREEN + projectName + "(by github.com/L1ghtDream) has been enabled");
+    }
+
+    @SneakyThrows
+    public void init(String projectName, String projectID, String version, API api) {
+        this.projectName = projectName;
+        this.projectID = projectID;
+        this.version = version;
+
+        //Files
+        fileManager = new FileManager(this, FileManager.PersistType.YAML);
+        loadConfigs();
+
+        //Managers
+        api.registerLangManager();
+        this.economy = API.instance.economy;
+        this.permission = API.instance.permission;
+        this.databaseManager = new LocalDatabaseManager(this);
+        this.inventoryManager = new InventoryManager(this);
+        this.inventoryManager.init();
+        this.messageManager = api.instantiateMessageManager();
+
+        //Commands
+        baseCommands.add(new ReloadCommand(this));
+        baseCommands.add(new VersionCommand(this));
+        api.loadBaseCommands();
         new CommandManager(this, projectID, baseCommands);
 
         //Bot
