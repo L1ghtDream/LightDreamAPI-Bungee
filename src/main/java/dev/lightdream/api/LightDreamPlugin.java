@@ -54,6 +54,9 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
 
     //API
     public API api;
+    
+    //Commands
+    List<Command> baseCommands = new ArrayList<>();
 
     @SuppressWarnings("unused")
     @SneakyThrows
@@ -82,7 +85,6 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
         this.messageManager = instantiateMessageManager();
 
         //Commands
-        List<Command> baseCommands = new ArrayList<>();
         baseCommands.add(new ReloadCommand(this));
         baseCommands.add(new VersionCommand(this));
         loadBaseCommands();
