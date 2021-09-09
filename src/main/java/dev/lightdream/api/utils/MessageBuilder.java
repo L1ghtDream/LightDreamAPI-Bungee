@@ -120,5 +120,13 @@ public class MessageBuilder {
         return Objects.hash(base);
     }
 
-
+    @Override
+    public String toString() {
+        return "MessageBuilder{" +
+                "base='" + base + '\'' +
+                ", baseList=" + baseList +
+                ", placeholders=" + placeholders +
+                ", values=" + values +
+                '}';
+    }
 }

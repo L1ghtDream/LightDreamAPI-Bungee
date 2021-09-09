@@ -57,6 +57,7 @@ public class MessageManager {
     public String getMessage(MessageBuilder builder, String lang) {
         StringBuilder message = new StringBuilder();
         System.out.println("Getting message");
+        System.out.println(builder);
         if (builder.isList()) {
             ((List<String>) (builder.setBase(API.instance.langManager.getString(clazz, builder, lang)).parse())).forEach(message::append);
         } else {
