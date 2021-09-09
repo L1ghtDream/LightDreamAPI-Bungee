@@ -6,6 +6,8 @@ import dev.lightdream.api.managers.DatabaseManager;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,11 +52,23 @@ public class LocalDatabaseManager extends DatabaseManager {
         return getUser(player.getUniqueId());
     }
 
+    public @NotNull User getUser(@NotNull Player player) {
+        return getUser(player.getUniqueId());
+    }
+
     @SuppressWarnings("unused")
     public @Nullable User getUser(int id) {
         Optional<User> optionalUser = getUsers().stream().filter(user -> user.id == id).findFirst();
 
         return optionalUser.orElse(null);
+    }
+
+    @SuppressWarnings("unused")
+    public @Nullable User getUser(@NotNull CommandSender sender) {
+        if (!(sender instanceof Player)) {
+            return null;
+        }
+        return getUser((Player) sender);
     }
 
 }
