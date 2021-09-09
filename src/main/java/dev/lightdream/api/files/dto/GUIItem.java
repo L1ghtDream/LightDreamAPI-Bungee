@@ -48,9 +48,14 @@ public class GUIItem {
 
         public GUIItemArgs parse(BiConsumer<String, Object> parser) {
             HashMap<String, Object> functions = new HashMap<>();
-            System.out.println(functions);
-            this.functions.forEach((function, arg) -> parser.andThen(functions::put).accept(function, arg));
-            System.out.println(functions);
+            System.out.println("1 " + functions);
+            this.functions.forEach((function, arg) -> {
+                System.out.println("2 " + arg);
+                System.out.println("3 " + parser.andThen(functions::put));
+                parser.andThen(functions::put).accept(function, arg);
+                System.out.println("4 " + arg);
+            });
+            System.out.println("5 " + functions);
             return new GUIItemArgs(functions);
         }
 
