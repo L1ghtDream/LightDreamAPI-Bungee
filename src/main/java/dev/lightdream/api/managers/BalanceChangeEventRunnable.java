@@ -1,6 +1,6 @@
 package dev.lightdream.api.managers;
 
-import dev.lightdream.api.API;
+import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.events.BalanceChangeEvent;
 import org.bukkit.Bukkit;
 
@@ -10,9 +10,9 @@ import java.util.UUID;
 public class BalanceChangeEventRunnable {
 
     public final HashMap<UUID, Double> balance = new HashMap<>();
-    private final API api;
+    private final LightDreamPlugin api;
 
-    public BalanceChangeEventRunnable(API api) {
+    public BalanceChangeEventRunnable(LightDreamPlugin api) {
         this.api = api;
         registerBalanceChangeEvent();
     }

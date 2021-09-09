@@ -8,20 +8,11 @@ public class SQLConfig {
 
     public Driver driver = Driver.SQLITE;
     public String host = "localhost";
-    public String database = API.instance.projectName;
+    public String database = API.instance.plugin.projectName;
     public String username = "";
     public String password = "";
     public int port = 3306;
     public boolean useSSL = false;
-
-    public enum Driver {
-        MYSQL,
-        MARIADB,
-        SQLSERVER,
-        POSTGRESQL,
-        H2,
-        SQLITE
-    }
 
     @Override
     public String toString() {
@@ -34,5 +25,14 @@ public class SQLConfig {
                 ", port=" + port +
                 ", useSSL=" + useSSL +
                 '}';
+    }
+
+    public enum Driver {
+        MYSQL,
+        MARIADB,
+        SQLSERVER,
+        POSTGRESQL,
+        H2,
+        SQLITE
     }
 }

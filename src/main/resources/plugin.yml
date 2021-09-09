@@ -1,6 +1,6 @@
 name: LightDreamAPI
 version: ${project.version}
-main: dev.lightdream.api.API
+main: dev.lightdream.api.APIPlugin
 authors: [ L1ghtDream ]
 website: https://lightdream.dev
 depend:

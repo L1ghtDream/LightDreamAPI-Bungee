@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class API extends LightDreamPlugin {
+public final class API {
 
     //Settings
     public static API instance;
-
+    public final LightDreamPlugin plugin;
     //Plugins
     public List<LightDreamPlugin> plugins = new ArrayList<>();
 
@@ -29,12 +29,16 @@ public final class API extends LightDreamPlugin {
     public LangManager langManager;
     public MessageManager messageManager;
 
-    @Override
-    public void onEnable() {
+    public API(LightDreamPlugin plugin) {
+        this.plugin = plugin;
+        init();
+    }
+
+    public void init() {
         instance = this;
 
         //Events
-        new BalanceChangeEventRunnable(this);
+        new BalanceChangeEventRunnable(plugin);
 
         //Placeholders
         new PAPI(this).register();
@@ -44,50 +48,45 @@ public final class API extends LightDreamPlugin {
         permission = setupPermissions();
 
         //Pre-init Managers
-        messageManager = new MessageManager(this);
+        messageManager = new MessageManager(plugin);
 
         //Register
-        init("LightDreamAPI", "ld-api", "2.9");
+        plugin.init("LightDreamAPI", "ld-api", "2.11");
     }
 
-    @Override
     public void onDisable() {
-        databaseManager.save();
+        plugin.databaseManager.save();
     }
 
 
     private Economy setupEconomy() {
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        RegisteredServiceProvider<Economy> rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
         return rsp.getProvider();
     }
 
     private Permission setupPermissions() {
-        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+        RegisteredServiceProvider<Permission> rsp = plugin.getServer().getServicesManager().getRegistration(Permission.class);
         return rsp.getProvider();
     }
 
-    @SuppressWarnings("SwitchStatementWithTooFewBranches")
-    @Override
+    @SuppressWarnings({"SwitchStatementWithTooFewBranches", "unused"})
     public @NotNull String parsePapi(OfflinePlayer player, String identifier) {
         switch (identifier) {
             case "api_version":
-                return version;
+                return plugin.version;
         }
         return "";
     }
 
-    @Override
     public void loadBaseCommands() {
-        baseCommands.add(new ChoseLangCommand(this));
+        plugin.baseCommands.add(new ChoseLangCommand(plugin));
     }
 
-    @Override
     public MessageManager instantiateMessageManager() {
         return messageManager;
     }
 
-    @Override
     public void registerLangManager() {
-        langManager = new LangManager(this, getLangs());
+        langManager = new LangManager(plugin, plugin.getLangs());
     }
 }
