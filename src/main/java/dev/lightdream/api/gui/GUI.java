@@ -11,6 +11,7 @@ import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 
@@ -89,5 +90,16 @@ public abstract class GUI implements InventoryProvider {
     public abstract void functionCall(Player player, String function, JsonElement args);
 
     public abstract boolean canAddItem(Item item, String key);
+
+    public void open(Player player){
+        getInventory().open(player);
+    }
+
+    public void open(CommandSender sender){
+        if(!(sender instanceof Player)){
+            return;
+        }
+        getInventory().open((Player) sender);
+    }
 
 }
