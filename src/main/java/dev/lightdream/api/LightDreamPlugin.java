@@ -67,6 +67,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         loadConfigs();
 
         //Managers
+        registerLangManager();
         this.economy = API.instance.economy;
         this.permission = API.instance.permission;
         this.databaseManager = new LocalDatabaseManager(this);
@@ -109,5 +110,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
     public abstract void loadBaseCommands();
 
     public abstract MessageManager instantiateMessageManager();
+
+    public abstract void registerLangManager();
 
 }

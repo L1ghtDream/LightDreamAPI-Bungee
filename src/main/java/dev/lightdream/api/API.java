@@ -47,10 +47,7 @@ public final class API extends LightDreamPlugin {
         messageManager = new MessageManager(this);
 
         //Register
-        init("LightDreamAPI", "ld-api", "2.0");
-
-        //Post-init managers
-        langManager = new LangManager(this);
+        init("LightDreamAPI", "ld-api", "2.1");
     }
 
     @Override
@@ -88,10 +85,9 @@ public final class API extends LightDreamPlugin {
     public MessageManager instantiateMessageManager() {
         return messageManager;
     }
+
+    @Override
+    public void registerLangManager() {
+        langManager = new LangManager(this);
+    }
 }
-
-
-/*
-ro_ro=Lang{mustBeAPlayer='You must be a player to use this command.', mustBeConsole='You must be console to use this command.', noPermission='You do not have the permission to use this command.', unknownCommand='This is not a valid command.', invalidUser='This is not a valid user.', invalidNumber='This is not a valid number', version='%project_name% versiune %version%', invalidLang='This is not a valid lang', langChanged='Limba schimbata', helpCommand=''},
-en_us=Lang{mustBeAPlayer='You must be a player to use this command.', mustBeConsole='You must be console to use this command.', noPermission='You do not have the permission to use this command.', unknownCommand='This is not a valid command.', invalidUser='This is not a valid user.', invalidNumber='This is not a valid number', version='%project_name% version %version%', invalidLang='This is not a valid lang', langChanged='Language changed', helpCommand=''}}
- */
