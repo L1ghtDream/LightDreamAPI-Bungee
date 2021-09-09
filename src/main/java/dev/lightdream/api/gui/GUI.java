@@ -1,10 +1,12 @@
 package dev.lightdream.api.gui;
 
+import com.avaje.ebeaninternal.server.core.Message;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.files.dto.GUIConfig;
 import dev.lightdream.api.files.dto.GUIItem;
 import dev.lightdream.api.files.dto.Item;
 import dev.lightdream.api.utils.ItemBuilder;
+import dev.lightdream.api.utils.MessageBuilder;
 import dev.lightdream.api.utils.Utils;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
@@ -78,6 +80,11 @@ public abstract class GUI implements InventoryProvider {
 
     public abstract String parse(String raw, Player player);
 
+    public MessageBuilder parse(MessageBuilder raw, Player player){
+        return raw.setBase(parse(raw.getBase(), player));
+    }
+
+
     @SuppressWarnings("unchecked")
     public GUIItem.GUIItemArgs parse(GUIItem.GUIItemArgs args, Player player) {
         return args.parse((function, arg) -> {
@@ -85,13 +92,7 @@ public abstract class GUI implements InventoryProvider {
             System.out.println("2.1 " + arg.getClass());
             System.out.println("2.2 " +arg.getClass().getTypeName());
             System.out.println("2.3 " +arg.getClass().getName());
-            if (arg instanceof String) {
-                System.out.println("arg is String");
-                arg = parse((String) arg, player);
-            } else if (arg instanceof List) {
-                System.out.println("arg is List");
-                arg = parse((List<String>) arg, player);
-            }
+            arg = parse(arg, player);
         });
 
     }

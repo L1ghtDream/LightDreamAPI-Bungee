@@ -65,4 +65,12 @@ public class MessageBuilder {
         return new MessageBuilder(this.base, this.placeholders, this.values);
     }
 
+    @Override
+    public String toString() {
+        return "MessageBuilder{" +
+                "base='" + base + '\'' +
+                ", placeholders=" + placeholders +
+                ", values=" + values +
+                '}';
+    }
 }
