@@ -123,4 +123,10 @@ public class MessageManager {
             Bukkit.broadcastMessage(Utils.color(message));
         }
     }
+
+    public void sendAll(MessageBuilder message) {
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            sendMessage(player, message);
+        });
+    }
 }
