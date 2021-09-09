@@ -45,12 +45,20 @@ public class MessageManager {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void sendMessage(CommandSender sender, MessageBuilder builder) {
+        StringBuilder message = new StringBuilder();
+        if (builder.isList()) {
+            ((List<String>) (builder.setBase(API.instance.langManager.getString(plugin, builder, plugin.baseConfig.baseLang)).parse())).forEach(message::append);
+        } else {
+            message.append((String) (builder.setBase(API.instance.langManager.getString(plugin, builder, plugin.baseConfig.baseLang)).parse()));
+        }
+
         if (sender instanceof Player) {
             User user = plugin.databaseManager.getUser((Player) sender);
             sendMessage(user, builder);
         } else {
-            sender.sendMessage(Utils.color(builder.setBase(API.instance.langManager.getString(plugin, builder, plugin.baseConfig.baseLang)).parse()));
+            sender.sendMessage(Utils.color(message.toString()));
         }
     }
 
@@ -104,17 +112,19 @@ public class MessageManager {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void sendMessage(Player target, MessageBuilder builder, String lang) {
-        MessageBuilder builderClone = builder.clone();
-        String message = builder.setBase(API.instance.langManager.getString(plugin, builder, lang)).parse();
-        if (message.equals("")) {
-            message = builderClone.parse();
+        StringBuilder message = new StringBuilder();
+        if (builder.isList()) {
+            ((List<String>) (builder.setBase(API.instance.langManager.getString(plugin, builder, plugin.baseConfig.baseLang)).parse())).forEach(message::append);
+        } else {
+            message.append((String) (builder.setBase(API.instance.langManager.getString(plugin, builder, plugin.baseConfig.baseLang)).parse()));
         }
 
         if (useMineDown) {
-            target.spigot().sendMessage(new MineDown(message).toComponent());
+            target.spigot().sendMessage(new MineDown(message.toString()).toComponent());
         } else {
-            target.sendMessage(Utils.color(message));
+            target.sendMessage(Utils.color(message.toString()));
         }
     }
 

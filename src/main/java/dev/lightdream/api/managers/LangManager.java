@@ -32,12 +32,13 @@ public class LangManager {
         return (String) getFieldValue.invoke(instances.get(plugin.getClass()).get(lang), field);
     }
 
+    @SuppressWarnings("JavaReflectionInvocation")
     @SneakyThrows
-    public String getString(LightDreamPlugin plugin, MessageBuilder builder, String lang) {
+    public Object getString(LightDreamPlugin plugin, MessageBuilder builder, String lang) {
         Method getFieldValue = instances.get(plugin.getClass()).get(lang).getClass().getMethod("getFieldValue", Field.class);
         Method getFieldName = instances.get(plugin.getClass()).get(lang).getClass().getMethod("getFieldName", String.class);
         Field field = (Field) getFieldName.invoke(instances.get(plugin.getClass()).get(lang).getClass().newInstance(), builder.getBase());
-        return (String) getFieldValue.invoke(instances.get(plugin.getClass()).get(lang), field);
+        return getFieldValue.invoke(instances.get(plugin.getClass()).get(lang), field);
     }
 
 }

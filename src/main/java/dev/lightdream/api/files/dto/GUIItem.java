@@ -29,23 +29,36 @@ public class GUIItem {
         return new GUIItem(item.clone(), args.clone());
     }
 
-    @Override
-    public String toString() {
-        return "GUIItem{" +
-                "item=" + item +
-                ", args=" + args +
-                '}';
-    }
-
-    @AllArgsConstructor
     @NoArgsConstructor
     public static class GUIItemArgs {
         public HashMap<MessageBuilder, MessageBuilder> functions;
 
+        public GUIItemArgs(HashMap<Object, Object> functions) {
+            HashMap<MessageBuilder, MessageBuilder> f = new HashMap<>();
+            functions.forEach((function, arg) -> {
+                if (function instanceof String) {
+                    if (arg instanceof String) {
+                        f.put(new MessageBuilder((String) function), new MessageBuilder((String) arg));
+                    } else if (arg instanceof MessageBuilder) {
+                        f.put(new MessageBuilder((String) function), (MessageBuilder) arg);
+                    }
+                } else if (function instanceof MessageBuilder) {
+                    if (arg instanceof String) {
+                        f.put((MessageBuilder) function, new MessageBuilder((String) arg));
+                    } else if (arg instanceof MessageBuilder) {
+                        f.put((MessageBuilder) function, (MessageBuilder) arg);
+                    }
+                }
+            });
+            this.functions = f;
+        }
+
         public List<String> getFunctions() {
             List<String> functions = new ArrayList<>();
             for (MessageBuilder message : this.functions.keySet()) {
-                functions.add(message.getBase());
+                if (!message.isList()) {
+                    functions.add((String) message.getBase());
+                }
             }
             return functions;
         }
@@ -56,24 +69,13 @@ public class GUIItem {
 
         @SuppressWarnings({"MethodDoesntCallSuperMethod", "unchecked"})
         public GUIItemArgs clone() {
-            return new GUIItemArgs((HashMap<MessageBuilder, MessageBuilder>) functions.clone());
+            return new GUIItemArgs((HashMap<Object, Object>) functions.clone());
         }
 
         public GUIItemArgs parse(BiConsumer<MessageBuilder, MessageBuilder> parser) {
-            HashMap<MessageBuilder, MessageBuilder> functions = new HashMap<>();
-            this.functions.forEach((function, arg) -> {
-                parser.andThen((f, a) -> {
-                    functions.put(f, a);
-                }).accept(function, arg);
-            });
+            HashMap<Object, Object> functions = new HashMap<>();
+            this.functions.forEach((function, arg) -> parser.andThen(functions::put).accept(function, arg));
             return new GUIItemArgs(functions);
-        }
-
-        @Override
-        public String toString() {
-            return "GUIItemArgs{" +
-                    "functions=" + functions +
-                    '}';
         }
     }
 }

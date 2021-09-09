@@ -1,18 +1,21 @@
 package dev.lightdream.api.utils;
 
-import lombok.Getter;
-
 import java.util.*;
 
 public class MessageBuilder {
 
-    @Getter
     private String base;
+    private List<String> baseList;
     private List<String> placeholders = new ArrayList<>();
     private List<String> values = new ArrayList<>();
 
     public MessageBuilder(String base) {
         this.base = base;
+    }
+
+    @SuppressWarnings("unused")
+    public MessageBuilder(List<String> baseList) {
+        this.baseList = baseList;
     }
 
     private MessageBuilder(String base, List<String> placeholders, List<String> values) {
@@ -42,7 +45,26 @@ public class MessageBuilder {
         return this;
     }
 
-    public String parse() {
+    public boolean isList() {
+        return baseList != null;
+    }
+
+    public Object parse() {
+        if (isList()) {
+            List<String> parsedList = baseList;
+
+            parsedList.forEach(line -> {
+                String parsed = base;
+
+                for (int i = 0; i < Math.min(placeholders.size(), values.size()); i++) {
+                    parsed = parsed.replace("%" + placeholders.get(i) + "%", values.get(i));
+                }
+
+                parsedList.add(parsed);
+            });
+
+            return parsedList;
+        }
         String parsed = base;
 
         for (int i = 0; i < Math.min(placeholders.size(), values.size()); i++) {
@@ -52,23 +74,37 @@ public class MessageBuilder {
         return parsed;
     }
 
+    public Object getBase() {
+        return isList() ? baseList : base;
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
     public MessageBuilder setBase(String base) {
         this.base = base;
+        this.baseList = null;
+        return this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public MessageBuilder setBase(Object base) {
+        if (base instanceof String) {
+            return setBase((String) base);
+        } else if (base instanceof List) {
+            return setBase((List<String>) base);
+        }
+        return this;
+    }
+
+    @SuppressWarnings("unused")
+    public MessageBuilder setBase(List<String> baseList) {
+        this.baseList = baseList;
+        this.base = null;
         return this;
     }
 
     @SuppressWarnings("MethodDoesntCallSuperMethod")
     public MessageBuilder clone() {
         return new MessageBuilder(this.base, this.placeholders, this.values);
-    }
-
-    @Override
-    public String toString() {
-        return "MessageBuilder{" +
-                "base='" + base + '\'' +
-                ", placeholders=" + placeholders +
-                ", values=" + values +
-                '}';
     }
 
     @Override
