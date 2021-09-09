@@ -14,7 +14,6 @@ public class GUIItem {
 
     public Item item;
     public GUIItemArgs args;
-    //public String args;
 
     public List<String> getFunctions() {
         return args.getFunctions();
@@ -53,5 +52,20 @@ public class GUIItem {
 
             return new GUIItemArgs(functions);
         }
+
+        @Override
+        public String toString() {
+            return "GUIItemArgs{" +
+                    "functions=" + functions +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "GUIItem{" +
+                "item=" + item +
+                ", args=" + args +
+                '}';
     }
 }

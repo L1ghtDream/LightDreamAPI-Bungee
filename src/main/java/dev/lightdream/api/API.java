@@ -47,7 +47,7 @@ public final class API extends LightDreamPlugin {
         messageManager = new MessageManager(this);
 
         //Register
-        init("LightDreamAPI", "ld-api", "2.8");
+        init("LightDreamAPI", "ld-api", "2.9");
     }
 
     @Override
