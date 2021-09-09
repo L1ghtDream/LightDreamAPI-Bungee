@@ -53,7 +53,7 @@ public abstract class GUI implements InventoryProvider {
         for (int i = items.size() - 1; i >= 0; i--) {
             GUIItem item = items.get(i).clone();
 
-            while (canAddItem(item.item, keys.get(i))) {
+            while (canAddItem(item, keys.get(i))) {
                 item.item.displayName = parse(item.item.displayName, player);
                 item.item.lore = parse(item.item.lore, player);
                 item.item.headOwner = parse(item.item.displayName, player);
@@ -112,7 +112,7 @@ public abstract class GUI implements InventoryProvider {
 
     public abstract void functionCall(Player player, String function, Object args);
 
-    public abstract boolean canAddItem(Item item, String key);
+    public abstract boolean canAddItem(GUIItem item, String key);
 
     public void open(Player player) {
         getInventory().open(player);
