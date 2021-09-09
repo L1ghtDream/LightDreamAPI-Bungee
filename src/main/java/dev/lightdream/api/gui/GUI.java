@@ -20,11 +20,11 @@ import java.util.List;
 @SuppressWarnings("unused")
 public abstract class GUI implements InventoryProvider {
     public final LightDreamPlugin plugin;
-    public GUIConfig config;
+    public final GUIConfig config;
 
     public GUI(LightDreamPlugin plugin) {
         this.plugin = plugin;
-        setConfig();
+        this.config = setConfig();
     }
 
     public SmartInventory getInventory() {
@@ -82,7 +82,7 @@ public abstract class GUI implements InventoryProvider {
         return output;
     }
 
-    public abstract void setConfig();
+    public abstract GUIConfig setConfig();
 
     public abstract InventoryProvider getProvider();
 
