@@ -53,9 +53,6 @@ public abstract class LightDreamPlugin extends JavaPlugin {
     //Bot
     public JDA bot;
 
-    //Langs
-    public HashMap<String, Lang> langs = new HashMap<>();
-
     @SneakyThrows
     public void init(String projectName, String projectID, String version) {
         this.projectName = projectName;
@@ -100,11 +97,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         sqlConfig = fileManager.load(SQLConfig.class);
         baseConfig = fileManager.load(Config.class);
         baseJdaConfig = fileManager.load(JdaConfig.class);
-        baseConfig.langs.forEach(lang -> {
-            Lang l = fileManager.load(Lang.class, fileManager.getFile(lang));
-            langs.put(lang, l);
-        });
-        baseLang = langs.get(baseConfig.baseLang);
+        baseLang = fileManager.load(Lang.class, fileManager.getFile(baseConfig));
     }
 
     public abstract void loadBaseCommands();
@@ -112,5 +105,16 @@ public abstract class LightDreamPlugin extends JavaPlugin {
     public abstract MessageManager instantiateMessageManager();
 
     public abstract void registerLangManager();
+
+    public HashMap<String, Object> getLangs() {
+        HashMap<String, Object> langs = new HashMap<>();
+
+        baseConfig.langs.forEach(lang -> {
+            Lang l = fileManager.load(Lang.class, fileManager.getFile(lang));
+            langs.put(lang, l);
+        });
+
+        return langs;
+    }
 
 }

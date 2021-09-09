@@ -13,8 +13,8 @@ public class LangManager {
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, HashMap<String, Object>> instances = new HashMap<>();
 
-    public LangManager(LightDreamPlugin plugin) {
-        register(plugin, plugin.langs);
+    public LangManager(LightDreamPlugin plugin, HashMap<String, ?> langs) {
+        register(plugin, langs);
     }
 
     @SuppressWarnings("unchecked")

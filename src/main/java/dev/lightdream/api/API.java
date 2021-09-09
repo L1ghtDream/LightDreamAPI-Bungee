@@ -47,7 +47,7 @@ public final class API extends LightDreamPlugin {
         messageManager = new MessageManager(this);
 
         //Register
-        init("LightDreamAPI", "ld-api", "2.1");
+        init("LightDreamAPI", "ld-api", "2.3");
     }
 
     @Override
@@ -88,6 +88,6 @@ public final class API extends LightDreamPlugin {
 
     @Override
     public void registerLangManager() {
-        langManager = new LangManager(this);
+        langManager = new LangManager(this, getLangs());
     }
 }
