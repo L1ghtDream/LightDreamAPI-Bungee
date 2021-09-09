@@ -15,6 +15,13 @@ public class GUIItem {
 
     public Item item;
     public GUIItemArgs args;
+    public boolean repeatedItem;
+
+    public GUIItem(Item item, GUIItemArgs args) {
+        this.item = item;
+        this.args = args;
+        this.repeatedItem = false;
+    }
 
     public List<String> getFunctions() {
         return args.getFunctions();
@@ -26,7 +33,7 @@ public class GUIItem {
 
     @SuppressWarnings("MethodDoesntCallSuperMethod")
     public GUIItem clone() {
-        return new GUIItem(item.clone(), args.clone());
+        return new GUIItem(item.clone(), args.clone(), repeatedItem);
     }
 
     @NoArgsConstructor
