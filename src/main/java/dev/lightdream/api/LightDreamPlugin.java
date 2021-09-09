@@ -56,7 +56,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     public API api;
     
     //Commands
-    List<Command> baseCommands = new ArrayList<>();
+    public List<Command> baseCommands = new ArrayList<>();
 
     @SuppressWarnings("unused")
     @SneakyThrows
