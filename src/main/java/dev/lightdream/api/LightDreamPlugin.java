@@ -8,6 +8,7 @@ import dev.lightdream.api.files.config.JdaConfig;
 import dev.lightdream.api.files.config.Lang;
 import dev.lightdream.api.files.config.SQLConfig;
 import dev.lightdream.api.managers.CommandManager;
+import dev.lightdream.api.managers.DatabaseManager;
 import dev.lightdream.api.managers.FileManager;
 import dev.lightdream.api.managers.MessageManager;
 import dev.lightdream.api.managers.local.LocalDatabaseManager;
@@ -19,6 +20,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,12 +28,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class LightDreamPlugin extends JavaPlugin {
+public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
 
     //Settings
     public String projectName = "Undefined";
     public String projectID = "Undefined";
-    public String version = "Undefined";
+    public String projectVersion = "Undefined";
 
     //Config
     public SQLConfig sqlConfig;
@@ -47,9 +49,6 @@ public abstract class LightDreamPlugin extends JavaPlugin {
     public InventoryManager inventoryManager;
     public MessageManager messageManager;
 
-    //Commands
-    public List<Command> baseCommands = new ArrayList<>();
-
     //Bot
     public JDA bot;
 
@@ -59,15 +58,15 @@ public abstract class LightDreamPlugin extends JavaPlugin {
     @SuppressWarnings("unused")
     @SneakyThrows
     public void init(String projectName, String projectID, String version) {
-        if(API.instance == null){
+        if (API.instance == null) {
             api = new API(this);
-        }else{
+        } else {
             api = API.instance;
         }
 
         this.projectName = projectName;
         this.projectID = projectID;
-        this.version = version;
+        this.projectVersion = version;
 
         //Files
         fileManager = new FileManager(this, FileManager.PersistType.YAML);
@@ -75,14 +74,15 @@ public abstract class LightDreamPlugin extends JavaPlugin {
 
         //Managers
         registerLangManager();
-        this.economy = API.instance.economy;
-        this.permission = API.instance.permission;
+        this.economy = api.economy;
+        this.permission = api.permission;
         this.databaseManager = new LocalDatabaseManager(this);
         this.inventoryManager = new InventoryManager(this);
         this.inventoryManager.init();
         this.messageManager = instantiateMessageManager();
 
         //Commands
+        List<Command> baseCommands = new ArrayList<>();
         baseCommands.add(new ReloadCommand(this));
         baseCommands.add(new VersionCommand(this));
         loadBaseCommands();
@@ -106,44 +106,6 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         api.onDisable();
     }
 
-    @SneakyThrows
-    public void init(String projectName, String projectID, String version, API api) {
-        this.projectName = projectName;
-        this.projectID = projectID;
-        this.version = version;
-
-        //Files
-        fileManager = new FileManager(this, FileManager.PersistType.YAML);
-        api.loadConfigs();
-
-        //Managers
-        api.registerLangManager();
-        this.economy = API.instance.economy;
-        this.permission = API.instance.permission;
-        this.databaseManager = new LocalDatabaseManager(this);
-        this.inventoryManager = new InventoryManager(this);
-        this.inventoryManager.init();
-        this.messageManager = api.instantiateMessageManager();
-
-        //Commands
-        baseCommands.add(new ReloadCommand(this));
-        baseCommands.add(new VersionCommand(this));
-        api.loadBaseCommands();
-        new CommandManager(this, projectID, baseCommands);
-
-        //Bot
-        if (baseJdaConfig != null) {
-            if (baseJdaConfig.useJDA) {
-                bot = JDABuilder.createDefault(baseJdaConfig.botToken).build();
-            }
-        }
-
-
-        //Register
-        api.plugins.add(this);
-        getLogger().info(ChatColor.GREEN + projectName + "(by github.com/L1ghtDream) has been enabled");
-    }
-
     public abstract @NotNull String parsePapi(OfflinePlayer player, String identifier);
 
     public void loadConfigs() {
@@ -159,6 +121,7 @@ public abstract class LightDreamPlugin extends JavaPlugin {
 
     public abstract void registerLangManager();
 
+    @SuppressWarnings("unused")
     public HashMap<String, Object> getLangs() {
         HashMap<String, Object> langs = new HashMap<>();
 
@@ -170,4 +133,56 @@ public abstract class LightDreamPlugin extends JavaPlugin {
         return langs;
     }
 
+    @Override
+    public JavaPlugin getPlugin() {
+        return this;
+    }
+
+    @Override
+    public Economy getEconomy() {
+        return economy;
+    }
+
+    @Override
+    public Lang getLang() {
+        return baseLang;
+    }
+
+    @Override
+    public SQLConfig getSQLConfig() {
+        return sqlConfig;
+    }
+
+    @Override
+    public MessageManager getMessageManager() {
+        return messageManager;
+    }
+
+    @Override
+    public DatabaseManager getDatabaseManager() {
+        return databaseManager;
+    }
+
+    @Override
+    public Config getSettings() {
+        return baseConfig;
+    }
+
+    @Override
+    public String getProjectName() {
+        return projectName;
+    }
+
+    @Override
+    public String getProjectID() {
+        return projectID;
+    }
+
+    @Override
+    public String getProjectVersion() {
+        return projectVersion;
+    }
+
+    @Override
+    public abstract void setLang(Player player, String lang);
 }

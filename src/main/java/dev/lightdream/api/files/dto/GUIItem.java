@@ -17,6 +17,7 @@ public class GUIItem {
     public GUIItemArgs args;
     public boolean repeatedItem;
 
+    @SuppressWarnings("unused")
     public GUIItem(Item item, GUIItemArgs args) {
         this.item = item;
         this.args = args;

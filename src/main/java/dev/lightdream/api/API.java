@@ -1,27 +1,40 @@
 package dev.lightdream.api;
 
+import dev.lightdream.api.commands.Command;
 import dev.lightdream.api.commands.commands.ChoseLangCommand;
+import dev.lightdream.api.commands.commands.ReloadCommand;
+import dev.lightdream.api.commands.commands.VersionCommand;
+import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.config.Config;
 import dev.lightdream.api.files.config.Lang;
 import dev.lightdream.api.files.config.SQLConfig;
-import dev.lightdream.api.managers.BalanceChangeEventRunnable;
-import dev.lightdream.api.managers.LangManager;
-import dev.lightdream.api.managers.MessageManager;
-import dev.lightdream.api.managers.PAPI;
+import dev.lightdream.api.managers.*;
+import dev.lightdream.api.managers.local.LocalDatabaseManager;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
-public final class API {
+public final class API implements IAPI {
 
     //Settings
     public static API instance;
-    public final LightDreamPlugin plugin;
+    private final JavaPlugin plugin;
+    public SQLConfig sqlConfig;
+    public Config config;
+    public Lang lang;
+
     //Plugins
     public List<LightDreamPlugin> plugins = new ArrayList<>();
 
@@ -31,8 +44,10 @@ public final class API {
     //Managers
     public LangManager langManager;
     public MessageManager messageManager;
+    public LocalDatabaseManager databaseManager;
+    public FileManager fileManager;
 
-    public API(LightDreamPlugin plugin) {
+    public API(JavaPlugin plugin) {
         this.plugin = plugin;
         init();
     }
@@ -41,7 +56,7 @@ public final class API {
         instance = this;
 
         //Events
-        new BalanceChangeEventRunnable(plugin);
+        new BalanceChangeEventRunnable(this);
 
         //Placeholders
         new PAPI(this).register();
@@ -50,15 +65,26 @@ public final class API {
         economy = setupEconomy();
         permission = setupPermissions();
 
-        //Pre-init Managers
-        messageManager = new MessageManager(plugin);
+        //Managers
+        fileManager = new FileManager(this, FileManager.PersistType.YAML);
+        loadConfigs();
 
-        //Register
-        plugin.init("LightDreamAPI", "ld-api", "2.27", this);
+        messageManager = new MessageManager(this, API.class);
+        this.databaseManager = new LocalDatabaseManager(this);
+        this.langManager = new LangManager(API.class, getLangs());
+
+        //Commands
+        List<Command> baseCommands = new ArrayList<>();
+        baseCommands.add(new ReloadCommand(this));
+        baseCommands.add(new VersionCommand(this));
+        baseCommands.addAll(getBaseCommands());
+        new CommandManager(this, getProjectID(), baseCommands);
+
+        getLogger().info(ChatColor.GREEN + getProjectName() + "(by github.com/L1ghtDream) has been enabled");
     }
 
     public void onDisable() {
-        plugin.databaseManager.save();
+        databaseManager.save();
     }
 
     private Economy setupEconomy() {
@@ -75,27 +101,97 @@ public final class API {
     public @NotNull String parsePapi(OfflinePlayer player, String identifier) {
         switch (identifier) {
             case "api_version":
-                return plugin.version;
+                return getProjectVersion();
         }
         return "";
     }
 
-    public void loadBaseCommands() {
-        plugin.baseCommands.add(new ChoseLangCommand(plugin));
-    }
-
-    public MessageManager instantiateMessageManager() {
-        return messageManager;
-    }
-
-    public void registerLangManager() {
-        langManager = new LangManager(plugin, plugin.getLangs());
+    @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
+    public List<Command> getBaseCommands() {
+        return Arrays.asList(new ChoseLangCommand(this));
     }
 
     public void loadConfigs() {
-        plugin.sqlConfig = plugin.fileManager.load(SQLConfig.class, plugin.fileManager.getFile("LightDreamAPI", SQLConfig.class.getName()));
-        plugin.baseConfig = plugin.fileManager.load(Config.class, plugin.fileManager.getFile("LightDreamAPI", Config.class.getName()));
-        //plugin.baseJdaConfig = plugin.fileManager.load(JdaConfig.class, plugin.fileManager.getFile("LightDreamAPI", JdaConfig.class.getName()));
-        plugin.baseLang = plugin.fileManager.load(Lang.class, plugin.fileManager.getFile("LightDreamAPI", plugin.baseConfig.baseLang));
+        sqlConfig = fileManager.load(SQLConfig.class, fileManager.getFile("LightDreamAPI", SQLConfig.class.getSimpleName()));
+        config = fileManager.load(Config.class, fileManager.getFile("LightDreamAPI", Config.class.getSimpleName()));
+        lang = fileManager.load(Lang.class, fileManager.getFile("LightDreamAPI", config.baseLang));
     }
+
+    public HashMap<String, Object> getLangs() {
+        HashMap<String, Object> langs = new HashMap<>();
+
+        config.langs.forEach(lang -> {
+            Lang l = fileManager.load(Lang.class, fileManager.getFile(lang));
+            langs.put(lang, l);
+        });
+
+        return langs;
+    }
+
+    @Override
+    public JavaPlugin getPlugin() {
+        return plugin;
+    }
+
+    @Override
+    public Economy getEconomy() {
+        return economy;
+    }
+
+    @Override
+    public Lang getLang() {
+        return lang;
+    }
+
+    @Override
+    public Config getSettings() {
+        return config;
+    }
+
+    @Override
+    public SQLConfig getSQLConfig() {
+        return sqlConfig;
+    }
+
+    @Override
+    public MessageManager getMessageManager() {
+        return messageManager;
+    }
+
+    @Override
+    public DatabaseManager getDatabaseManager() {
+        return databaseManager;
+    }
+
+    public File getDataFolder() {
+        return new File("plugins/LightDreamAPI");
+    }
+
+    @Override
+    public Logger getLogger() {
+        return getPlugin().getLogger();
+    }
+
+    @Override
+    public String getProjectName() {
+        return "LightDreamAPI";
+    }
+
+    @Override
+    public String getProjectID() {
+        return "ld-api";
+    }
+
+    @Override
+    public String getProjectVersion() {
+        return "2.28";
+    }
+
+    @Override
+    public void setLang(Player player, String lang) {
+        User user = databaseManager.getUser(player);
+        user.setLang(lang);
+        databaseManager.save(user);
+    }
+
 }

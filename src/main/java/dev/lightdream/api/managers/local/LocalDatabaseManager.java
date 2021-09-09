@@ -1,6 +1,6 @@
 package dev.lightdream.api.managers.local;
 
-import dev.lightdream.api.LightDreamPlugin;
+import dev.lightdream.api.IAPI;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.managers.DatabaseManager;
 import lombok.SneakyThrows;
@@ -19,8 +19,8 @@ import java.util.UUID;
 public class LocalDatabaseManager extends DatabaseManager {
 
     @SneakyThrows
-    public LocalDatabaseManager(LightDreamPlugin plugin) {
-        super(plugin);
+    public LocalDatabaseManager(IAPI api) {
+        super(api);
         createTable(User.class);
         createDao(User.class).setAutoCommit(getDatabaseConnection(), false);
     }
@@ -37,7 +37,7 @@ public class LocalDatabaseManager extends DatabaseManager {
             return optionalUser.get();
         }
 
-        User user = new User(uuid, Bukkit.getOfflinePlayer(uuid).getName(), plugin.baseConfig.baseLang);
+        User user = new User(uuid, Bukkit.getOfflinePlayer(uuid).getName(), api.getSettings().baseLang);
         save(user);
         return user;
     }
@@ -48,6 +48,7 @@ public class LocalDatabaseManager extends DatabaseManager {
         return optionalUser.orElse(null);
     }
 
+    @SuppressWarnings("unused")
     public @NotNull User getUser(@NotNull OfflinePlayer player) {
         return getUser(player.getUniqueId());
     }

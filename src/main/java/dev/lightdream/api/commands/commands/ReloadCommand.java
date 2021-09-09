@@ -1,5 +1,7 @@
 package dev.lightdream.api.commands.commands;
 
+import dev.lightdream.api.API;
+import dev.lightdream.api.IAPI;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.commands.Command;
 import org.bukkit.command.CommandSender;
@@ -10,13 +12,13 @@ import java.util.Collections;
 import java.util.List;
 
 public class ReloadCommand extends Command {
-    public ReloadCommand(@NotNull LightDreamPlugin plugin) {
-        super(plugin, Collections.singletonList("reload"), "", "", false, false, "");
+    public ReloadCommand(@NotNull IAPI api) {
+        super(api, Collections.singletonList("reload"), "", "", false, false, "");
     }
 
     @Override
     public void execute(CommandSender sender, List<String> args) {
-        pluginInstance.loadConfigs();
+        api.loadConfigs();
     }
 
     @Override

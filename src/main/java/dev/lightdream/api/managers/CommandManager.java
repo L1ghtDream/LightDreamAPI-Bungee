@@ -1,6 +1,6 @@
 package dev.lightdream.api.managers;
 
-import dev.lightdream.api.LightDreamPlugin;
+import dev.lightdream.api.IAPI;
 import dev.lightdream.api.commands.Command;
 import dev.lightdream.api.utils.MessageBuilder;
 import org.bukkit.command.CommandExecutor;
@@ -14,13 +14,13 @@ import java.util.*;
 @SuppressWarnings({"MismatchedQueryAndUpdateOfStringBuilder"})
 public class CommandManager implements CommandExecutor, TabCompleter {
 
-    private final LightDreamPlugin plugin;
+    private final IAPI api;
     private final List<Command> commands;
 
-    public CommandManager(LightDreamPlugin plugin, String command, List<Command> commands) {
-        this.plugin = plugin;
-        plugin.getCommand(command).setExecutor(this);
-        plugin.getCommand(command).setTabCompleter(this);
+    public CommandManager(IAPI api, String command, List<Command> commands) {
+        this.api = api;
+        api.getPlugin().getCommand(command).setExecutor(this);
+        api.getPlugin().getCommand(command).setTabCompleter(this);
         this.commands = commands;
         this.commands.sort(Comparator.comparing(com -> com.aliases.get(0)));
     }
@@ -29,7 +29,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         StringBuilder helpCommandOutput = new StringBuilder();
         helpCommandOutput.append("\n");
 
-        if (plugin.baseLang.helpCommand.equals("")) {
+        if (api.getLang().helpCommand.equals("")) {
             for (Command command : commands) {
                 if (sender.hasPermission(command.permission)) {
                     helpCommandOutput.append(command.usage);
@@ -37,10 +37,10 @@ public class CommandManager implements CommandExecutor, TabCompleter {
                 }
             }
         } else {
-            helpCommandOutput.append(plugin.baseLang.helpCommand);
+            helpCommandOutput.append(api.getLang().helpCommand);
         }
 
-        plugin.messageManager.sendMessage(sender, new MessageBuilder(helpCommandOutput.toString()));
+        api.getMessageManager().sendMessage(sender, new MessageBuilder(helpCommandOutput.toString()));
     }
 
     @Override
@@ -62,17 +62,17 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             }
 
             if (command.onlyForPlayers && !(sender instanceof Player)) {
-                plugin.messageManager.sendMessage(sender, new MessageBuilder(plugin.baseLang.mustBeAPlayer));
+                api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().mustBeAPlayer));
                 return true;
             }
 
             if (command.onlyForConsole && !(sender instanceof ConsoleCommandSender)) {
-                plugin.messageManager.sendMessage(sender, new MessageBuilder(plugin.baseLang.mustBeConsole));
+                api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().mustBeConsole));
                 return true;
             }
 
             if (!hasPermission(sender, command.permission)) {
-                plugin.messageManager.sendMessage(sender, new MessageBuilder(plugin.baseLang.noPermission));
+                api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().noPermission));
                 return true;
             }
 
@@ -80,7 +80,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        plugin.messageManager.sendMessage(sender, new MessageBuilder(plugin.baseLang.unknownCommand));
+        api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().unknownCommand));
         return true;
     }
 

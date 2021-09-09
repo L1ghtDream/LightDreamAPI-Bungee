@@ -1,8 +1,7 @@
 package dev.lightdream.api.commands.commands;
 
-import dev.lightdream.api.LightDreamPlugin;
+import dev.lightdream.api.IAPI;
 import dev.lightdream.api.commands.Command;
-import dev.lightdream.api.databases.User;
 import dev.lightdream.api.utils.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,8 +11,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class ChoseLangCommand extends Command {
-    public ChoseLangCommand(@NotNull LightDreamPlugin plugin) {
-        super(plugin, Collections.singletonList("choseLang"), "", "", true, false, "[lang]");
+    public ChoseLangCommand(@NotNull IAPI api) {
+        super(api, Collections.singletonList("choseLang"), "", "", true, false, "[lang]");
     }
 
     @Override
@@ -23,20 +22,20 @@ public class ChoseLangCommand extends Command {
             return;
         }
 
-        User user = pluginInstance.databaseManager.getUser((Player) sender);
+        Player player = (Player) sender;
 
         String lang = args.get(0);
-        if (!pluginInstance.baseConfig.langs.contains(lang)) {
-            pluginInstance.messageManager.sendMessage(user, new MessageBuilder(pluginInstance.baseLang.invalidLang));
+        if (!api.getSettings().langs.contains(lang)) {
+            api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().invalidLang));
             return;
         }
 
-        user.setLang(lang, pluginInstance);
-        pluginInstance.messageManager.sendMessage(user, new MessageBuilder(pluginInstance.baseLang.langChanged));
+        api.setLang(player, lang);
+        api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().langChanged));
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, List<String> args) {
-        return pluginInstance.baseConfig.langs;
+        return api.getSettings().langs;
     }
 }

@@ -1,11 +1,9 @@
 package dev.lightdream.api;
 
-import dev.lightdream.api.managers.MessageManager;
-import org.bukkit.OfflinePlayer;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("unused")
-public final class APIPlugin extends LightDreamPlugin {
+public final class APIPlugin extends JavaPlugin {
 
     public API api;
 
@@ -17,25 +15,5 @@ public final class APIPlugin extends LightDreamPlugin {
     @Override
     public void onDisable() {
         api.onDisable();
-    }
-
-    @Override
-    public @NotNull String parsePapi(OfflinePlayer player, String identifier) {
-        return api.parsePapi(player, identifier);
-    }
-
-    @Override
-    public void loadBaseCommands() {
-        api.loadBaseCommands();
-    }
-
-    @Override
-    public MessageManager instantiateMessageManager() {
-        return api.instantiateMessageManager();
-    }
-
-    @Override
-    public void registerLangManager() {
-        api.registerLangManager();
     }
 }

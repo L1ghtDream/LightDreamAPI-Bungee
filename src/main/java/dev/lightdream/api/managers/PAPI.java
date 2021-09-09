@@ -32,7 +32,7 @@ public class PAPI extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getIdentifier() {
-        return API.instance.plugin.projectName.toLowerCase();
+        return "lightdreamapi";
     }
 
     @Override

@@ -3,7 +3,7 @@ package dev.lightdream.api.managers;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import dev.lightdream.api.LightDreamPlugin;
+import dev.lightdream.api.IAPI;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,10 +18,10 @@ public class FileManager {
 
     private final ObjectMapper objectMapper;
     private final PersistType persistType;
-    private final LightDreamPlugin plugin;
+    private final IAPI api;
 
-    public FileManager(LightDreamPlugin plugin, PersistType persistType) {
-        this.plugin = plugin;
+    public FileManager(IAPI api, PersistType persistType) {
+        this.api = api;
         this.persistType = persistType;
         this.objectMapper = new ObjectMapper(persistType.getFactory());
     }
@@ -39,7 +39,7 @@ public class FileManager {
     }
 
     public File getFile(String name) {
-        return new File(plugin.getDataFolder(), name + persistType.getExtension());
+        return new File(api.getDataFolder(), name + persistType.getExtension());
     }
 
     public File getFile(String folder, String name) {
@@ -70,7 +70,7 @@ public class FileManager {
         try {
             objectMapper.writeValue(file, instance);
         } catch (IOException e) {
-            plugin.getLogger().severe("Failed to save " + file + ": " + e.getMessage());
+            api.getLogger().severe("Failed to save " + file + ": " + e.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class FileManager {
         try {
             return objectMapper.writeValueAsString(instance);
         } catch (IOException e) {
-            plugin.getLogger().severe("Failed to save " + instance.toString() + ": " + e.getMessage());
+            api.getLogger().severe("Failed to save " + instance.toString() + ": " + e.getMessage());
         }
         return "";
     }
@@ -92,7 +92,7 @@ public class FileManager {
             try {
                 return objectMapper.readValue(file, clazz);
             } catch (IOException e) {
-                plugin.getLogger().severe("Failed to parse " + file + ": " + e.getMessage());
+                api.getLogger().severe("Failed to parse " + file + ": " + e.getMessage());
             }
         }
         try {
@@ -130,8 +130,8 @@ public class FileManager {
     }
 
     public void saveDefault(String subfolder, String fileName) throws IOException {
-        new File(plugin.getDataFolder() + "/" + subfolder).mkdirs();
-        copyInputStreamToFile(getFileFromResource(fileName), new File(plugin.getDataFolder() + "/" + subfolder + "/" + fileName));
+        new File(api.getDataFolder() + "/" + subfolder).mkdirs();
+        copyInputStreamToFile(getFileFromResource(fileName), new File(api.getDataFolder() + "/" + subfolder + "/" + fileName));
     }
 
     public enum PersistType {

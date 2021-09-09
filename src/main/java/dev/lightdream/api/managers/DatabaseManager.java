@@ -7,7 +7,7 @@ import com.j256.ormlite.jdbc.db.DatabaseTypeUtils;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.TableUtils;
-import dev.lightdream.api.LightDreamPlugin;
+import dev.lightdream.api.IAPI;
 import dev.lightdream.api.files.config.SQLConfig;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -18,24 +18,27 @@ import java.util.HashMap;
 @SuppressWarnings("unchecked")
 public abstract class DatabaseManager {
 
-    public final LightDreamPlugin plugin;
     private final SQLConfig sqlSettings;
+    public final IAPI api;
+    @SuppressWarnings("FieldMayBeFinal")
+    private HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
     private final ConnectionSource connectionSource;
-    HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
 
     @SneakyThrows
-    public DatabaseManager(LightDreamPlugin plugin) {
-        this.plugin = plugin;
-        this.sqlSettings = plugin.sqlConfig;
+    @SuppressWarnings("unused")
+    public DatabaseManager(IAPI api) {
+        this.api = api;
+        this.sqlSettings = api.getSQLConfig();
         String databaseURL = getDatabaseURL();
 
-        connectionSource = new JdbcConnectionSource(
+        this.connectionSource = new JdbcConnectionSource(
                 databaseURL,
                 sqlSettings.username,
                 sqlSettings.password,
                 DatabaseTypeUtils.createDatabaseType(databaseURL)
         );
     }
+
 
     private @NotNull String getDatabaseURL() {
         switch (sqlSettings.driver) {
@@ -48,7 +51,7 @@ public abstract class DatabaseManager {
             case H2:
                 return "jdbc:h2:file:" + sqlSettings.database;
             case SQLITE:
-                return "jdbc:sqlite:" + new File(plugin.getDataFolder(), sqlSettings.database + ".db");
+                return "jdbc:sqlite:" + new File(api.getDataFolder(), sqlSettings.database + ".db");
             default:
                 throw new UnsupportedOperationException("Unsupported driver (how did we get here?): " + sqlSettings.driver.name());
         }
@@ -59,6 +62,7 @@ public abstract class DatabaseManager {
         return connectionSource.getReadWriteConnection(null);
     }
 
+    @SuppressWarnings("unused")
     @SneakyThrows
     public void createTable(Class<?> clazz) {
         TableUtils.createTableIfNotExists(connectionSource, clazz);

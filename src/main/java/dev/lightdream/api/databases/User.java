@@ -2,6 +2,7 @@ package dev.lightdream.api.databases;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import dev.lightdream.api.IAPI;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.files.dto.PluginLocation;
 import lombok.NoArgsConstructor;
@@ -69,8 +70,7 @@ public class User {
         return Objects.hash(id);
     }
 
-    public void setLang(String lang, LightDreamPlugin plugin) {
+    public void setLang(String lang) {
         this.lang = lang;
-        plugin.databaseManager.save(this);
     }
 }

@@ -1,6 +1,6 @@
 package dev.lightdream.api.commands;
 
-import dev.lightdream.api.LightDreamPlugin;
+import dev.lightdream.api.IAPI;
 import dev.lightdream.api.utils.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -16,23 +16,23 @@ public abstract class Command {
     public final boolean onlyForPlayers;
     public final boolean onlyForConsole;
     public final String usage;
-    public final LightDreamPlugin pluginInstance;
+    public final IAPI api;
 
-    public Command(@NotNull LightDreamPlugin plugin, @NotNull List<String> aliases, @NotNull String description, @NotNull String permission, boolean onlyForPlayers, boolean onlyForConsole, @NotNull String usage) {
-        this.pluginInstance = plugin;
+    public Command(@NotNull IAPI api, @NotNull List<String> aliases, @NotNull String description, @NotNull String permission, boolean onlyForPlayers, boolean onlyForConsole, @NotNull String usage) {
+        this.api = api;
         this.aliases = new ArrayList<>();
         for (String alias : aliases) {
             this.aliases.add(alias.toLowerCase());
         }
         this.description = description;
         if (permission.equals("")) {
-            this.permission = plugin.projectID + "." + aliases.get(0);
+            this.permission = api.getProjectID() + "." + aliases.get(0);
         } else {
-            this.permission = plugin.projectID + "." + permission;
+            this.permission = api.getProjectID() + "." + permission;
         }
         this.onlyForPlayers = onlyForPlayers;
         this.onlyForConsole = onlyForConsole;
-        this.usage = "/" + plugin.projectID + " " + aliases.get(0) + " " + usage;
+        this.usage = "/" + api.getProjectID() + " " + aliases.get(0) + " " + usage;
     }
 
     public abstract void execute(CommandSender sender, List<String> args);
@@ -41,6 +41,6 @@ public abstract class Command {
 
     @SuppressWarnings("unused")
     public void sendUsage(CommandSender sender) {
-        pluginInstance.messageManager.sendMessage(sender, new MessageBuilder(usage));
+        api.getMessageManager().sendMessage(sender, new MessageBuilder(usage));
     }
 }

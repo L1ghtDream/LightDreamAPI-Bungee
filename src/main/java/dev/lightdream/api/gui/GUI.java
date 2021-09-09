@@ -3,7 +3,6 @@ package dev.lightdream.api.gui;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.files.dto.GUIConfig;
 import dev.lightdream.api.files.dto.GUIItem;
-import dev.lightdream.api.files.dto.Item;
 import dev.lightdream.api.utils.ItemBuilder;
 import dev.lightdream.api.utils.MessageBuilder;
 import dev.lightdream.api.utils.Utils;
