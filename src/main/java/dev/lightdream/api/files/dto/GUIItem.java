@@ -51,11 +51,14 @@ public class GUIItem {
             System.out.println("1 " + functions);
             this.functions.forEach((function, arg) -> {
                 System.out.println("2 " + arg);
-                System.out.println("3 " + parser.andThen(functions::put));
-                parser.andThen(functions::put).accept(function, arg);
-                System.out.println("4 " + arg);
+                parser.andThen((f,a)->{
+                    System.out.println("3 " + f);
+                    System.out.println("4" + a);
+                    functions.put(f,a);
+                }).accept(function, arg);
+                System.out.println("5 " + arg);
             });
-            System.out.println("5 " + functions);
+            System.out.println("6 " + functions);
             return new GUIItemArgs(functions);
         }
 
