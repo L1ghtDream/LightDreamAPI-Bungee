@@ -61,6 +61,13 @@ public class MessageManager {
         } else {
             message.append((String) (builder.setBase(API.instance.langManager.getString(clazz, builder, lang)).parse()));
         }
+        if (message.toString().equals("")) {
+            if (builder.isList()) {
+                ((List<String>) builder.getBase()).forEach(line -> message.append(line));
+            } else {
+                message.append((String) builder.getBase());
+            }
+        }
         return message.toString();
     }
 
