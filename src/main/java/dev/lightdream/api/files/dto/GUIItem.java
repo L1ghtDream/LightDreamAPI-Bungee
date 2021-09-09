@@ -29,9 +29,8 @@ public class GUIItem {
         return new GUIItem(item.clone(), args.clone());
     }
 
-    @SuppressWarnings("InnerClassMayBeStatic")
     @AllArgsConstructor
-    public class GUIItemArgs {
+    public static class GUIItemArgs {
         public HashMap<String, Object> functions;
 
         public List<String> getFunctions() {
