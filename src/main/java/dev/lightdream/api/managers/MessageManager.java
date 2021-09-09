@@ -63,7 +63,7 @@ public class MessageManager {
         }
         if (message.toString().equals("")) {
             if (builder.isList()) {
-                ((List<String>) builder.getBase()).forEach(line -> message.append(line));
+                ((List<String>) builder.getBase()).forEach(message::append);
             } else {
                 message.append((String) builder.getBase());
             }
@@ -132,8 +132,6 @@ public class MessageManager {
     }
 
     public void sendAll(MessageBuilder message) {
-        Bukkit.getOnlinePlayers().forEach(player -> {
-            sendMessage(player, message);
-        });
+        Bukkit.getOnlinePlayers().forEach(player -> sendMessage(player, message));
     }
 }
