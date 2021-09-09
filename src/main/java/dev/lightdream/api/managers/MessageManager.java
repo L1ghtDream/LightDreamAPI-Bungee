@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "CommentedOutCode"})
 public class MessageManager {
 
     private final LightDreamPlugin plugin;
@@ -35,46 +35,53 @@ public class MessageManager {
         this.useMineDown = useMineDown;
     }
 
-    @Deprecated
     public void sendMessage(CommandSender sender, String message) {
+        sendMessage(sender, new MessageBuilder(message));
+        /*
         if (sender instanceof Player) {
             User user = plugin.databaseManager.getUser((Player) sender);
             sendMessage(user, message);
         } else {
             sender.sendMessage(Utils.color(API.instance.langManager.getString(plugin, message, plugin.baseConfig.baseLang)));
         }
+        */
+    }
+
+    public void sendMessage(CommandSender sender, MessageBuilder builder) {
+        String message = getMessage(builder);
+
+        if (sender instanceof Player) {
+            User user = plugin.databaseManager.getUser((Player) sender);
+            sendMessage(user, builder);
+        } else {
+            sender.sendMessage(Utils.color(message));
+        }
     }
 
     @SuppressWarnings("unchecked")
-    public void sendMessage(CommandSender sender, MessageBuilder builder) {
+    private String getMessage(MessageBuilder builder) {
         StringBuilder message = new StringBuilder();
         if (builder.isList()) {
             ((List<String>) (builder.setBase(API.instance.langManager.getString(plugin, builder, plugin.baseConfig.baseLang)).parse())).forEach(message::append);
         } else {
             message.append((String) (builder.setBase(API.instance.langManager.getString(plugin, builder, plugin.baseConfig.baseLang)).parse()));
         }
-
-        if (sender instanceof Player) {
-            User user = plugin.databaseManager.getUser((Player) sender);
-            sendMessage(user, builder);
-        } else {
-            sender.sendMessage(Utils.color(message.toString()));
-        }
+        return message.toString();
     }
 
-    @Deprecated
     public void sendMessage(String target, String message) {
-        sendMessage(plugin.databaseManager.getUser(target), message);
+        sendMessage(plugin.databaseManager.getUser(target), new MessageBuilder(message));
+        //sendMessage(plugin.databaseManager.getUser(target), message);
     }
 
     public void sendMessage(String target, MessageBuilder builder) {
         sendMessage(plugin.databaseManager.getUser(target), builder);
     }
 
-    @Deprecated
     public void sendMessage(User user, String message) {
         if (user != null) {
-            sendMessage(user.uuid, message, user.lang);
+            sendMessage(user.uuid, new MessageBuilder(message), user.lang);
+            //sendMessage(user.uuid, message, user.lang);
         }
     }
 
@@ -84,12 +91,12 @@ public class MessageManager {
         }
     }
 
-    @Deprecated
     public void sendMessage(UUID target, String message, String lang) {
         OfflinePlayer player = Bukkit.getOfflinePlayer(target);
         if (player != null) {
             if (player.isOnline()) {
-                sendMessage((Player) player, message, lang);
+                sendMessage((Player) player, new MessageBuilder(message), lang);
+                //sendMessage((Player) player, message, lang);
             }
         }
     }
@@ -103,28 +110,24 @@ public class MessageManager {
         }
     }
 
-    @Deprecated
     public void sendMessage(Player target, String message, String lang) {
+        sendMessage(target, new MessageBuilder(message), lang);
+        /*
         if (useMineDown) {
             target.spigot().sendMessage(new MineDown(message).toComponent());
         } else {
             target.sendMessage(Utils.color(message));
         }
+        */
     }
 
-    @SuppressWarnings("unchecked")
     public void sendMessage(Player target, MessageBuilder builder, String lang) {
-        StringBuilder message = new StringBuilder();
-        if (builder.isList()) {
-            ((List<String>) (builder.setBase(API.instance.langManager.getString(plugin, builder, plugin.baseConfig.baseLang)).parse())).forEach(message::append);
-        } else {
-            message.append((String) (builder.setBase(API.instance.langManager.getString(plugin, builder, plugin.baseConfig.baseLang)).parse()));
-        }
+        String message = getMessage(builder);
 
         if (useMineDown) {
-            target.spigot().sendMessage(new MineDown(message.toString()).toComponent());
+            target.spigot().sendMessage(new MineDown(message).toComponent());
         } else {
-            target.sendMessage(Utils.color(message.toString()));
+            target.sendMessage(Utils.color(message));
         }
     }
 
