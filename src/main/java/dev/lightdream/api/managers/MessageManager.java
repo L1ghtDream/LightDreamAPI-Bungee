@@ -56,6 +56,7 @@ public class MessageManager {
     @SuppressWarnings("unchecked")
     public String getMessage(MessageBuilder builder, String lang) {
         StringBuilder message = new StringBuilder();
+        System.out.println("Getting message");
         if (builder.isList()) {
             ((List<String>) (builder.setBase(API.instance.langManager.getString(clazz, builder, lang)).parse())).forEach(message::append);
         } else {
