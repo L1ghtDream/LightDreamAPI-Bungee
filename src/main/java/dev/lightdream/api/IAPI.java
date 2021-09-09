@@ -5,6 +5,7 @@ import dev.lightdream.api.files.config.Lang;
 import dev.lightdream.api.files.config.SQLConfig;
 import dev.lightdream.api.managers.DatabaseManager;
 import dev.lightdream.api.managers.MessageManager;
+import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,5 +42,7 @@ public interface IAPI {
     void setLang(Player player, String lang);
 
     void loadConfigs();
+
+    InventoryManager getInventoryManager();
 
 }

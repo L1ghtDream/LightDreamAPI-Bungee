@@ -187,4 +187,9 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
 
     @Override
     public abstract void setLang(Player player, String lang);
+
+    @Override
+    public InventoryManager getInventoryManager() {
+        return inventoryManager;
+    }
 }

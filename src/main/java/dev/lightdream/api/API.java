@@ -10,6 +10,7 @@ import dev.lightdream.api.files.config.Lang;
 import dev.lightdream.api.files.config.SQLConfig;
 import dev.lightdream.api.managers.*;
 import dev.lightdream.api.managers.local.LocalDatabaseManager;
+import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.ChatColor;
@@ -117,6 +118,11 @@ public final class API implements IAPI {
         lang = fileManager.load(Lang.class, fileManager.getFile("LightDreamAPI", config.baseLang));
     }
 
+    @Override
+    public InventoryManager getInventoryManager() {
+        return null;
+    }
+
     public HashMap<String, Object> getLangs() {
         HashMap<String, Object> langs = new HashMap<>();
 
@@ -184,7 +190,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.30";
+        return "2.31";
     }
 
     @Override

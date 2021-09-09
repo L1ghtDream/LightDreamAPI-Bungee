@@ -1,6 +1,6 @@
 package dev.lightdream.api.gui;
 
-import dev.lightdream.api.LightDreamPlugin;
+import dev.lightdream.api.IAPI;
 import dev.lightdream.api.files.dto.GUIConfig;
 import dev.lightdream.api.files.dto.GUIItem;
 import dev.lightdream.api.utils.ItemBuilder;
@@ -19,11 +19,11 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public abstract class GUI implements InventoryProvider {
-    public final LightDreamPlugin plugin;
+    public final IAPI api;
     public final GUIConfig config;
 
-    public GUI(LightDreamPlugin plugin) {
-        this.plugin = plugin;
+    public GUI(IAPI api) {
+        this.api = api;
         this.config = setConfig();
     }
 
@@ -34,7 +34,7 @@ public abstract class GUI implements InventoryProvider {
                 .size(config.rows, config.columns)
                 .title(config.title)
                 .type(InventoryType.valueOf(config.type))
-                .manager(plugin.inventoryManager)
+                .manager(api.getInventoryManager())
                 .build();
     }
 
