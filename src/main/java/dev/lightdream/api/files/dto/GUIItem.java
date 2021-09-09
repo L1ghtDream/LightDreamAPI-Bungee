@@ -29,13 +29,21 @@ public class GUIItem {
         return new GUIItem(item.clone(), args.clone());
     }
 
+    @Override
+    public String toString() {
+        return "GUIItem{" +
+                "item=" + item +
+                ", args=" + args +
+                '}';
+    }
+
     @AllArgsConstructor
     @NoArgsConstructor
     public static class GUIItemArgs {
         public HashMap<MessageBuilder, MessageBuilder> functions;
 
         public List<String> getFunctions() {
-            List<String> functions =  new ArrayList<>();
+            List<String> functions = new ArrayList<>();
             for (MessageBuilder message : this.functions.keySet()) {
                 functions.add(message.getBase());
             }
@@ -53,8 +61,12 @@ public class GUIItem {
 
         public GUIItemArgs parse(BiConsumer<MessageBuilder, MessageBuilder> parser) {
             HashMap<MessageBuilder, MessageBuilder> functions = new HashMap<>();
-            this.functions.forEach((function, arg) -> parser.andThen(functions::put).accept(function, arg));
-            return this;
+            this.functions.forEach((function, arg) -> {
+                parser.andThen((f, a) -> {
+                    functions.put(f, a);
+                }).accept(function, arg);
+            });
+            return new GUIItemArgs(functions);
         }
 
         @Override
@@ -63,13 +75,5 @@ public class GUIItem {
                     "functions=" + functions +
                     '}';
         }
-    }
-
-    @Override
-    public String toString() {
-        return "GUIItem{" +
-                "item=" + item +
-                ", args=" + args +
-                '}';
     }
 }
