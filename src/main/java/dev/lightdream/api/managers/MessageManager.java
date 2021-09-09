@@ -43,12 +43,11 @@ public class MessageManager {
     }
 
     public void sendMessage(CommandSender sender, MessageBuilder builder) {
-        String message = getMessage(builder, api.getSettings().baseLang);
-
         if (sender instanceof Player) {
             User user = ((LocalDatabaseManager) api.getDatabaseManager()).getUser((Player) sender);
             sendMessage(user, builder);
         } else {
+            String message = getMessage(builder, api.getSettings().baseLang);
             sender.sendMessage(Utils.color(message));
         }
     }

@@ -41,6 +41,8 @@ public abstract class Command {
 
     @SuppressWarnings("unused")
     public void sendUsage(CommandSender sender) {
+        System.out.println(usage);
+        System.out.println(new MessageBuilder(usage));
         api.getMessageManager().sendMessage(sender, new MessageBuilder(usage));
     }
 }
