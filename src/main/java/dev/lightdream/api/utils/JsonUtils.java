@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class JsonUtils {
 
     private final Gson gson;
@@ -43,6 +44,7 @@ public class JsonUtils {
         return jsonElement.getAsDouble();
     }
 
+    @SuppressWarnings("unused")
     public List<String> getStringList(String attribute) {
         List<String> output = new ArrayList<>();
         JsonObject jsonObject = gson.fromJson(this.data, JsonObject.class);

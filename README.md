@@ -8,7 +8,9 @@
     </repository>
     <!-- Other repositories -->
 </repositories>
+```
 
+```xml
 <dependencies>
     <dependency>
         <groupId>dev.lightdream</groupId>
