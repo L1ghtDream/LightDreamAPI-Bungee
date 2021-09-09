@@ -82,6 +82,9 @@ public abstract class GUI implements InventoryProvider {
     public GUIItem.GUIItemArgs parse(GUIItem.GUIItemArgs args, Player player) {
         return args.parse((function, arg) -> {
             function = parse(function, player);
+            System.out.println("2.1 " + arg.getClass());
+            System.out.println("2.2 " +arg.getClass().getTypeName());
+            System.out.println("2.3 " +arg.getClass().getName());
             if (arg instanceof String) {
                 System.out.println("arg is String");
                 arg = parse((String) arg, player);
