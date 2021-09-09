@@ -1,6 +1,7 @@
 package dev.lightdream.api.gui;
 
 import dev.lightdream.api.IAPI;
+import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.GUIConfig;
 import dev.lightdream.api.files.dto.GUIItem;
 import dev.lightdream.api.utils.ItemBuilder;
@@ -122,6 +123,13 @@ public abstract class GUI implements InventoryProvider {
             return;
         }
         getInventory().open((Player) sender);
+    }
+
+    public void open(User user) {
+        if(!user.isOnline()){
+            return;
+        }
+        getInventory().open(user.getPlayer());
     }
 
 }

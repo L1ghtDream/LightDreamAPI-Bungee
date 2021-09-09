@@ -2,8 +2,6 @@ package dev.lightdream.api.databases;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import dev.lightdream.api.IAPI;
-import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.files.dto.PluginLocation;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
