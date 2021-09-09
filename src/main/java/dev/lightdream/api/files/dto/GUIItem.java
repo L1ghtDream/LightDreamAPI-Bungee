@@ -53,7 +53,7 @@ public class GUIItem {
                 System.out.println("2 " + arg);
                 parser.andThen((f,a)->{
                     System.out.println("3 " + f);
-                    System.out.println("4" + a);
+                    System.out.println("4 " + a);
                     functions.put(f,a);
                 }).accept(function, arg);
                 System.out.println("5 " + arg);

@@ -83,8 +83,10 @@ public abstract class GUI implements InventoryProvider {
         return args.parse((function, arg) -> {
             function = parse(function, player);
             if (arg instanceof String) {
+                System.out.println("arg is String");
                 arg = parse((String) arg, player);
             } else if (arg instanceof List) {
+                System.out.println("arg is List");
                 arg = parse((List<String>) arg, player);
             }
         });
