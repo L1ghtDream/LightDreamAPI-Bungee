@@ -19,6 +19,18 @@ public class Item {
     public Integer slot;
     public HashMap<String, Object> nbtTags;
 
+    public Item(XMaterial material) {
+        this.material = material;
+        this.amount = 1;
+        this.lore = new ArrayList<>();
+        if (material.parseMaterial() == null) {
+            this.displayName = "Item";
+        } else {
+            this.displayName = material.parseMaterial().name();
+        }
+        this.nbtTags = new HashMap<>();
+    }
+
     public Item(XMaterial material, int amount) {
         this.material = material;
         this.amount = amount;
@@ -28,6 +40,14 @@ public class Item {
         } else {
             this.displayName = material.parseMaterial().name();
         }
+        this.nbtTags = new HashMap<>();
+    }
+
+    public Item(XMaterial material, String displayName) {
+        this.material = material;
+        this.amount = 1;
+        this.lore = new ArrayList<>();
+        this.displayName = displayName;
         this.nbtTags = new HashMap<>();
     }
 
