@@ -75,9 +75,11 @@ public class GUIItem {
             return functions.get(new MessageBuilder(function));
         }
 
-        @SuppressWarnings({"MethodDoesntCallSuperMethod", "unchecked"})
+        @SuppressWarnings({"MethodDoesntCallSuperMethod"})
         public GUIItemArgs clone() {
-            return new GUIItemArgs((HashMap<Object, Object>) functions.clone());
+            HashMap<Object, Object> functions = new HashMap<>();
+            this.functions.forEach((function, value)->functions.put(function.clone(), value.clone()));
+            return new GUIItemArgs(functions);
         }
 
         public GUIItemArgs parse(BiConsumer<MessageBuilder, MessageBuilder> parser) {
