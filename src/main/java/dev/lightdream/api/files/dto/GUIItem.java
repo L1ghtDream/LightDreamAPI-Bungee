@@ -85,6 +85,13 @@ public class GUIItem {
             this.functions.forEach((function, arg) -> parser.andThen(functions::put).accept(function, arg));
             return new GUIItemArgs(functions);
         }
+
+        @Override
+        public String toString() {
+            return "GUIItemArgs{" +
+                    "functions=" + functions +
+                    '}';
+        }
     }
 
     @Override
