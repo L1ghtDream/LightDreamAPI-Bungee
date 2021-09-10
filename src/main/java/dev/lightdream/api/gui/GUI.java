@@ -66,6 +66,8 @@ public abstract class GUI implements InventoryProvider {
                 }));
                 if (!item.repeatedItem) {
                     break;
+                } else {
+                    item.item.slot++;
                 }
             }
 
@@ -126,7 +128,7 @@ public abstract class GUI implements InventoryProvider {
     }
 
     public void open(User user) {
-        if(!user.isOnline()){
+        if (!user.isOnline()) {
             return;
         }
         getInventory().open(user.getPlayer());

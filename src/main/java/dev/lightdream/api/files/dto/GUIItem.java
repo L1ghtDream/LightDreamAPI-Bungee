@@ -86,4 +86,13 @@ public class GUIItem {
             return new GUIItemArgs(functions);
         }
     }
+
+    @Override
+    public String toString() {
+        return "GUIItem{" +
+                "item=" + item +
+                ", args=" + args +
+                ", repeatedItem=" + repeatedItem +
+                '}';
+    }
 }
