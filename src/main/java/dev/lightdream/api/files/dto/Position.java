@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class Position implements Serializable {
+public class Position implements Serializable, java.io.Serializable {
 
     public double x;
     public double y;
