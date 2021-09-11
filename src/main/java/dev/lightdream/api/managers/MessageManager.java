@@ -56,14 +56,11 @@ public class MessageManager {
     public String getMessage(MessageBuilder builder, String lang) {
         MessageBuilder builderClone = builder.clone();
         StringBuilder message = new StringBuilder();
-        System.out.println("Getting message");
-        System.out.println(builder);
         if (builder.isList()) {
             ((List<String>) (builder.setBase(API.instance.langManager.getString(clazz, builder, lang)).parse())).forEach(message::append);
         } else {
             message.append((String) (builder.setBase(API.instance.langManager.getString(clazz, builder, lang)).parse()));
         }
-        System.out.println(message);
         if (message.toString().equals("")) {
             if (builderClone.isList()) {
                 ((List<String>) builderClone.getBase()).forEach(message::append);
@@ -71,7 +68,6 @@ public class MessageManager {
                 message.append((String) builderClone.getBase());
             }
         }
-        System.out.println(message);
         return message.toString();
     }
 

@@ -1,5 +1,6 @@
 package dev.lightdream.api;
 
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import dev.lightdream.api.commands.Command;
 import dev.lightdream.api.commands.commands.ReloadCommand;
 import dev.lightdream.api.commands.commands.VersionCommand;
@@ -191,5 +192,10 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     @Override
     public InventoryManager getInventoryManager() {
         return inventoryManager;
+    }
+
+    @Override
+    public List<SimpleModule> getSimpleModules() {
+        return new ArrayList<>();
     }
 }

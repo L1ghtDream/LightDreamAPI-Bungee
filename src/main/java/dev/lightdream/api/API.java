@@ -1,5 +1,6 @@
 package dev.lightdream.api;
 
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import dev.lightdream.api.commands.Command;
 import dev.lightdream.api.commands.commands.ChoseLangCommand;
 import dev.lightdream.api.commands.commands.ReloadCommand;
@@ -123,6 +124,11 @@ public final class API implements IAPI {
         return null;
     }
 
+    @Override
+    public List<SimpleModule> getSimpleModules() {
+        return new ArrayList<>();
+    }
+
     public HashMap<String, Object> getLangs() {
         HashMap<String, Object> langs = new HashMap<>();
 
@@ -190,7 +196,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.45";
+        return "2.46";
     }
 
     @Override

@@ -26,9 +26,13 @@ public class FileManager {
         this.api = api;
         this.persistType = persistType;
         this.objectMapper = new ObjectMapper(persistType.getFactory());
-        SimpleModule module = new SimpleModule();
-        module.addKeyDeserializer(Position.class, new KeyDeserializerManager());
-        this.objectMapper.registerModule(module);
+
+        List<SimpleModule> modules = api.getSimpleModules();
+        modules.add(new SimpleModule().addKeyDeserializer(Position.class, new KeyDeserializerManager()));
+
+        for (SimpleModule module : modules) {
+            this.objectMapper.registerModule(module);
+        }
     }
 
     private static String getName(Class<?> clazz) {

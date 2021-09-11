@@ -1,5 +1,6 @@
 package dev.lightdream.api;
 
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import dev.lightdream.api.files.config.Config;
 import dev.lightdream.api.files.config.Lang;
 import dev.lightdream.api.files.config.SQLConfig;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.List;
 import java.util.logging.Logger;
 
 public interface IAPI {
@@ -44,5 +46,7 @@ public interface IAPI {
     void loadConfigs();
 
     InventoryManager getInventoryManager();
+
+    List<SimpleModule> getSimpleModules();
 
 }
