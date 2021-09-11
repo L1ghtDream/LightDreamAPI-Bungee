@@ -2,6 +2,7 @@ package dev.lightdream.api.databases;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import dev.lightdream.api.API;
 import dev.lightdream.api.files.dto.PluginLocation;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
@@ -70,5 +71,17 @@ public class User {
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public boolean hasMoney(double amount){
+        return API.instance.getEconomy().has(getOfflinePlayer(), amount);
+    }
+
+    public void addMoney(double amount){
+        API.instance.getEconomy().depositPlayer(getOfflinePlayer(), amount);
+    }
+
+    public void removeMoney(double amount){
+        API.instance.getEconomy().withdrawPlayer(getOfflinePlayer(), amount);
     }
 }
