@@ -10,9 +10,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class ListPluginsCommand extends Command {
-    public ListPluginsCommand(@NotNull IAPI api) {
-        super(api, Collections.singletonList("listPlugins"), "", "", false, false, "");
+public class PluginsCommand extends Command {
+    public PluginsCommand(@NotNull IAPI api) {
+        super(api, Collections.singletonList("plugins"), "", "", false, false, "");
     }
 
     @Override

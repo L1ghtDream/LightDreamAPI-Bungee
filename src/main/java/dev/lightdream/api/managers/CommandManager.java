@@ -24,7 +24,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             api.getPlugin().getCommand(command).setExecutor(this);
             api.getPlugin().getCommand(command).setTabCompleter(this);
         } catch (NullPointerException e) {
-            api.getLogger().severe("The command " + command + " does not exist in plugin.yml");
+            api.getLogger().severe("The command '" + command + "' does not exist in plugin.yml");
             return;
         }
 

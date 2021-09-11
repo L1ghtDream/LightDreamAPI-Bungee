@@ -3,7 +3,7 @@ package dev.lightdream.api;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import dev.lightdream.api.commands.Command;
 import dev.lightdream.api.commands.commands.ChoseLangCommand;
-import dev.lightdream.api.commands.commands.ListPluginsCommand;
+import dev.lightdream.api.commands.commands.PluginsCommand;
 import dev.lightdream.api.commands.commands.ReloadCommand;
 import dev.lightdream.api.commands.commands.VersionCommand;
 import dev.lightdream.api.databases.User;
@@ -111,7 +111,7 @@ public final class API implements IAPI {
                 new ChoseLangCommand(this),
                 new ReloadCommand(this),
                 new VersionCommand(this),
-                new ListPluginsCommand(this)
+                new PluginsCommand(this)
         );
     }
 
@@ -203,7 +203,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.51";
+        return "2.52";
     }
 
     @Override
