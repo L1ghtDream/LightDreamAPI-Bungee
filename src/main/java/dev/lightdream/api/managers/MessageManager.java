@@ -4,7 +4,6 @@ import de.themoep.minedown.MineDown;
 import dev.lightdream.api.API;
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.databases.User;
-import dev.lightdream.api.managers.local.LocalDatabaseManager;
 import dev.lightdream.api.utils.MessageBuilder;
 import dev.lightdream.api.utils.Utils;
 import org.bukkit.Bukkit;
@@ -44,7 +43,7 @@ public class MessageManager {
 
     public void sendMessage(CommandSender sender, MessageBuilder builder) {
         if (sender instanceof Player) {
-            User user = ((LocalDatabaseManager) api.getDatabaseManager()).getUser((Player) sender);
+            User user = api.getDatabaseManager().getUser((Player) sender);
             sendMessage(user, builder);
         } else {
             String message = getMessage(builder, api.getSettings().baseLang);
@@ -72,11 +71,11 @@ public class MessageManager {
     }
 
     public void sendMessage(String target, String message) {
-        sendMessage(((LocalDatabaseManager) api.getDatabaseManager()).getUser(target), new MessageBuilder(message));
+        sendMessage(api.getDatabaseManager().getUser(target), new MessageBuilder(message));
     }
 
     public void sendMessage(String target, MessageBuilder builder) {
-        sendMessage(((LocalDatabaseManager) api.getDatabaseManager()).getUser(target), builder);
+        sendMessage(api.getDatabaseManager().getUser(target), builder);
     }
 
     public void sendMessage(User user, String message) {

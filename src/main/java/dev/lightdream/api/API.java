@@ -11,7 +11,6 @@ import dev.lightdream.api.files.config.Config;
 import dev.lightdream.api.files.config.Lang;
 import dev.lightdream.api.files.config.SQLConfig;
 import dev.lightdream.api.managers.*;
-import dev.lightdream.api.managers.local.LocalDatabaseManager;
 import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -47,7 +46,7 @@ public final class API implements IAPI {
     //Managers
     public LangManager langManager;
     public MessageManager messageManager;
-    public LocalDatabaseManager databaseManager;
+    public DatabaseManager databaseManager;
     public FileManager fileManager;
 
     public API(JavaPlugin plugin) {
@@ -73,7 +72,7 @@ public final class API implements IAPI {
         loadConfigs();
 
         messageManager = new MessageManager(this, API.class);
-        this.databaseManager = new LocalDatabaseManager(this);
+        this.databaseManager = new DatabaseManager(this);
         this.langManager = new LangManager(API.class, getLangs());
 
         //Commands
@@ -105,7 +104,7 @@ public final class API implements IAPI {
         }
         return "";
     }
-    
+
     public List<Command> getBaseCommands() {
         return Arrays.asList(
                 new ChoseLangCommand(this),
@@ -203,7 +202,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.52";
+        return "2.55";
     }
 
     @Override
