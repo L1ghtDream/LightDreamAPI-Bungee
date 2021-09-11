@@ -8,10 +8,7 @@ import dev.lightdream.api.files.config.Config;
 import dev.lightdream.api.files.config.JdaConfig;
 import dev.lightdream.api.files.config.Lang;
 import dev.lightdream.api.files.config.SQLConfig;
-import dev.lightdream.api.managers.CommandManager;
-import dev.lightdream.api.managers.DatabaseManager;
-import dev.lightdream.api.managers.FileManager;
-import dev.lightdream.api.managers.MessageManager;
+import dev.lightdream.api.managers.*;
 import fr.minuskube.inv.InventoryManager;
 import lombok.SneakyThrows;
 import net.dv8tion.jda.api.JDA;
@@ -136,7 +133,9 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     }
 
     @Override
-    public abstract JavaPlugin getPlugin();
+    public JavaPlugin getPlugin() {
+        return this;
+    }
 
     @Override
     public Economy getEconomy() {
@@ -197,5 +196,10 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     @Override
     public API getAPI() {
         return api;
+    }
+
+    @Override
+    public KeyDeserializerManager getKeyDeserializerManager() {
+        return api.getKeyDeserializerManager();
     }
 }

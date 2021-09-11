@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings({"unused", "ResultOfMethodCallIgnored"})
@@ -26,13 +27,7 @@ public class FileManager {
         this.api = api;
         this.persistType = persistType;
         this.objectMapper = new ObjectMapper(persistType.getFactory());
-
-        List<SimpleModule> modules = api.getSimpleModules();
-        modules.add(new SimpleModule().addKeyDeserializer(Position.class, new KeyDeserializerManager()));
-
-        for (SimpleModule module : modules) {
-            this.objectMapper.registerModule(module);
-        }
+        this.objectMapper.registerModule(new SimpleModule().addKeyDeserializer(Position.class, api.getKeyDeserializerManager()));
     }
 
     private static String getName(Class<?> clazz) {

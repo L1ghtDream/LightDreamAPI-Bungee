@@ -5,6 +5,7 @@ import dev.lightdream.api.files.config.Config;
 import dev.lightdream.api.files.config.Lang;
 import dev.lightdream.api.files.config.SQLConfig;
 import dev.lightdream.api.managers.DatabaseManager;
+import dev.lightdream.api.managers.KeyDeserializerManager;
 import dev.lightdream.api.managers.MessageManager;
 import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
@@ -50,5 +51,7 @@ public interface IAPI {
     List<SimpleModule> getSimpleModules();
 
     API getAPI();
+
+    KeyDeserializerManager getKeyDeserializerManager();
 
 }

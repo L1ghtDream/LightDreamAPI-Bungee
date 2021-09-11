@@ -10,6 +10,7 @@ import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.config.Config;
 import dev.lightdream.api.files.config.Lang;
 import dev.lightdream.api.files.config.SQLConfig;
+import dev.lightdream.api.files.dto.Position;
 import dev.lightdream.api.managers.*;
 import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
@@ -48,6 +49,7 @@ public final class API implements IAPI {
     public MessageManager messageManager;
     public DatabaseManager databaseManager;
     public FileManager fileManager;
+    public KeyDeserializerManager keyDeserializerManager;
 
     public API(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -68,6 +70,10 @@ public final class API implements IAPI {
         permission = setupPermissions();
 
         //Managers
+
+        keyDeserializerManager = new KeyDeserializerManager(new HashMap<String, Class<?>>() {{
+            put("Position", Position.class);
+        }});
         fileManager = new FileManager(this, FileManager.PersistType.YAML);
         loadConfigs();
 
@@ -133,6 +139,11 @@ public final class API implements IAPI {
     @Override
     public API getAPI() {
         return this;
+    }
+
+    @Override
+    public KeyDeserializerManager getKeyDeserializerManager() {
+        return keyDeserializerManager;
     }
 
     public HashMap<String, Object> getLangs() {
@@ -202,7 +213,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.57";
+        return "2.69";
     }
 
     @Override

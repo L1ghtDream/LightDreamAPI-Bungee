@@ -4,13 +4,14 @@ import com.sk89q.worldedit.Vector;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class Position {
+public class Position implements Serializable {
 
     public double x;
     public double y;
@@ -76,15 +77,16 @@ public class Position {
                 '}';
     }
 
-    public String serialize() {
-        return x + "|" + y + "|" + z;
+    @Override
+    public Position deserialize(String serialized) {
+        serialized = serialized.replace(getClass().getSimpleName(), "");
+        serialized = serialized.replace("{", "");
+        serialized = serialized.replace("}", "");
+        List<String> coords = Arrays.asList(serialized.split(", "));
+        if (coords.size() != 3) {
+            throw new InvalidParameterException("The string does not match the constructor");
+        }
+        return new Position(Double.parseDouble(coords.get(0).replace("x=", "")), Double.parseDouble(coords.get(1).replace("y=", "")), Double.parseDouble(coords.get(2).replace("z=", "")));
     }
 
-    public Position deserialize(String s) {
-        List<String> coords = Arrays.asList(s.split("\\|"));
-        if (coords.size() != 3) {
-            return null;
-        }
-        return new Position(Double.parseDouble(coords.get(0)), Double.parseDouble(coords.get(1)), Double.parseDouble(coords.get(2)));
-    }
 }
