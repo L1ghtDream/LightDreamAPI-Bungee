@@ -63,6 +63,7 @@ public class MessageBuilder {
                 parsedList.add(parsed);
             });
 
+            this.baseList = parsedList;
             return parsedList;
         }
         String parsed = base;
@@ -71,6 +72,7 @@ public class MessageBuilder {
             parsed = parsed.replace("%" + placeholders.get(i) + "%", values.get(i));
         }
 
+        this.base = parsed;
         return parsed;
     }
 
@@ -118,6 +120,26 @@ public class MessageBuilder {
     @Override
     public int hashCode() {
         return Objects.hash(base);
+    }
+
+    @SuppressWarnings("unused")
+    public MessageBuilder parseAndGet() {
+        parse();
+        return this;
+    }
+
+    @SuppressWarnings("unused")
+    public List<String> split(String separator) {
+        List<String> parts = new ArrayList<>();
+
+        if (isList()) {
+            baseList.forEach(line -> parts.addAll(Arrays.asList(line.split(separator))));
+
+            return parts;
+        }
+
+        parts.addAll(Arrays.asList(base.split(separator)));
+        return parts;
     }
 
     @Override

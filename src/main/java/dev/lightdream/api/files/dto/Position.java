@@ -4,6 +4,8 @@ import com.sk89q.worldedit.Vector;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -72,5 +74,17 @@ public class Position {
                 ", y=" + y +
                 ", z=" + z +
                 '}';
+    }
+
+    public String serialize() {
+        return x + "|" + y + "|" + z;
+    }
+
+    public Position deserialize(String s) {
+        List<String> coords = Arrays.asList(s.split("\\|"));
+        if (coords.size() != 3) {
+            return null;
+        }
+        return new Position(Double.parseDouble(coords.get(0)), Double.parseDouble(coords.get(1)), Double.parseDouble(coords.get(2)));
     }
 }
