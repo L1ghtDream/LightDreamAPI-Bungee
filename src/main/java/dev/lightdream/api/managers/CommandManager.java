@@ -15,12 +15,19 @@ import java.util.*;
 public class CommandManager implements CommandExecutor, TabCompleter {
 
     private final IAPI api;
-    private final List<Command> commands;
+    @SuppressWarnings("FieldMayBeFinal")
+    private List<Command> commands;
 
     public CommandManager(IAPI api, String command, List<Command> commands) {
         this.api = api;
-        api.getPlugin().getCommand(command).setExecutor(this);
-        api.getPlugin().getCommand(command).setTabCompleter(this);
+        try {
+            api.getPlugin().getCommand(command).setExecutor(this);
+            api.getPlugin().getCommand(command).setTabCompleter(this);
+        } catch (NullPointerException e) {
+            api.getLogger().severe("The command " + command + " does not exist in plugin.yml");
+            return;
+        }
+
         this.commands = commands;
         this.commands.sort(Comparator.comparing(com -> com.aliases.get(0)));
     }

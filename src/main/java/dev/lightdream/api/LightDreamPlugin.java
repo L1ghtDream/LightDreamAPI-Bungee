@@ -137,9 +137,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     }
 
     @Override
-    public JavaPlugin getPlugin() {
-        return this;
-    }
+    public abstract JavaPlugin getPlugin();
 
     @Override
     public Economy getEconomy() {
