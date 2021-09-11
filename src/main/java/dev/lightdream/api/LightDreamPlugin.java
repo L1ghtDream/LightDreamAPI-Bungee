@@ -159,9 +159,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     }
 
     @Override
-    public DatabaseManager getDatabaseManager() {
-        return databaseManager;
-    }
+    public abstract DatabaseManager getDatabaseManager();
 
     @Override
     public Config getSettings() {

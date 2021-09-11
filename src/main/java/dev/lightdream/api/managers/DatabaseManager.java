@@ -115,12 +115,12 @@ public class DatabaseManager {
     }
 
     @SneakyThrows
-    public @NotNull List<User> getUsers() {
+    public @NotNull List<User> getBaseUsers() {
         return (List<User>) getDao(User.class).queryForAll();
     }
 
     public @NotNull User getUser(@NotNull UUID uuid) {
-        Optional<User> optionalUser = getUsers().stream().filter(user -> user.uuid.equals(uuid)).findFirst();
+        Optional<User> optionalUser = getBaseUsers().stream().filter(user -> user.uuid.equals(uuid)).findFirst();
 
         if (optionalUser.isPresent()) {
             return optionalUser.get();
@@ -133,7 +133,7 @@ public class DatabaseManager {
 
     @SuppressWarnings("unused")
     public @Nullable User getUser(@NotNull String name) {
-        Optional<User> optionalUser = getUsers().stream().filter(user -> user.name.equals(name)).findFirst();
+        Optional<User> optionalUser = getBaseUsers().stream().filter(user -> user.name.equals(name)).findFirst();
 
         return optionalUser.orElse(null);
     }
@@ -149,7 +149,7 @@ public class DatabaseManager {
 
     @SuppressWarnings("unused")
     public @Nullable User getUser(int id) {
-        Optional<User> optionalUser = getUsers().stream().filter(user -> user.id == id).findFirst();
+        Optional<User> optionalUser = getBaseUsers().stream().filter(user -> user.id == id).findFirst();
 
         return optionalUser.orElse(null);
     }
