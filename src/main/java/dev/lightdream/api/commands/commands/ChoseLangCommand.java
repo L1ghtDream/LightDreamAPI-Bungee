@@ -30,7 +30,7 @@ public class ChoseLangCommand extends Command {
             return;
         }
 
-        api.setLang(player, lang);
+        api.getAPI().plugins.forEach(plugin -> plugin.setLang(player, lang));
         api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().langChanged));
     }
 

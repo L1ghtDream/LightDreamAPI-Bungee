@@ -49,4 +49,6 @@ public interface IAPI {
 
     List<SimpleModule> getSimpleModules();
 
+    API getAPI();
+
 }

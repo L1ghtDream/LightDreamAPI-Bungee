@@ -18,6 +18,8 @@ public class Lang {
     public String invalidLang = "This is not a valid lang";
     public String langChanged = "Language changed";
     public String helpCommand = "";
+    public String pluginList = "Plugins: %plugins%";
+    public String pluginFormat = "%project-name%(%project-id%) %project-version%";
 
     @SuppressWarnings("unused")
     @SneakyThrows

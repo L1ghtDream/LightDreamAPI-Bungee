@@ -76,10 +76,7 @@ public final class API implements IAPI {
         this.langManager = new LangManager(API.class, getLangs());
 
         //Commands
-        List<Command> baseCommands = new ArrayList<>();
-        baseCommands.add(new ReloadCommand(this));
-        baseCommands.add(new VersionCommand(this));
-        baseCommands.addAll(getBaseCommands());
+        List<Command> baseCommands = new ArrayList<>(getBaseCommands());
         new CommandManager(this, getProjectID(), baseCommands);
 
         getLogger().info(ChatColor.GREEN + getProjectName() + "(by github.com/L1ghtDream) has been enabled");
@@ -107,10 +104,13 @@ public final class API implements IAPI {
         }
         return "";
     }
-
-    @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
+    
     public List<Command> getBaseCommands() {
-        return Arrays.asList(new ChoseLangCommand(this));
+        return Arrays.asList(
+                new ChoseLangCommand(this),
+                new ReloadCommand(this),
+                new VersionCommand(this)
+        );
     }
 
     public void loadConfigs() {
@@ -127,6 +127,11 @@ public final class API implements IAPI {
     @Override
     public List<SimpleModule> getSimpleModules() {
         return new ArrayList<>();
+    }
+
+    @Override
+    public API getAPI() {
+        return this;
     }
 
     public HashMap<String, Object> getLangs() {
@@ -196,7 +201,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.47";
+        return "2.48";
     }
 
     @Override

@@ -198,4 +198,9 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     public List<SimpleModule> getSimpleModules() {
         return new ArrayList<>();
     }
+
+    @Override
+    public API getAPI() {
+        return api;
+    }
 }
