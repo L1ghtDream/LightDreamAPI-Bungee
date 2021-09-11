@@ -18,13 +18,11 @@ public class ListPluginsCommand extends Command {
     @Override
     public void execute(CommandSender sender, List<String> args) {
         StringBuilder s = new StringBuilder();
-        api.getAPI().plugins.forEach(plugin -> {
-            s.append(new MessageBuilder(api.getLang().pluginFormat).addPlaceholders(new HashMap<String, String>() {{
-                put("project-name", plugin.getProjectName());
-                put("project-id", plugin.getProjectID());
-                put("project-version", plugin.getProjectVersion());
-            }}).parse());
-        });
+        api.getAPI().plugins.forEach(plugin -> s.append(new MessageBuilder(api.getLang().pluginFormat).addPlaceholders(new HashMap<String, String>() {{
+            put("project-name", plugin.getProjectName());
+            put("project-id", plugin.getProjectID());
+            put("project-version", plugin.getProjectVersion());
+        }}).parse()));
 
         api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().pluginList).addPlaceholders(new HashMap<String, String>() {{
             put("plugins", s.toString());
