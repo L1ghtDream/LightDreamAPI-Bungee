@@ -7,12 +7,13 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class PluginLocation extends Position {
+public class PluginLocation extends Position implements Serializable {
 
     public String world;
     public float rotationX;
