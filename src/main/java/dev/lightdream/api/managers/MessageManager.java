@@ -57,15 +57,15 @@ public class MessageManager {
         MessageBuilder builderClone = builder.clone();
         StringBuilder message = new StringBuilder();
         if (builder.isList()) {
-            ((List<String>) (builder.setBase(API.instance.langManager.getString(clazz, builder, lang)).parse())).forEach(message::append);
+            ((List<String>) (builder.changeBase(API.instance.langManager.getString(clazz, builder, lang)).parse())).forEach(message::append);
         } else {
-            message.append((String) (builder.setBase(API.instance.langManager.getString(clazz, builder, lang)).parse()));
+            message.append((String) (builder.changeBase(API.instance.langManager.getString(clazz, builder, lang)).parse()));
         }
         if (message.toString().equals("")) {
             if (builderClone.isList()) {
-                ((List<String>) builderClone.getBase()).forEach(message::append);
+                ((List<String>) builderClone.parse()).forEach(message::append);
             } else {
-                message.append((String) builderClone.getBase());
+                message.append((String) builderClone.parse());
             }
         }
         return message.toString();

@@ -84,9 +84,9 @@ public abstract class GUI implements InventoryProvider {
     @SuppressWarnings("unchecked")
     public MessageBuilder parse(MessageBuilder raw, Player player) {
         if (raw.isList()) {
-            return raw.setBase(parse((List<String>) raw.getBase(), player));
+            return raw.changeBase(parse((List<String>) raw.getBase(), player));
         } else {
-            return raw.setBase(parse((String) raw.getBase(), player));
+            return raw.changeBase(parse((String) raw.getBase(), player));
         }
     }
 

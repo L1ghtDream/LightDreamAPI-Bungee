@@ -81,24 +81,24 @@ public class MessageBuilder {
     }
 
     @SuppressWarnings("UnusedReturnValue")
-    public MessageBuilder setBase(String base) {
+    public MessageBuilder changeBase(String base) {
         this.base = base;
         this.baseList = null;
         return this;
     }
 
     @SuppressWarnings("unchecked")
-    public MessageBuilder setBase(Object base) {
+    public MessageBuilder changeBase(Object base) {
         if (base instanceof String) {
-            return setBase((String) base);
+            return changeBase((String) base);
         } else if (base instanceof List) {
-            return setBase((List<String>) base);
+            return changeBase((List<String>) base);
         }
         return this;
     }
 
     @SuppressWarnings("unused")
-    public MessageBuilder setBase(List<String> baseList) {
+    public MessageBuilder changeBase(List<String> baseList) {
         this.baseList = baseList;
         this.base = null;
         return this;
