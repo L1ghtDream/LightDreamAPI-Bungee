@@ -1,19 +1,14 @@
 package dev.lightdream.api.files.dto.jda;
 
-import dev.lightdream.api.files.dto.Position;
-import dev.lightdream.api.files.dto.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import java.lang.reflect.Constructor;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class JdaEmbed implements Serializable {
+public class JdaEmbed {
 
     public Long channel;
     public int red;
@@ -48,21 +43,6 @@ public class JdaEmbed implements Serializable {
                 ", description='" + description + '\'' +
                 ", fields=" + fields +
                 '}';
-    }
-
-    @Override
-    public Object deserialize(String serialized) {
-        return null;
-    }
-
-    @Override
-    public Constructor<?> getMainConstructor() {
-        return null;
-    }
-
-    @Override
-    public List<String> getParameterNames() {
-        return null;
     }
 
 }

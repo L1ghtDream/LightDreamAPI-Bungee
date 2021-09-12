@@ -1,5 +1,7 @@
 # LightDream API
 
+![Build](https://github.com/L1ghtDream/LightDreamAPI/actions/workflows/build.yml/badge.svg)
+
 ```xml
 <repositories>
     <repository>
