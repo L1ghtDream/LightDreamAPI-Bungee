@@ -104,6 +104,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     public void onDisable() {
         databaseManager.save();
         api.disable();
+        this.disable();
     }
 
     public abstract @NotNull String parsePapi(OfflinePlayer player, String identifier);
