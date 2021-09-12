@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.security.InvalidParameterException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +18,12 @@ public class Position implements Serializable {
     public Double x;
     public Double y;
     public Double z;
+
+    public Position(Integer x, Integer y, Integer z) {
+        this.x = Double.valueOf(x);
+        this.y = Double.valueOf(y);
+        this.z = Double.valueOf(z);
+    }
 
     @SuppressWarnings("unused")
     public PluginLocation getPluginLocation(String world) {
