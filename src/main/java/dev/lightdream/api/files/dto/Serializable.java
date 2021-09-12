@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @SuperBuilder
-public abstract class Serializable implements java.io.Serializable {
+public abstract class Serializable {
 
     private static HashMap<Class<?>, Method> baseParseMethods = null;
 

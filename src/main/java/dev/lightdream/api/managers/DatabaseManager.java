@@ -8,7 +8,6 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.TableUtils;
 import dev.lightdream.api.IAPI;
-import dev.lightdream.api.databases.DatabaseDeletable;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.config.SQLConfig;
 import lombok.SneakyThrows;
@@ -20,19 +19,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.sql.SQLException;
+import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class DatabaseManager {
 
-    private final SQLConfig sqlSettings;
     public final IAPI api;
+    private final SQLConfig sqlSettings;
+    private final ConnectionSource connectionSource;
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
-    private final ConnectionSource connectionSource;
+    private final HashMap<Class<?>, List<?>> cacheMap = new HashMap<>();
 
     @SneakyThrows
     @SuppressWarnings("unused")
@@ -83,6 +81,7 @@ public class DatabaseManager {
     @SneakyThrows
     public Dao<?, ?> createDao(Class<?> clazz) {
         daoMap.put(clazz, DaoManager.createDao(connectionSource, clazz));
+        cacheMap.put(clazz, new ArrayList<>());
         return daoMap.get(clazz);
     }
 
@@ -93,35 +92,66 @@ public class DatabaseManager {
     @SuppressWarnings("unused")
     @SneakyThrows
     public void save() {
+        cacheMap.forEach((clazz, list) -> list.forEach(obj -> {
+            try {
+                ((Dao<Object, Integer>) getDao(clazz)).createOrUpdate(obj);
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        }));
+
         for (Class<?> clazz : daoMap.keySet()) {
             daoMap.get(clazz).commit(getDatabaseConnection());
         }
     }
 
     @SneakyThrows
+    public void save(Object object, boolean cache) {
+        if (cache) {
+            List<Object> list = (List<Object>) cacheMap.getOrDefault(object.getClass(), new ArrayList<>());
+            list.add(object);
+            cacheMap.put(object.getClass(), list);
+        } else {
+            ((Dao<Object, Integer>) daoMap.get(object.getClass())).createOrUpdate(object);
+        }
+    }
+
     public void save(Object object) {
-        ((Dao<Object, Integer>) daoMap.get(object.getClass())).createOrUpdate(object);
+        save(object, true);
+    }
+
+    @SneakyThrows
+    public <T> List<T> getAll(Class<T> clazz, boolean cache) {
+        if (cache) {
+            return (List<T>) cacheMap.get(clazz);
+        } else {
+            return (List<T>) getDao(clazz).queryForAll();
+        }
+    }
+
+    public <T> List<T> getAll(Class<T> clazz) {
+        return getAll(clazz, true);
     }
 
     @SuppressWarnings("unused")
     @SneakyThrows
-    public void delete(DatabaseDeletable deletable) {
-        ((Dao<Object, Integer>) daoMap.get(deletable.getClass())).deleteById(deletable.getID());
+    public void delete(Object object) {
+        List<Object> list = (List<Object>) cacheMap.get(object.getClass());
+        list.remove(object);
+        cacheMap.put(object.getClass(), list);
+        ((Dao<Object, Integer>) daoMap.get(object.getClass())).delete(object);
     }
 
     @SneakyThrows
-    public void createUserTable(){
+    public void createUserTable() {
         createTable(User.class);
         createDao(User.class).setAutoCommit(getDatabaseConnection(), false);
     }
 
-    @SneakyThrows
-    public @NotNull List<User> getBaseUsers() {
-        return (List<User>) getDao(User.class).queryForAll();
-    }
+    //Users
 
     public @NotNull User getUser(@NotNull UUID uuid) {
-        Optional<User> optionalUser = getBaseUsers().stream().filter(user -> user.uuid.equals(uuid)).findFirst();
+        Optional<User> optionalUser = getAll(User.class).stream().filter(user -> user.uuid.equals(uuid)).findFirst();
 
         if (optionalUser.isPresent()) {
             return optionalUser.get();
@@ -134,7 +164,7 @@ public class DatabaseManager {
 
     @SuppressWarnings("unused")
     public @Nullable User getUser(@NotNull String name) {
-        Optional<User> optionalUser = getBaseUsers().stream().filter(user -> user.name.equals(name)).findFirst();
+        Optional<User> optionalUser = getAll(User.class).stream().filter(user -> user.name.equals(name)).findFirst();
 
         return optionalUser.orElse(null);
     }
@@ -150,7 +180,7 @@ public class DatabaseManager {
 
     @SuppressWarnings("unused")
     public @Nullable User getUser(int id) {
-        Optional<User> optionalUser = getBaseUsers().stream().filter(user -> user.id == id).findFirst();
+        Optional<User> optionalUser = getAll(User.class).stream().filter(user -> user.id == id).findFirst();
 
         return optionalUser.orElse(null);
     }

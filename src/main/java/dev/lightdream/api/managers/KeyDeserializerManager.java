@@ -28,24 +28,13 @@ public class KeyDeserializerManager extends KeyDeserializer {
 
         Class<?> clazz = clazzes.get(className);
 
-        boolean has = false;
-        for (Class<?> anInterface : clazz.getInterfaces()) {
-            if (anInterface.equals(Serializable.class)) {
-                has = true;
-                break;
-            }
-        }
-        if (!has) {
-            throw new InvalidParameterException("Class '" + className + "' does not interface '" + Serializable.class.getSimpleName() + "'");
-        }
-
         for (Method method : clazz.getMethods()) {
             if (method.getName().equals("deserialize")) {
                 return method.invoke(clazz.newInstance(), key);
             }
         }
 
-        return null;
+        throw new InvalidParameterException("Class '"+className+"' does not ave any method deserialize!");
     }
 }
 

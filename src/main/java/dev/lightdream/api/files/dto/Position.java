@@ -14,7 +14,7 @@ import java.util.Objects;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Position extends Serializable {
+public class Position extends Serializable implements java.io.Serializable {
 
     public Double x;
     public Double y;
