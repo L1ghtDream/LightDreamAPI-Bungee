@@ -121,6 +121,10 @@ public final class API implements IAPI {
         lang = fileManager.load(Lang.class, fileManager.getFile("LightDreamAPI", config.baseLang));
     }
 
+    public void onDisable(){
+        this.databaseManager.save();
+    }
+
     @Override
     public InventoryManager getInventoryManager() {
         return null;
@@ -208,7 +212,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.88";
+        return "2.89";
     }
 
     @Override

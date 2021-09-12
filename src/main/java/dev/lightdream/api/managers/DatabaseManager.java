@@ -93,6 +93,7 @@ public class DatabaseManager {
     @SuppressWarnings("unused")
     @SneakyThrows
     public void save(boolean commit) {
+        api.getLogger().info("Saving database tables to " + api.getDataFolder());
         if(commit){
             cacheMap.forEach((clazz, list) -> list.forEach(obj -> {
                 try {
@@ -104,8 +105,8 @@ public class DatabaseManager {
         }
 
         for (Dao<?, ?> dao : daoMap.values()) {
-            System.out.println(dao.getTableInfo());
-            System.out.println(dao.getDataClass());
+            //System.out.println(dao.getTableInfo());
+            //System.out.println(dao.getDataClass());
             dao.commit(databaseConnection);
         }
     }
