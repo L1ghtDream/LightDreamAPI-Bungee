@@ -46,7 +46,7 @@ public class DatabaseManager {
                 DatabaseTypeUtils.createDatabaseType(databaseURL)
         );
 
-        createUserTable();
+        setup(User.class);
     }
 
 
@@ -81,7 +81,6 @@ public class DatabaseManager {
     @SneakyThrows
     public Dao<?, ?> createDao(Class<?> clazz) {
         daoMap.put(clazz, DaoManager.createDao(connectionSource, clazz));
-        cacheMap.put(clazz, new ArrayList<>());
         return daoMap.get(clazz);
     }
 
@@ -142,10 +141,12 @@ public class DatabaseManager {
         ((Dao<Object, Integer>) daoMap.get(object.getClass())).delete(object);
     }
 
+
     @SneakyThrows
-    public void createUserTable() {
-        createTable(User.class);
-        createDao(User.class).setAutoCommit(getDatabaseConnection(), false);
+    public void setup(Class<?> clazz){
+        createTable(clazz);
+        createDao(clazz).setAutoCommit(getDatabaseConnection(), false);
+        cacheMap.put(clazz, getAll(clazz));
     }
 
     //Users
