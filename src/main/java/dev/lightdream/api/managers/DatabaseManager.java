@@ -146,7 +146,7 @@ public class DatabaseManager {
     public void setup(Class<?> clazz){
         createTable(clazz);
         createDao(clazz).setAutoCommit(getDatabaseConnection(), false);
-        cacheMap.put(clazz, getAll(clazz));
+        cacheMap.put(clazz, getAll(clazz, false));
     }
 
     //Users
