@@ -28,9 +28,9 @@ public class DatabaseManager {
     public final IAPI api;
     private final SQLConfig sqlSettings;
     private final ConnectionSource connectionSource;
+    private final HashMap<Class<?>, List<?>> cacheMap = new HashMap<>();
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
-    private final HashMap<Class<?>, List<?>> cacheMap = new HashMap<>();
 
     @SneakyThrows
     @SuppressWarnings("unused")
@@ -84,7 +84,11 @@ public class DatabaseManager {
         return daoMap.get(clazz);
     }
 
+    @SneakyThrows
     public Dao<?, ?> getDao(Class<?> clazz) {
+        if(!daoMap.containsKey(clazz)){
+            throw new Exception("The class '" + clazz.getSimpleName()+"' has not been setup. Use setup("+clazz.getSimpleName()+".class); in your database manager");
+        }
         return daoMap.get(clazz);
     }
 
@@ -122,6 +126,9 @@ public class DatabaseManager {
     @SneakyThrows
     public <T> List<T> getAll(Class<T> clazz, boolean cache) {
         if (cache) {
+            if (!cacheMap.containsKey(clazz)) {
+                throw new Exception("The class '" + clazz.getSimpleName() + "' has not been setup. Use setup(" + clazz.getSimpleName() + ".class); in your database manager");
+            }
             return (List<T>) cacheMap.get(clazz);
         } else {
             return (List<T>) getDao(clazz).queryForAll();
@@ -143,7 +150,7 @@ public class DatabaseManager {
 
 
     @SneakyThrows
-    public void setup(Class<?> clazz){
+    public void setup(Class<?> clazz) {
         createTable(clazz);
         createDao(clazz).setAutoCommit(getDatabaseConnection(), false);
         cacheMap.put(clazz, getAll(clazz, false));
