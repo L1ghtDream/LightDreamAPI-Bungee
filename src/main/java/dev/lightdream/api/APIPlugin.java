@@ -14,6 +14,7 @@ public final class APIPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        api.onDisable();
+        api.getDatabaseManager().save();
     }
+
 }

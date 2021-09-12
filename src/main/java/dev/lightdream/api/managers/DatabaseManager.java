@@ -92,18 +92,24 @@ public class DatabaseManager {
 
     @SuppressWarnings("unused")
     @SneakyThrows
-    public void save() {
-        cacheMap.forEach((clazz, list) -> list.forEach(obj -> {
-            try {
-                ((Dao<Object, Integer>) getDao(clazz)).createOrUpdate(obj);
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        }));
-
-        for (Class<?> clazz : daoMap.keySet()) {
-            daoMap.get(clazz).commit(databaseConnection);
+    public void save(boolean commit) {
+        if(commit){
+            cacheMap.forEach((clazz, list) -> list.forEach(obj -> {
+                try {
+                    ((Dao<Object, Integer>) getDao(clazz)).createOrUpdate(obj);
+                } catch (SQLException sqlException) {
+                    sqlException.printStackTrace();
+                }
+            }));
         }
+
+        for (Dao<?, ?> dao : daoMap.values()) {
+            dao.commit(databaseConnection);
+        }
+    }
+
+    public void save(){
+        save(true);
     }
 
     @SneakyThrows

@@ -87,11 +87,6 @@ public final class API implements IAPI {
 
         getLogger().info(ChatColor.GREEN + getProjectName() + "(by github.com/L1ghtDream) has been enabled");
     }
-
-    public void onDisable() {
-        databaseManager.save();
-    }
-
     private Economy setupEconomy() {
         RegisteredServiceProvider<Economy> rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
         return rsp.getProvider();
@@ -213,7 +208,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.84";
+        return "2.86";
     }
 
     @Override
