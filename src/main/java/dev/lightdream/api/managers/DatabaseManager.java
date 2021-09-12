@@ -104,6 +104,8 @@ public class DatabaseManager {
         }
 
         for (Dao<?, ?> dao : daoMap.values()) {
+            System.out.println(dao.getTableInfo());
+            System.out.println(dao.getDataClass());
             dao.commit(databaseConnection);
         }
     }
