@@ -28,6 +28,7 @@ public class DatabaseManager {
     public final IAPI api;
     private final SQLConfig sqlSettings;
     private final ConnectionSource connectionSource;
+    private final DatabaseConnection databaseConnection;
     private final HashMap<Class<?>, List<?>> cacheMap = new HashMap<>();
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
@@ -45,6 +46,8 @@ public class DatabaseManager {
                 sqlSettings.password,
                 DatabaseTypeUtils.createDatabaseType(databaseURL)
         );
+
+        this.databaseConnection= connectionSource.getReadWriteConnection(null);
 
         setup(User.class);
     }
@@ -65,11 +68,6 @@ public class DatabaseManager {
             default:
                 throw new UnsupportedOperationException("Unsupported driver (how did we get here?): " + sqlSettings.driver.name());
         }
-    }
-
-    @SneakyThrows
-    public DatabaseConnection getDatabaseConnection() {
-        return connectionSource.getReadWriteConnection(null);
     }
 
     @SuppressWarnings("unused")
@@ -104,7 +102,7 @@ public class DatabaseManager {
         }));
 
         for (Class<?> clazz : daoMap.keySet()) {
-            daoMap.get(clazz).commit(getDatabaseConnection());
+            daoMap.get(clazz).commit(databaseConnection);
         }
     }
 
@@ -152,7 +150,7 @@ public class DatabaseManager {
     @SneakyThrows
     public void setup(Class<?> clazz) {
         createTable(clazz);
-        createDao(clazz).setAutoCommit(getDatabaseConnection(), false);
+        createDao(clazz).setAutoCommit(databaseConnection, false);
         cacheMap.put(clazz, getAll(clazz, false));
     }
 
