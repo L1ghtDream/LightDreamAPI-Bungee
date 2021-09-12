@@ -46,9 +46,9 @@ public class LocationRange {
                     World world = Bukkit.getWorld(min.world);
                     List<Block> output = new ArrayList<>();
 
-                    for (int x = (int) min.x; x <= max.x; x++) {
-                        for (int y = (int) min.y; y <= max.y; y++) {
-                            for (int z = (int) min.z; z <= max.z; z++) {
+                    for (int x = (int) Math.floor(min.x); x <= max.x; x++) {
+                        for (int y = (int) Math.floor( min.y); y <= max.y; y++) {
+                            for (int z = (int) Math.floor(min.z); z <= max.z; z++) {
                                 output.add(world.getBlockAt(x, y, z));
                             }
                         }

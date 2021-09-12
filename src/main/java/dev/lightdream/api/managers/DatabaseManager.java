@@ -8,6 +8,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.TableUtils;
 import dev.lightdream.api.IAPI;
+import dev.lightdream.api.databases.DatabaseDeletable;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.config.SQLConfig;
 import lombok.SneakyThrows;
@@ -104,8 +105,8 @@ public class DatabaseManager {
 
     @SuppressWarnings("unused")
     @SneakyThrows
-    public void delete(Object object) {
-        ((Dao<Object, Integer>) daoMap.get(object.getClass())).delete(object);
+    public void delete(DatabaseDeletable deletable) {
+        ((Dao<Object, Integer>) daoMap.get(deletable.getClass())).deleteById(deletable.getID());
     }
 
     @SneakyThrows

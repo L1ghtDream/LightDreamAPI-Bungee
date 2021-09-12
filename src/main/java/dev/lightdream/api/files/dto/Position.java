@@ -3,19 +3,21 @@ package dev.lightdream.api.files.dto;
 import com.sk89q.worldedit.Vector;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.security.InvalidParameterException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class Position implements Serializable, java.io.Serializable {
+public class Position implements Serializable {
 
-    public double x;
-    public double y;
-    public double z;
+    public Double x;
+    public Double y;
+    public Double z;
 
     @SuppressWarnings("unused")
     public PluginLocation getPluginLocation(String world) {
@@ -77,6 +79,7 @@ public class Position implements Serializable, java.io.Serializable {
                 '}';
     }
 
+    @SneakyThrows
     @Override
     public Position deserialize(String serialized) {
         serialized = serialized.replace(getClass().getSimpleName(), "");
@@ -88,5 +91,27 @@ public class Position implements Serializable, java.io.Serializable {
         }
         return new Position(Double.parseDouble(coords.get(0).replace("x=", "")), Double.parseDouble(coords.get(1).replace("y=", "")), Double.parseDouble(coords.get(2).replace("z=", "")));
     }
+
+    @SneakyThrows
+    @Override
+    public Constructor<?> getMainConstructor() {
+        return this.getClass().getConstructor();
+    }
+
+    @Override
+    public List<String> getParameterNames() {
+        return Arrays.asList("x", "y", "z");
+    }
+
+    /*
+
+    "Object1{param1=1, param2=2, param3=Object2{param1=1, param2=2}}"
+    "{param1=1, param2=2, param3=Object2{param1=1, param2=2}}"
+    ".{param1=1, param2=2, param3=Object2{param1=1, param2=2}}."
+    "param1=1, param2=2, param3=Object2{param1=1, param2=2}"
+    ["param1=1", "param2=2.0", "param3=Object2{param1=1, param2=2}"]
+
+
+     */
 
 }
