@@ -54,4 +54,6 @@ public interface IAPI {
 
     KeyDeserializerManager getKeyDeserializerManager();
 
+    void disable();
+
 }
