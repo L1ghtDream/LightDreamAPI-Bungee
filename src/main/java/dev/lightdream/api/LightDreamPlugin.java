@@ -31,6 +31,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     public String projectName = "Undefined";
     public String projectID = "Undefined";
     public String projectVersion = "Undefined";
+    public boolean enabled;
 
     //Config
     public SQLConfig sqlConfig;
@@ -67,6 +68,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
         this.projectName = projectName;
         this.projectID = projectID;
         this.projectVersion = version;
+        enabled = true;
 
         //Files
         fileManager = new FileManager(this, FileManager.PersistType.YAML);
@@ -102,9 +104,13 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
 
     @Override
     public void onDisable() {
-        databaseManager.save();
-        api.disable();
-        this.disable();
+        if(api.isLEnabled()){
+            api.disable();
+        }
+        if(this.isLEnabled()){
+            this.disable();
+            //databaseManager.save();
+        }
     }
 
     public abstract @NotNull String parsePapi(OfflinePlayer player, String identifier);
@@ -203,5 +209,10 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     @Override
     public KeyDeserializerManager getKeyDeserializerManager() {
         return api.getKeyDeserializerManager();
+    }
+
+    @Override
+    public boolean isLEnabled() {
+        return enabled;
     }
 }

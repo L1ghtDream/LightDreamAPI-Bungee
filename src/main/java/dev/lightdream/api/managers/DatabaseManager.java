@@ -105,6 +105,11 @@ public class DatabaseManager {
         }
 
         for (Dao<?, ?> dao : daoMap.values()) {
+            System.out.println("Saving table " + dao.getTableName());
+            System.out.println(databaseConnection.isAutoCommit());
+            System.out.println(databaseConnection.isAutoCommitSupported());
+            System.out.println(databaseConnection.isClosed());
+            System.out.println(databaseConnection.getUnderlyingConnection());
             //System.out.println(dao.getTableInfo());
             //System.out.println(dao.getDataClass());
             dao.commit(databaseConnection);

@@ -56,4 +56,6 @@ public interface IAPI {
 
     void disable();
 
+    boolean isLEnabled();
+
 }

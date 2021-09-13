@@ -37,6 +37,7 @@ public final class API implements IAPI {
     public SQLConfig sqlConfig;
     public Config config;
     public Lang lang;
+    public boolean enabled;
 
     //Plugins
     public List<LightDreamPlugin> plugins = new ArrayList<>();
@@ -58,6 +59,7 @@ public final class API implements IAPI {
 
     public void init() {
         instance = this;
+        enabled = true;
 
         //Events
         new BalanceChangeEventRunnable(this);
@@ -124,6 +126,12 @@ public final class API implements IAPI {
     @Override
     public void disable(){
         this.databaseManager.save();
+        this.enabled = false;
+    }
+
+    @Override
+    public boolean isLEnabled() {
+        return enabled;
     }
 
     @Override
@@ -213,7 +221,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.91";
+        return "2.95";
     }
 
     @Override
