@@ -80,7 +80,7 @@ public final class API implements IAPI {
         loadConfigs();
 
         messageManager = new MessageManager(this, API.class);
-        this.databaseManager = new DatabaseManager(this);
+        //this.databaseManager = new DatabaseManager(this);
         this.langManager = new LangManager(API.class, getLangs());
 
         //Commands
@@ -221,7 +221,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.96";
+        return "2.97";
     }
 
     @Override
