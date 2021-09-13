@@ -98,16 +98,19 @@ public class DatabaseManager {
             cacheMap.forEach((clazz, list) -> list.forEach(obj -> {
                 try {
                     ((Dao<Object, Integer>) getDao(clazz)).createOrUpdate(obj);
+                    ((Dao<Object, Integer>) getDao(clazz)).commit(databaseConnection);
                 } catch (SQLException sqlException) {
                     sqlException.printStackTrace();
                 }
             }));
+        }else{
+
+            for (Dao<?, ?> dao : daoMap.values()) {
+                System.out.println("Saving table " + dao.getTableName());
+                dao.commit(databaseConnection);
+            }
         }
 
-        for (Dao<?, ?> dao : daoMap.values()) {
-            System.out.println("Saving table " + dao.getTableName());
-            dao.commit(databaseConnection);
-        }
     }
 
     public void save(){
