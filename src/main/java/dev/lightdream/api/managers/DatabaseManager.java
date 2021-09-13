@@ -95,14 +95,21 @@ public class DatabaseManager {
     public void save(boolean commit) {
         api.getLogger().info("Saving database tables to " + api.getDataFolder());
         if(commit){
-            cacheMap.forEach((clazz, list) -> list.forEach(obj -> {
+            cacheMap.forEach((clazz, list) -> {
+                list.forEach(obj -> {
+                    try {
+                        ((Dao<Object, Integer>) getDao(clazz)).createOrUpdate(obj);
+                    } catch (SQLException sqlException) {
+                        sqlException.printStackTrace();
+                    }
+                });
+                System.out.println("Saving table " + getDao(clazz).getTableName());
                 try {
-                    ((Dao<Object, Integer>) getDao(clazz)).createOrUpdate(obj);
-                    ((Dao<Object, Integer>) getDao(clazz)).commit(databaseConnection);
+                    getDao(clazz).commit(databaseConnection);
                 } catch (SQLException sqlException) {
                     sqlException.printStackTrace();
                 }
-            }));
+            });
         }else{
 
             for (Dao<?, ?> dao : daoMap.values()) {
