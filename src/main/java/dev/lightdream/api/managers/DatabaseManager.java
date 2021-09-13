@@ -47,9 +47,7 @@ public class DatabaseManager {
                 DatabaseTypeUtils.createDatabaseType(databaseURL)
         );
 
-        this.databaseConnection= connectionSource.getReadWriteConnection(null);
-
-        setup(User.class);
+        this.databaseConnection = connectionSource.getReadWriteConnection(null);
     }
 
 

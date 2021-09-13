@@ -81,6 +81,7 @@ public final class API implements IAPI {
 
         messageManager = new MessageManager(this, API.class);
         this.databaseManager = new DatabaseManager(this);
+        this.databaseManager.setup(User.class);
         this.langManager = new LangManager(API.class, getLangs());
 
         //Commands
@@ -221,7 +222,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.100";
+        return "2.101";
     }
 
     @Override
