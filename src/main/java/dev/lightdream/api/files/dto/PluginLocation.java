@@ -64,6 +64,8 @@ public class PluginLocation extends Position {
     public String toString() {
         return "PluginLocation{" +
                 "world='" + world + '\'' +
+                ", rotationX=" + rotationX +
+                ", rotationY=" + rotationY +
                 ", x=" + x +
                 ", y=" + y +
                 ", z=" + z +
