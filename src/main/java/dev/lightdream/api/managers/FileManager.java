@@ -30,6 +30,10 @@ public class FileManager {
         this.objectMapper.registerModule(new SimpleModule().addKeyDeserializer(Position.class, api.getKeyDeserializerManager()));
     }
 
+    public void registerModule(SimpleModule module){
+        this.objectMapper.registerModule(module);
+    }
+
     private static String getName(Class<?> clazz) {
         return clazz.getSimpleName().toLowerCase();
     }
