@@ -104,6 +104,10 @@ public class PluginLocation extends Position {
         return new PluginLocation(world, x + position.x, y + position.y, z + position.z, rotationX, rotationY);
     }
 
+    public PluginLocation newRotation(int rotationX, int rotationY){
+        return new PluginLocation(world, this.x, this.y, this.z, rotationX, rotationY);
+    }
+
     @SuppressWarnings("unused")
     public PluginLocation newOffset(double x, double y, double z) {
         return new PluginLocation(world, this.x + x, this.y + y, this.z + z, rotationX, rotationY);
