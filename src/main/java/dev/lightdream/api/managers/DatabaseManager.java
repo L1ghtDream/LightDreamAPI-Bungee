@@ -101,7 +101,7 @@ public class DatabaseManager {
                         sqlException.printStackTrace();
                     }
                 });
-                System.out.println("Saving table " + getDao(clazz).getTableName());
+                api.getLogger().info("Saving table " + getDao(clazz).getTableName());
                 try {
                     getDao(clazz).commit(databaseConnection);
                 } catch (SQLException sqlException) {
@@ -111,7 +111,7 @@ public class DatabaseManager {
         }else{
 
             for (Dao<?, ?> dao : daoMap.values()) {
-                System.out.println("Saving table " + dao.getTableName());
+                api.getLogger().info("Saving table " + dao.getTableName());
                 dao.commit(databaseConnection);
             }
         }
