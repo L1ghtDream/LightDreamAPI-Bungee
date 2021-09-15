@@ -30,7 +30,6 @@ public class DatabaseManager {
     private final ConnectionSource connectionSource;
     private final DatabaseConnection databaseConnection;
     private final HashMap<Class<?>, List<?>> cacheMap = new HashMap<>();
-    @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
 
     @SneakyThrows

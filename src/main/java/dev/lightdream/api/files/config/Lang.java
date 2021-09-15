@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
 
+@SuppressWarnings("FieldMayBeFinal")
 public class Lang {
 
     public String mustBeAPlayer = "You must be a player to use this command.";

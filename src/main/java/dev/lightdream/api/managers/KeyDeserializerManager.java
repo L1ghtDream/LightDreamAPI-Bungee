@@ -2,7 +2,6 @@ package dev.lightdream.api.managers;
 
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.KeyDeserializer;
-import dev.lightdream.api.files.dto.Serializable;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Method;
@@ -34,7 +33,7 @@ public class KeyDeserializerManager extends KeyDeserializer {
             }
         }
 
-        throw new InvalidParameterException("Class '"+className+"' does not ave any method deserialize!");
+        throw new InvalidParameterException("Class '" + className + "' does not ave any method deserialize!");
     }
 }
 

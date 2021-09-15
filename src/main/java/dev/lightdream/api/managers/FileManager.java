@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings({"unused", "ResultOfMethodCallIgnored"})
@@ -30,10 +29,6 @@ public class FileManager {
         this.objectMapper.registerModule(new SimpleModule().addKeyDeserializer(Position.class, api.getKeyDeserializerManager()));
     }
 
-    public void registerModule(SimpleModule module){
-        this.objectMapper.registerModule(module);
-    }
-
     private static String getName(Class<?> clazz) {
         return clazz.getSimpleName().toLowerCase();
     }
@@ -44,6 +39,10 @@ public class FileManager {
 
     public static String getName(Type type) {
         return getName(type.getClass());
+    }
+
+    public void registerModule(SimpleModule module) {
+        this.objectMapper.registerModule(module);
     }
 
     public File getFile(String name) {
