@@ -1,6 +1,8 @@
 package dev.lightdream.api.files.dto;
 
+import dev.lightdream.api.utils.ItemBuilder;
 import lombok.NoArgsConstructor;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -151,6 +153,10 @@ public class Item {
         if (headData != null) item.headData = this.headData;
 
         return item;
+    }
+
+    public ItemStack getItem(){
+        return ItemBuilder.makeItem(this);
     }
 
     @Override
