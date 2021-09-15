@@ -155,7 +155,7 @@ public class Item {
         return item;
     }
 
-    public ItemStack getItem(){
+    public ItemStack parseItem(){
         return ItemBuilder.makeItem(this);
     }
 
