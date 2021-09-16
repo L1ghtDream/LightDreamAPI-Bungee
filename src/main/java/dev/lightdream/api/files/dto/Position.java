@@ -103,6 +103,7 @@ public class Position extends Serializable implements java.io.Serializable {
                 '}';
     }
 
+    /*
     @SneakyThrows
     @Override
     public Position deserialize(String serialized) {
@@ -115,5 +116,5 @@ public class Position extends Serializable implements java.io.Serializable {
         }
         return new Position(Double.parseDouble(coords.get(0).replace("x=", "")), Double.parseDouble(coords.get(1).replace("y=", "")), Double.parseDouble(coords.get(2).replace("z=", "")));
     }
-
+     */
 }
