@@ -6,6 +6,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.rmi.ServerError;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 public abstract class Serializable {
 
     private static HashMap<Class<?>, Method> baseParseMethods = null;
+    private static HashMap<Class<?>, Object> instances = null;
 
     public Serializable() {
         if (Serializable.baseParseMethods != null) {
@@ -22,10 +24,12 @@ public abstract class Serializable {
         }
 
         HashMap<Class<?>, Method> baseParseMethods = new HashMap<>();
+        HashMap<Class<?>, Object> instances = new HashMap<>();
 
         for (Method method : Double.class.getMethods()) {
             if (method.getName().equals("parseDouble")) {
                 baseParseMethods.put(Double.class, method);
+                instances.put(Double.class, 0.0);
                 break;
             }
         }
@@ -33,6 +37,7 @@ public abstract class Serializable {
         for (Method method : Integer.class.getMethods()) {
             if (method.getName().equals("parseInt")) {
                 baseParseMethods.put(Integer.class, method);
+                instances.put(Integer.class, 1);
                 break;
             }
         }
@@ -40,6 +45,7 @@ public abstract class Serializable {
         for (Method method : Long.class.getMethods()) {
             if (method.getName().equals("parseLong")) {
                 baseParseMethods.put(Long.class, method);
+                instances.put(Long.class, 1L);
                 break;
             }
         }
@@ -47,11 +53,13 @@ public abstract class Serializable {
         for (Method method : Boolean.class.getMethods()) {
             if (method.getName().equals("valueOf")) {
                 baseParseMethods.put(Long.class, method);
+                instances.put(Long.class, false);
                 break;
             }
         }
 
         Serializable.baseParseMethods = baseParseMethods;
+        Serializable.instances = instances;
     }
 
     public abstract String toString();
@@ -59,8 +67,6 @@ public abstract class Serializable {
     @SuppressWarnings("unused")
     @SneakyThrows
     public Object deserialize(String serialized) {
-
-
         serialized = serialized.replace(getClass().getSimpleName(), "");
         serialized = "." + serialized + ".";
         serialized = serialized.replace(".{", "");
@@ -86,7 +92,7 @@ public abstract class Serializable {
             String parameter = parameters.get(field.getName());
             Object parsed = null;
             if (Serializable.baseParseMethods.containsKey(field.getType())) {
-                parsed = Serializable.baseParseMethods.get(field.getType()).invoke(field.getType().newInstance(), parameter);
+                parsed = Serializable.baseParseMethods.get(field.getType()).invoke(instances.get(field.getType()), parameter);
             } else {
                 for (Method method : field.getType().getMethods()) {
                     if (method.getName().equals("deserialize")) {
