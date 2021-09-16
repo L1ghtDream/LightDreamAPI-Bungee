@@ -30,7 +30,7 @@ public class DatabaseManager {
     private final ConnectionSource connectionSource;
     private final DatabaseConnection databaseConnection;
     private final HashMap<Class<?>, List<?>> cacheMap = new HashMap<>();
-    private HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
+    private final HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
 
     @SneakyThrows
     @SuppressWarnings("unused")
@@ -81,8 +81,8 @@ public class DatabaseManager {
 
     @SneakyThrows
     public Dao<?, ?> getDao(Class<?> clazz) {
-        if(!daoMap.containsKey(clazz)){
-            throw new Exception("The class '" + clazz.getSimpleName()+"' has not been setup. Use setup("+clazz.getSimpleName()+".class); in your database manager");
+        if (!daoMap.containsKey(clazz)) {
+            throw new Exception("The class '" + clazz.getSimpleName() + "' has not been setup. Use setup(" + clazz.getSimpleName() + ".class); in your database manager");
         }
         return daoMap.get(clazz);
     }
@@ -91,7 +91,7 @@ public class DatabaseManager {
     @SneakyThrows
     public void save(boolean commit) {
         api.getLogger().info("Saving database tables to " + api.getDataFolder());
-        if(commit){
+        if (commit) {
             cacheMap.forEach((clazz, list) -> {
                 list.forEach(obj -> {
                     try {
@@ -107,8 +107,7 @@ public class DatabaseManager {
                     sqlException.printStackTrace();
                 }
             });
-        }else{
-
+        } else {
             for (Dao<?, ?> dao : daoMap.values()) {
                 api.getLogger().info("Saving table " + dao.getTableName());
                 dao.commit(databaseConnection);
@@ -117,7 +116,7 @@ public class DatabaseManager {
 
     }
 
-    public void save(){
+    public void save() {
         save(true);
     }
 
@@ -164,6 +163,7 @@ public class DatabaseManager {
 
     @SneakyThrows
     public void setup(Class<?> clazz) {
+        api.getLogger().info("Setting up " + clazz.getSimpleName());
         createTable(clazz);
         createDao(clazz).setAutoCommit(databaseConnection, false);
         cacheMap.put(clazz, getAll(clazz, false));
