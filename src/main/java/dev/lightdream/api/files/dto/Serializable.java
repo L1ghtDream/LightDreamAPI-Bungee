@@ -44,6 +44,13 @@ public abstract class Serializable {
             }
         }
 
+        for (Method method : Boolean.class.getMethods()) {
+            if (method.getName().equals("valueOf")) {
+                baseParseMethods.put(Long.class, method);
+                break;
+            }
+        }
+
         Serializable.baseParseMethods = baseParseMethods;
     }
 
