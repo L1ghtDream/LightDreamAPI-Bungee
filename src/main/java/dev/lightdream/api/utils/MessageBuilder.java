@@ -51,9 +51,9 @@ public class MessageBuilder {
 
     public Object parse() {
         if (isList()) {
-            List<String> parsedList = baseList;
+            List<String> parsedList = new ArrayList<>();
 
-            parsedList.forEach(line -> {
+            baseList.forEach(line -> {
                 String parsed = line;
 
                 for (int i = 0; i < Math.min(placeholders.size(), values.size()); i++) {
