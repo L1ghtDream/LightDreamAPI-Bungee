@@ -72,6 +72,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
 
         //Files
         fileManager = new FileManager(this, FileManager.PersistType.YAML);
+        registerFileManagerModules();
         loadConfigs();
 
         //Managers

@@ -58,4 +58,6 @@ public interface IAPI {
 
     boolean isLEnabled();
 
+    void registerFileManagerModules();
+
 }

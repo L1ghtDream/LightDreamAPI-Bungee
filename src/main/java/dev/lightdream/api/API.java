@@ -136,6 +136,11 @@ public final class API implements IAPI {
     }
 
     @Override
+    public void registerFileManagerModules() {
+
+    }
+
+    @Override
     public InventoryManager getInventoryManager() {
         return null;
     }
@@ -222,7 +227,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.117";
+        return "2.118";
     }
 
     @Override
