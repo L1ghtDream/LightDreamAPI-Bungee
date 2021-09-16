@@ -124,6 +124,11 @@ public class DatabaseManager {
     public void save(Object object, boolean cache) {
         if (cache) {
             List<Object> list = (List<Object>) cacheMap.getOrDefault(object.getClass(), new ArrayList<>());
+            if(list.contains(object)){
+                list.remove(object);
+            }else{
+                ((Dao<Object, Integer>) daoMap.get(object.getClass())).createOrUpdate(object);
+            }
             list.add(object);
             cacheMap.put(object.getClass(), list);
         } else {
