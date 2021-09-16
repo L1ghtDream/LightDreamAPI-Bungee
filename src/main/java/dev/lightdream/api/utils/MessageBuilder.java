@@ -54,7 +54,7 @@ public class MessageBuilder {
             List<String> parsedList = baseList;
 
             parsedList.forEach(line -> {
-                String parsed = base;
+                String parsed = line;
 
                 for (int i = 0; i < Math.min(placeholders.size(), values.size()); i++) {
                     parsed = parsed.replace("%" + placeholders.get(i) + "%", values.get(i));
