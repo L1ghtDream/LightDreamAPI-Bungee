@@ -79,6 +79,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
         this.economy = api.economy;
         this.permission = api.permission;
         this.databaseManager = new DatabaseManager(this);
+        this.databaseManager = getDatabaseManager();
         this.inventoryManager = new InventoryManager(this);
         this.inventoryManager.init();
         this.messageManager = instantiateMessageManager();

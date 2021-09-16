@@ -29,8 +29,8 @@ public class DatabaseManager {
     private final SQLConfig sqlSettings;
     private final ConnectionSource connectionSource;
     private final DatabaseConnection databaseConnection;
-    private final HashMap<Class<?>, List<?>> cacheMap = new HashMap<>();
-    private final HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
+    private HashMap<Class<?>, List<?>> cacheMap = new HashMap<>();
+    private HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
 
     @SneakyThrows
     @SuppressWarnings("unused")
@@ -163,7 +163,7 @@ public class DatabaseManager {
 
     @SneakyThrows
     public void setup(Class<?> clazz) {
-        api.getLogger().info("Setting up " + clazz.getSimpleName());
+        api.getLogger().info("Setting up " + clazz.getSimpleName() + " database table");
         createTable(clazz);
         createDao(clazz).setAutoCommit(databaseConnection, false);
         cacheMap.put(clazz, getAll(clazz, false));
