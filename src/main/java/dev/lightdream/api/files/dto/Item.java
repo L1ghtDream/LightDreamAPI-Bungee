@@ -1,6 +1,8 @@
 package dev.lightdream.api.files.dto;
 
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import dev.lightdream.api.utils.ItemBuilder;
+import dev.lightdream.api.utils.NbtUtils;
 import lombok.NoArgsConstructor;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,6 +22,15 @@ public class Item {
     public List<String> lore;
     public Integer slot;
     public HashMap<String, Object> nbtTags;
+
+    public Item(ItemStack item){
+        this.material = XMaterial.valueOf(item.getType().toString());
+        this.amount = item.getAmount();
+        if(item.hasItemMeta()){
+            this.displayName = item.getItemMeta().getDisplayName();
+            this.lore = item.getItemMeta().getLore();
+        }
+    }
 
     public Item(XMaterial material) {
         this.material = material;
