@@ -1,7 +1,7 @@
-package dev.lightdream.api.commands.commands;
+package dev.lightdream.api.commands.commands.base;
 
 import dev.lightdream.api.IAPI;
-import dev.lightdream.api.commands.Command;
+import dev.lightdream.api.commands.SubCommand;
 import dev.lightdream.api.utils.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class VersionCommand extends Command {
+public class VersionCommand extends SubCommand {
 
     public VersionCommand(@NotNull IAPI api) {
         super(api, Collections.singletonList("version"), "", "", false, false, "");

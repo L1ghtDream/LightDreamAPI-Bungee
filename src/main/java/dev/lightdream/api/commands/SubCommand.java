@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Command {
+public abstract class SubCommand {
 
     public final @NotNull List<String> aliases;
     public final @NotNull String description;
@@ -18,7 +18,7 @@ public abstract class Command {
     public final String usage;
     public final IAPI api;
 
-    public Command(@NotNull IAPI api, @NotNull List<String> aliases, @NotNull String description, @NotNull String permission, boolean onlyForPlayers, boolean onlyForConsole, @NotNull String usage) {
+    public SubCommand(@NotNull IAPI api, @NotNull List<String> aliases, @NotNull String description, @NotNull String permission, boolean onlyForPlayers, boolean onlyForConsole, @NotNull String usage) {
         this.api = api;
         this.aliases = new ArrayList<>();
         for (String alias : aliases) {

@@ -1,7 +1,7 @@
-package dev.lightdream.api.commands.commands;
+package dev.lightdream.api.commands.commands.ldapi;
 
 import dev.lightdream.api.IAPI;
-import dev.lightdream.api.commands.Command;
+import dev.lightdream.api.commands.SubCommand;
 import dev.lightdream.api.utils.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class PluginsCommand extends Command {
+public class PluginsCommand extends SubCommand {
     public PluginsCommand(@NotNull IAPI api) {
         super(api, Collections.singletonList("plugins"), "", "", false, false, "");
     }

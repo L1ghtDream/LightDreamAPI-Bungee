@@ -1,11 +1,11 @@
 package dev.lightdream.api;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import dev.lightdream.api.commands.Command;
-import dev.lightdream.api.commands.commands.ChoseLangCommand;
-import dev.lightdream.api.commands.commands.PluginsCommand;
-import dev.lightdream.api.commands.commands.ReloadCommand;
-import dev.lightdream.api.commands.commands.VersionCommand;
+import dev.lightdream.api.commands.SubCommand;
+import dev.lightdream.api.commands.commands.ldapi.ChoseLangCommand;
+import dev.lightdream.api.commands.commands.ldapi.PluginsCommand;
+import dev.lightdream.api.commands.commands.base.ReloadCommand;
+import dev.lightdream.api.commands.commands.base.VersionCommand;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.config.Config;
 import dev.lightdream.api.files.config.Lang;
@@ -85,8 +85,8 @@ public final class API implements IAPI {
         this.langManager = new LangManager(API.class, getLangs());
 
         //Commands
-        List<Command> baseCommands = new ArrayList<>(getBaseCommands());
-        new CommandManager(this, getProjectID(), baseCommands);
+        List<SubCommand> baseSubCommands = new ArrayList<>(getBaseCommands());
+        new CommandManager(this, getProjectID(), baseSubCommands);
 
         getLogger().info(ChatColor.GREEN + getProjectName() + "(by github.com/L1ghtDream) has been enabled");
     }
@@ -109,7 +109,7 @@ public final class API implements IAPI {
         return "";
     }
 
-    public List<Command> getBaseCommands() {
+    public List<SubCommand> getBaseCommands() {
         return Arrays.asList(
                 new ChoseLangCommand(this),
                 new ReloadCommand(this),
@@ -227,7 +227,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.133";
+        return "2.134";
     }
 
     @Override

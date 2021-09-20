@@ -1,7 +1,7 @@
 package dev.lightdream.api.managers;
 
 import dev.lightdream.api.IAPI;
-import dev.lightdream.api.commands.Command;
+import dev.lightdream.api.commands.SubCommand;
 import dev.lightdream.api.utils.MessageBuilder;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,9 +16,9 @@ public class CommandManager implements CommandExecutor, TabCompleter {
 
     private final IAPI api;
     @SuppressWarnings("FieldMayBeFinal")
-    private List<Command> commands;
+    private List<SubCommand> subCommands;
 
-    public CommandManager(IAPI api, String command, List<Command> commands) {
+    public CommandManager(IAPI api, String command, List<SubCommand> subCommands) {
         this.api = api;
         try {
             api.getPlugin().getCommand(command).setExecutor(this);
@@ -28,8 +28,8 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             return;
         }
 
-        this.commands = commands;
-        this.commands.sort(Comparator.comparing(com -> com.aliases.get(0)));
+        this.subCommands = subCommands;
+        this.subCommands.sort(Comparator.comparing(com -> com.aliases.get(0)));
     }
 
     public void sendUsage(CommandSender sender) {
@@ -37,9 +37,9 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         helpCommandOutput.append("\n");
 
         if (api.getLang().helpCommand.equals("")) {
-            for (Command command : commands) {
-                if (sender.hasPermission(command.permission)) {
-                    helpCommandOutput.append(command.usage);
+            for (SubCommand subCommand : subCommands) {
+                if (sender.hasPermission(subCommand.permission)) {
+                    helpCommandOutput.append(subCommand.usage);
                     helpCommandOutput.append("\n");
                 }
             }
@@ -53,9 +53,9 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command bukkitCommand, String label, String[] args) {
         if (args.length == 0) {
-            for (Command command : commands) {
-                if (command.aliases.get(0).equals("")) {
-                    command.execute(sender, Arrays.asList(args));
+            for (SubCommand subCommand : subCommands) {
+                if (subCommand.aliases.get(0).equals("")) {
+                    subCommand.execute(sender, Arrays.asList(args));
                     return true;
                 }
             }
@@ -63,27 +63,27 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        for (Command command : commands) {
-            if (!(command.aliases.contains(args[0].toLowerCase()))) {
+        for (SubCommand subCommand : subCommands) {
+            if (!(subCommand.aliases.contains(args[0].toLowerCase()))) {
                 continue;
             }
 
-            if (command.onlyForPlayers && !(sender instanceof Player)) {
+            if (subCommand.onlyForPlayers && !(sender instanceof Player)) {
                 api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().mustBeAPlayer));
                 return true;
             }
 
-            if (command.onlyForConsole && !(sender instanceof ConsoleCommandSender)) {
+            if (subCommand.onlyForConsole && !(sender instanceof ConsoleCommandSender)) {
                 api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().mustBeConsole));
                 return true;
             }
 
-            if (!hasPermission(sender, command.permission)) {
+            if (!hasPermission(sender, subCommand.permission)) {
                 api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().noPermission));
                 return true;
             }
 
-            command.execute(sender, new ArrayList<>(Arrays.asList(args).subList(1, args.length)));
+            subCommand.execute(sender, new ArrayList<>(Arrays.asList(args).subList(1, args.length)));
             return true;
         }
 
@@ -95,9 +95,9 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command bukkitCommand, String bukkitAlias, String[] args) {
         if (args.length == 1) {
             ArrayList<String> result = new ArrayList<>();
-            for (Command command : commands) {
-                for (String alias : command.aliases) {
-                    if (alias.toLowerCase().startsWith(args[0].toLowerCase()) && hasPermission(sender, command.permission)) {
+            for (SubCommand subCommand : subCommands) {
+                for (String alias : subCommand.aliases) {
+                    if (alias.toLowerCase().startsWith(args[0].toLowerCase()) && hasPermission(sender, subCommand.permission)) {
                         result.add(alias);
                     }
                 }
@@ -105,9 +105,9 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             return result;
         }
 
-        for (Command command : commands) {
-            if (command.aliases.contains(args[0]) && hasPermission(sender, command.permission)) {
-                return command.onTabComplete(sender, new ArrayList<>(Arrays.asList(args).subList(1, args.length)));
+        for (SubCommand subCommand : subCommands) {
+            if (subCommand.aliases.contains(args[0]) && hasPermission(sender, subCommand.permission)) {
+                return subCommand.onTabComplete(sender, new ArrayList<>(Arrays.asList(args).subList(1, args.length)));
             }
         }
 
