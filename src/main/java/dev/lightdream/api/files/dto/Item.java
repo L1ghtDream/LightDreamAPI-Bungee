@@ -32,6 +32,7 @@ public class Item {
             this.displayName = this.material.name();
             this.lore = new ArrayList<>();
         }
+        this.nbtTags = new HashMap<>();
     }
 
     public Item(XMaterial material) {
