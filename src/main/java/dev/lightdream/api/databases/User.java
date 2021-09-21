@@ -120,12 +120,11 @@ public class User {
     }
 
     @SuppressWarnings({"unused", "ConstantConditions"})
-    public int getXP(){
-        if(!isOnline()){
+    public int getXP() {
+        if (!isOnline()) {
             return 0;
         }
         return XPUtils.getTotalExperience(getPlayer());
     }
-
 
 }

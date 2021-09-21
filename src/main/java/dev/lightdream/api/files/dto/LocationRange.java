@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.FutureTask;
 
@@ -67,5 +68,18 @@ public class LocationRange {
                 "pos1=" + pos1 +
                 ", pos2=" + pos2 +
                 '}';
+    }
+
+    public List<PluginLocation> getCorners(){
+        return Arrays.asList(
+                new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z)),
+                new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.max(pos1.z, pos2.z)),
+                new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.max(pos1.y, pos2.y), Math.min(pos1.z, pos2.z)),
+                new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.max(pos1.y, pos2.y), Math.max(pos1.z, pos2.z)),
+                new PluginLocation(pos1.world, Math.max(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z)),
+                new PluginLocation(pos1.world, Math.max(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.max(pos1.z, pos2.z)),
+                new PluginLocation(pos1.world, Math.max(pos1.x, pos2.x), Math.max(pos1.y, pos2.y), Math.min(pos1.z, pos2.z)),
+                new PluginLocation(pos1.world, Math.max(pos1.x, pos2.x), Math.max(pos1.y, pos2.y), Math.max(pos1.z, pos2.z))
+        );
     }
 }
