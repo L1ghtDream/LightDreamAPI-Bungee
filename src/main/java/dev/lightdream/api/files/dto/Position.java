@@ -3,12 +3,8 @@ package dev.lightdream.api.files.dto;
 import com.sk89q.worldedit.Vector;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.experimental.SuperBuilder;
 
-import java.security.InvalidParameterException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 @SuperBuilder
@@ -20,15 +16,6 @@ public class Position extends Serializable implements java.io.Serializable {
     public Double y;
     public Double z;
 
-    /*
-    public Position(Double x, Double y, Double z) {
-        super();
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-    */
-
     @SuppressWarnings("unused")
     public Position(Integer x, Integer y, Integer z) {
         super();
@@ -36,12 +23,6 @@ public class Position extends Serializable implements java.io.Serializable {
         this.y = Double.valueOf(y);
         this.z = Double.valueOf(z);
     }
-
-    /*
-    public Position() {
-        super();
-    }
-    */
 
     @SuppressWarnings("unused")
     public PluginLocation getPluginLocation(String world) {
@@ -102,19 +83,4 @@ public class Position extends Serializable implements java.io.Serializable {
                 ", z=" + z +
                 '}';
     }
-
-    /*
-    @SneakyThrows
-    @Override
-    public Position deserialize(String serialized) {
-        serialized = serialized.replace(getClass().getSimpleName(), "");
-        serialized = serialized.replace("{", "");
-        serialized = serialized.replace("}", "");
-        List<String> coords = Arrays.asList(serialized.split(", "));
-        if (coords.size() != 3) {
-            throw new InvalidParameterException("The string does not match the constructor");
-        }
-        return new Position(Double.parseDouble(coords.get(0).replace("x=", "")), Double.parseDouble(coords.get(1).replace("y=", "")), Double.parseDouble(coords.get(2).replace("z=", "")));
-    }
-     */
 }

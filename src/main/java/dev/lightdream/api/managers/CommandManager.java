@@ -11,11 +11,9 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-@SuppressWarnings({"MismatchedQueryAndUpdateOfStringBuilder"})
 public class CommandManager implements CommandExecutor, TabCompleter {
 
     private final IAPI api;
-    @SuppressWarnings("FieldMayBeFinal")
     private List<SubCommand> subCommands;
 
     public CommandManager(IAPI api, String command, List<SubCommand> subCommands) {

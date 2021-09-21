@@ -4,7 +4,7 @@ import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
 
-@SuppressWarnings("FieldMayBeFinal")
+@SuppressWarnings("CanBeFinal")
 public class Lang {
 
     public String mustBeAPlayer = "You must be a player to use this command.";
@@ -21,6 +21,8 @@ public class Lang {
     public String helpCommand = "";
     public String pluginList = "Plugins: %plugins%";
     public String pluginFormat = "%project-name%(%project-id%) %project-version%";
+    @SuppressWarnings("unused")
+    public String offlineUser = "The user is offline";
 
     @SuppressWarnings("unused")
     @SneakyThrows

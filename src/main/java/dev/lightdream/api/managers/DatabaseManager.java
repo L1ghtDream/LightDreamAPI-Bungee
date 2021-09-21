@@ -22,14 +22,16 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.*;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings("ALL")
 public class DatabaseManager {
 
     public final IAPI api;
     private final SQLConfig sqlSettings;
     private final ConnectionSource connectionSource;
     private final DatabaseConnection databaseConnection;
+    @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, List<?>> cacheMap = new HashMap<>();
+    @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
 
     @SneakyThrows

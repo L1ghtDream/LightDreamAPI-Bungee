@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@SuppressWarnings("CanBeFinal")
 public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
 
     //Settings

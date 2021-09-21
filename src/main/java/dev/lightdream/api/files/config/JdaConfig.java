@@ -1,6 +1,6 @@
 package dev.lightdream.api.files.config;
 
-@SuppressWarnings("FieldMayBeFinal")
+@SuppressWarnings("ALL")
 public class JdaConfig {
 
     public boolean useJDA = false;

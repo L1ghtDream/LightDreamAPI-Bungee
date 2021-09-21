@@ -3,6 +3,7 @@ package dev.lightdream.api.files.config;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("CanBeFinal")
 public class Config {
 
     public String baseLang = "en_us";

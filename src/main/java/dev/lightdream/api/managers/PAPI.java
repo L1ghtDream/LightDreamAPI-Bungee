@@ -7,7 +7,6 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"unused", "FieldCanBeLocal"})
 public class PAPI extends PlaceholderExpansion {
 
     private final API api;
@@ -16,6 +15,7 @@ public class PAPI extends PlaceholderExpansion {
         this.api = api;
     }
 
+    @SuppressWarnings("unused")
     public static String parse(OfflinePlayer player, String text) {
         return PlaceholderAPI.setPlaceholders(player, text);
     }

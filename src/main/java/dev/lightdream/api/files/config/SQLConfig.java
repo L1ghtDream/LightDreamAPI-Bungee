@@ -2,6 +2,7 @@ package dev.lightdream.api.files.config;
 
 import lombok.NoArgsConstructor;
 
+@SuppressWarnings("CanBeFinal")
 @NoArgsConstructor
 public class SQLConfig {
 

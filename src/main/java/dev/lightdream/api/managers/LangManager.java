@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+@SuppressWarnings("CanBeFinal")
 public class LangManager {
 
     @SuppressWarnings("FieldMayBeFinal")

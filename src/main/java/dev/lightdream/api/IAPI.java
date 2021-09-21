@@ -48,6 +48,7 @@ public interface IAPI {
 
     InventoryManager getInventoryManager();
 
+    @SuppressWarnings("unused")
     List<SimpleModule> getSimpleModules();
 
     API getAPI();
@@ -58,6 +59,7 @@ public interface IAPI {
 
     boolean isLEnabled();
 
+    @SuppressWarnings("EmptyMethod")
     void registerFileManagerModules();
 
 }

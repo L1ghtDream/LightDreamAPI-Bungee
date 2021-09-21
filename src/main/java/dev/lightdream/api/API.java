@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+@SuppressWarnings("CanBeFinal")
 public final class API implements IAPI {
 
     //Settings
@@ -227,7 +228,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.136";
+        return "2.137";
     }
 
     @Override
