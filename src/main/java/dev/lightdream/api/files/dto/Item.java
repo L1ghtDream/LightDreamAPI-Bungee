@@ -23,7 +23,7 @@ public class Item {
     public HashMap<String, Object> nbtTags;
 
     public Item(ItemStack item) {
-        this.material = XMaterial.valueOf(item.getType().toString());
+        this.material = XMaterial.matchXMaterial(item);
         this.amount = item.getAmount();
         if (item.hasItemMeta()) {
             this.displayName = item.getItemMeta().getDisplayName();
