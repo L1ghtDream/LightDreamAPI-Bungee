@@ -1,14 +1,13 @@
 package dev.lightdream.api.files.dto;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
 import dev.lightdream.api.utils.ItemBuilder;
-import dev.lightdream.api.utils.NbtUtils;
 import lombok.NoArgsConstructor;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings({"MethodDoesntCallSuperMethod", "unused"})
 @NoArgsConstructor
@@ -23,12 +22,15 @@ public class Item {
     public Integer slot;
     public HashMap<String, Object> nbtTags;
 
-    public Item(ItemStack item){
+    public Item(ItemStack item) {
         this.material = XMaterial.valueOf(item.getType().toString());
         this.amount = item.getAmount();
-        if(item.hasItemMeta()){
+        if (item.hasItemMeta()) {
             this.displayName = item.getItemMeta().getDisplayName();
             this.lore = item.getItemMeta().getLore();
+        } else {
+            this.displayName = this.material.name();
+            this.lore = new ArrayList<>();
         }
     }
 
@@ -166,7 +168,7 @@ public class Item {
         return item;
     }
 
-    public ItemStack parseItem(){
+    public ItemStack parseItem() {
         return ItemBuilder.makeItem(this);
     }
 
@@ -182,5 +184,42 @@ public class Item {
                 ", slot=" + slot +
                 ", nbtTags=" + nbtTags +
                 '}';
+    }
+
+    public boolean equals(Object o, boolean exact) {
+        if (exact) {
+            return this.equals(o);
+        } else {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Item item = (Item) o;
+            return material == item.material &&
+                    Objects.equals(displayName, item.displayName) &&
+                    Objects.equals(headData, item.headData) &&
+                    Objects.equals(headOwner, item.headOwner) &&
+                    Objects.equals(lore, item.lore) &&
+                    Objects.equals(slot, item.slot) &&
+                    Objects.equals(nbtTags, item.nbtTags);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return amount == item.amount &&
+                material == item.material &&
+                Objects.equals(displayName, item.displayName) &&
+                Objects.equals(headData, item.headData) &&
+                Objects.equals(headOwner, item.headOwner) &&
+                Objects.equals(lore, item.lore) &&
+                Objects.equals(slot, item.slot) &&
+                Objects.equals(nbtTags, item.nbtTags);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(material, amount, displayName, headData, headOwner, lore, slot, nbtTags);
     }
 }
