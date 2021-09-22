@@ -12,6 +12,7 @@ import org.bukkit.entity.Firework;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -112,6 +113,34 @@ public class Utils {
 
     public static PluginLocation minPluginLocation(PluginLocation pos1, PluginLocation pos2) {
         return new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z));
+    }
+
+    public static PluginLocation maxPluginLocation(List<PluginLocation> positions){
+        double maxX=-1;
+        double maxY=-1;
+        double maxZ=-1;
+
+        for (PluginLocation position : positions) {
+            maxX = Math.max(maxX, position.x);
+            maxY = Math.max(maxY, position.y);
+            maxZ = Math.max(maxZ, position.z);
+        }
+
+        return new PluginLocation(positions.get(0).world, maxX, maxY, maxZ);
+    }
+
+    public static PluginLocation minPluginLocation(List<PluginLocation> positions){
+        double minX=-1;
+        double minY=-1;
+        double minZ=-1;
+
+        for (PluginLocation position : positions) {
+            minX = Math.min(minX, position.x);
+            minY = Math.min(minY, position.y);
+            minZ = Math.min(minZ, position.z);
+        }
+
+        return new PluginLocation(positions.get(0).world, minX, minY, minZ);
     }
 
 
