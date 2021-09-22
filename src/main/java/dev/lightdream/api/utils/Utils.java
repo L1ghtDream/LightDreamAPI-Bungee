@@ -116,9 +116,9 @@ public class Utils {
     }
 
     public static PluginLocation maxPluginLocation(List<PluginLocation> positions){
-        double maxX=-1;
-        double maxY=-1;
-        double maxZ=-1;
+        double maxX=-Double.MAX_VALUE;
+        double maxY=-Double.MAX_VALUE;
+        double maxZ=-Double.MAX_VALUE;
 
         for (PluginLocation position : positions) {
             maxX = Math.max(maxX, position.x);
@@ -130,9 +130,9 @@ public class Utils {
     }
 
     public static PluginLocation minPluginLocation(List<PluginLocation> positions){
-        double minX=1000;
-        double minY=1000;
-        double minZ=1000;
+        double minX=Double.MAX_VALUE;
+        double minY=Double.MAX_VALUE;
+        double minZ=Double.MAX_VALUE;
 
         for (PluginLocation position : positions) {
             minX = Math.min(minX, position.x);
