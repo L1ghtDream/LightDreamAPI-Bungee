@@ -37,9 +37,12 @@ public class GUIItem {
         return new GUIItem(item.clone(), args.clone(), repeatedItem);
     }
 
-    @NoArgsConstructor
     public static class GUIItemArgs {
         public HashMap<MessageBuilder, MessageBuilder> functions;
+
+        public GUIItemArgs(){
+            this.functions = new HashMap<>();
+        }
 
         public GUIItemArgs(HashMap<Object, Object> functions) {
             HashMap<MessageBuilder, MessageBuilder> f = new HashMap<>();
