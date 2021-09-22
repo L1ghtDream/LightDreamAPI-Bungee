@@ -189,7 +189,17 @@ public class Item {
 
     public boolean equals(Object o, boolean exact) {
         if (exact) {
-            return this.equals(o);
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Item item = (Item) o;
+            return amount == item.amount &&
+                    material == item.material &&
+                    Objects.equals(displayName, item.displayName) &&
+                    Objects.equals(headData, item.headData) &&
+                    Objects.equals(headOwner, item.headOwner) &&
+                    Objects.equals(lore, item.lore) &&
+                    Objects.equals(slot, item.slot) &&
+                    Objects.equals(nbtTags, item.nbtTags);
         } else {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
@@ -206,17 +216,7 @@ public class Item {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return amount == item.amount &&
-                material == item.material &&
-                Objects.equals(displayName, item.displayName) &&
-                Objects.equals(headData, item.headData) &&
-                Objects.equals(headOwner, item.headOwner) &&
-                Objects.equals(lore, item.lore) &&
-                Objects.equals(slot, item.slot) &&
-                Objects.equals(nbtTags, item.nbtTags);
+        return equals(o, true);
     }
 
     @Override
