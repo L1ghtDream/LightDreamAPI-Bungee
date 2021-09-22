@@ -23,6 +23,9 @@ public class Item {
     public HashMap<String, Object> nbtTags;
 
     public Item(ItemStack item) {
+        if (item == null) {
+            return;
+        }
         this.material = XMaterial.matchXMaterial(item);
         this.amount = item.getAmount();
         if (item.hasItemMeta()) {
