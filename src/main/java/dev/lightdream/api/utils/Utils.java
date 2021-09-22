@@ -130,9 +130,9 @@ public class Utils {
     }
 
     public static PluginLocation minPluginLocation(List<PluginLocation> positions){
-        double minX=-1;
-        double minY=-1;
-        double minZ=-1;
+        double minX=1000;
+        double minY=1000;
+        double minZ=1000;
 
         for (PluginLocation position : positions) {
             minX = Math.min(minX, position.x);
