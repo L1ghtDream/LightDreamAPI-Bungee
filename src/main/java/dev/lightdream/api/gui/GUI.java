@@ -51,9 +51,9 @@ public abstract class GUI implements InventoryProvider {
             keys.add(key);
         }
         for (int i = items.size() - 1; i >= 0; i--) {
-            GUIItem item = items.get(i).clone();
 
-            while (canAddItem(item, keys.get(i))) {
+            while (canAddItem(items.get(0), keys.get(i))) {
+                GUIItem item = items.get(i).clone();
                 item.item.displayName = parse(item.item.displayName, player);
                 item.item.lore = parse(item.item.lore, player);
                 item.item.headOwner = parse(item.item.displayName, player);
