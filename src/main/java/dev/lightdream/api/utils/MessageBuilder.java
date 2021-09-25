@@ -169,4 +169,19 @@ public class MessageBuilder {
         }
         return null;
     }
-}
+
+    @SuppressWarnings("unused")
+    public @Nullable String parseString(){
+        if(isList()){
+            return null;
+        }
+        return (String) parse();
+    }
+
+    @SuppressWarnings({"unchecked", "unused"})
+    public @Nullable List<String> parseStringList(){
+        if(isList()){
+            return (List<String>) parse();
+        }
+        return null;
+    }}
