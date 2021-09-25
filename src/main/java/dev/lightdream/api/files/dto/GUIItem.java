@@ -1,5 +1,6 @@
 package dev.lightdream.api.files.dto;
 
+import com.avaje.ebeaninternal.server.core.Message;
 import dev.lightdream.api.utils.MessageBuilder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,7 @@ public class GUIItem {
         return args.getFunctions();
     }
 
-    public Object getFunctionArgs(String function) {
+    public MessageBuilder getFunctionArgs(String function) {
         return args.getFunctionArgs(function);
     }
 
@@ -74,7 +75,7 @@ public class GUIItem {
             return functions;
         }
 
-        public Object getFunctionArgs(String function) {
+        public MessageBuilder getFunctionArgs(String function) {
             return functions.get(new MessageBuilder(function));
         }
 

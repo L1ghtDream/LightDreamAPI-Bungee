@@ -18,7 +18,6 @@ import org.bukkit.event.inventory.InventoryType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("unused")
 public abstract class GUI implements InventoryProvider {
@@ -114,7 +113,7 @@ public abstract class GUI implements InventoryProvider {
 
     public abstract InventoryProvider getProvider();
 
-    public abstract void functionCall(Player player, String function, Object args);
+    public abstract void functionCall(Player player, String function, MessageBuilder args);
 
     public abstract boolean canAddItem(GUIItem item, String key);
 
