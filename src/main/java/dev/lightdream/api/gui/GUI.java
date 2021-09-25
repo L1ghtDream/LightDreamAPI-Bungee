@@ -16,7 +16,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unused")
 public abstract class GUI implements InventoryProvider {
@@ -134,6 +136,6 @@ public abstract class GUI implements InventoryProvider {
         getInventory().open(user.getPlayer());
     }
 
-    public abstract List<Object> getArgs();
+    public abstract Map<Class<?>, Object> getArgs();
 
 }
