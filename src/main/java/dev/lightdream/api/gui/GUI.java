@@ -60,6 +60,9 @@ public abstract class GUI implements InventoryProvider {
                 GUIItem item = items.get(i).clone();
 
                 if(item.repeated){
+                    if(item.nextSlots.size()<=iter){
+                        break;
+                    }
                     item.item.slot=item.nextSlots.get(iter);
                     iter++;
                 }
