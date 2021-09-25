@@ -1,5 +1,7 @@
 package dev.lightdream.api.utils;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 
 public class MessageBuilder {
@@ -150,5 +152,21 @@ public class MessageBuilder {
                 ", placeholders=" + placeholders +
                 ", values=" + values +
                 '}';
+    }
+
+    @SuppressWarnings("unused")
+    public @Nullable String getBaseString(){
+        if(isList()){
+            return null;
+        }
+        return (String) getBase();
+    }
+
+    @SuppressWarnings({"unchecked", "unused"})
+    public @Nullable List<String> getBaseList(){
+        if(isList()){
+            return (List<String>) getBase();
+        }
+        return null;
     }
 }
