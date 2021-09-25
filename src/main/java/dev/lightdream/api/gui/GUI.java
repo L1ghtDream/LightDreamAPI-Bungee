@@ -134,4 +134,6 @@ public abstract class GUI implements InventoryProvider {
         getInventory().open(user.getPlayer());
     }
 
+    public abstract List<Object> getArgs();
+
 }
