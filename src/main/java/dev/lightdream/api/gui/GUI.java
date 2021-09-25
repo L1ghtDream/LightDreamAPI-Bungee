@@ -136,6 +136,6 @@ public abstract class GUI implements InventoryProvider {
         getInventory().open(user.getPlayer());
     }
 
-    public abstract Map<Class<?>, Object> getArgs();
+    public abstract HashMap<Class<?>, Object> getArgs();
 
 }
