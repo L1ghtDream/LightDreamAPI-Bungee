@@ -15,13 +15,15 @@ public class GUIItem {
 
     public Item item;
     public GUIItemArgs args;
-    public boolean repeatedItem;
+    public boolean repeated;
+    public List<Integer> nextSlots;
 
     @SuppressWarnings("unused")
     public GUIItem(Item item, GUIItemArgs args) {
         this.item = item;
         this.args = args;
-        this.repeatedItem = false;
+        this.repeated = false;
+        this.nextSlots = new ArrayList<>();
     }
 
     public List<String> getFunctions() {
@@ -34,7 +36,7 @@ public class GUIItem {
 
     @SuppressWarnings("MethodDoesntCallSuperMethod")
     public GUIItem clone() {
-        return new GUIItem(item.clone(), args.clone(), repeatedItem);
+        return new GUIItem(item.clone(), args.clone(), repeated, nextSlots);
     }
 
     @Override
@@ -42,7 +44,7 @@ public class GUIItem {
         return "GUIItem{" +
                 "item=" + item +
                 ", args=" + args +
-                ", repeatedItem=" + repeatedItem +
+                ", repeatedItem=" + repeated +
                 '}';
     }
 
