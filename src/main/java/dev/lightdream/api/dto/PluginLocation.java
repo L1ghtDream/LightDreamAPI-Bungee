@@ -1,4 +1,4 @@
-package dev.lightdream.api.files.dto;
+package dev.lightdream.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -104,7 +104,8 @@ public class PluginLocation extends Position {
         return new PluginLocation(world, x + position.x, y + position.y, z + position.z, rotationX, rotationY);
     }
 
-    public PluginLocation newRotation(int rotationX, int rotationY){
+    @SuppressWarnings("unused")
+    public PluginLocation newRotation(int rotationX, int rotationY) {
         return new PluginLocation(world, this.x, this.y, this.z, rotationX, rotationY);
     }
 

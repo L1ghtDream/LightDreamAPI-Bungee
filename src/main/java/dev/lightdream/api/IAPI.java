@@ -1,9 +1,9 @@
 package dev.lightdream.api;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import dev.lightdream.api.files.config.Config;
-import dev.lightdream.api.files.config.Lang;
-import dev.lightdream.api.files.config.SQLConfig;
+import dev.lightdream.api.conifgs.Config;
+import dev.lightdream.api.conifgs.Lang;
+import dev.lightdream.api.conifgs.SQLConfig;
 import dev.lightdream.api.managers.DatabaseManager;
 import dev.lightdream.api.managers.KeyDeserializerManager;
 import dev.lightdream.api.managers.MessageManager;

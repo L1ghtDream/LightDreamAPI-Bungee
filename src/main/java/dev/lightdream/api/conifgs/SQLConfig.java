@@ -1,4 +1,4 @@
-package dev.lightdream.api.files.config;
+package dev.lightdream.api.conifgs;
 
 import lombok.NoArgsConstructor;
 

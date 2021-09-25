@@ -1,7 +1,7 @@
 package dev.lightdream.api.utils;
 
-import dev.lightdream.api.files.dto.Item;
-import dev.lightdream.api.files.dto.PluginLocation;
+import dev.lightdream.api.dto.Item;
+import dev.lightdream.api.dto.PluginLocation;
 import fr.minuskube.inv.content.SlotPos;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -12,7 +12,6 @@ import org.bukkit.entity.Firework;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

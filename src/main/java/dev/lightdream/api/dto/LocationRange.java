@@ -1,4 +1,4 @@
-package dev.lightdream.api.files.dto;
+package dev.lightdream.api.dto;
 
 import dev.lightdream.api.utils.Utils;
 import lombok.AllArgsConstructor;
@@ -48,7 +48,7 @@ public class LocationRange {
                     List<Block> output = new ArrayList<>();
 
                     for (int x = (int) Math.floor(min.x); x <= max.x; x++) {
-                        for (int y = (int) Math.floor( min.y); y <= max.y; y++) {
+                        for (int y = (int) Math.floor(min.y); y <= max.y; y++) {
                             for (int z = (int) Math.floor(min.z); z <= max.z; z++) {
                                 output.add(world.getBlockAt(x, y, z));
                             }
@@ -70,7 +70,8 @@ public class LocationRange {
                 '}';
     }
 
-    public List<PluginLocation> getCorners(){
+    @SuppressWarnings("unused")
+    public List<PluginLocation> getCorners() {
         return Arrays.asList(
                 new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z)),
                 new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.max(pos1.z, pos2.z)),

@@ -1,4 +1,4 @@
-package dev.lightdream.api.files.dto;
+package dev.lightdream.api.dto;
 
 import com.sk89q.worldedit.Vector;
 import lombok.AllArgsConstructor;

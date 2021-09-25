@@ -8,8 +8,8 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.TableUtils;
 import dev.lightdream.api.IAPI;
+import dev.lightdream.api.conifgs.SQLConfig;
 import dev.lightdream.api.databases.User;
-import dev.lightdream.api.files.config.SQLConfig;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -126,9 +126,9 @@ public class DatabaseManager {
     public void save(Object object, boolean cache) {
         if (cache) {
             List<Object> list = (List<Object>) cacheMap.getOrDefault(object.getClass(), new ArrayList<>());
-            if(list.contains(object)){
+            if (list.contains(object)) {
                 list.remove(object);
-            }else{
+            } else {
                 ((Dao<Object, Integer>) daoMap.get(object.getClass())).createOrUpdate(object);
             }
             list.add(object);

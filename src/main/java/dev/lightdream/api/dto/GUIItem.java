@@ -1,6 +1,5 @@
-package dev.lightdream.api.files.dto;
+package dev.lightdream.api.dto;
 
-import com.avaje.ebeaninternal.server.core.Message;
 import dev.lightdream.api.utils.MessageBuilder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -38,10 +37,20 @@ public class GUIItem {
         return new GUIItem(item.clone(), args.clone(), repeatedItem);
     }
 
+    @Override
+    public String toString() {
+        return "GUIItem{" +
+                "item=" + item +
+                ", args=" + args +
+                ", repeatedItem=" + repeatedItem +
+                '}';
+    }
+
     public static class GUIItemArgs {
         public HashMap<MessageBuilder, MessageBuilder> functions;
 
-        public GUIItemArgs(){
+        @SuppressWarnings("unused")
+        public GUIItemArgs() {
             this.functions = new HashMap<>();
         }
 
@@ -82,7 +91,7 @@ public class GUIItem {
         @SuppressWarnings({"MethodDoesntCallSuperMethod"})
         public GUIItemArgs clone() {
             HashMap<Object, Object> functions = new HashMap<>();
-            this.functions.forEach((function, value)->functions.put(function.clone(), value.clone()));
+            this.functions.forEach((function, value) -> functions.put(function.clone(), value.clone()));
             return new GUIItemArgs(functions);
         }
 
@@ -98,14 +107,5 @@ public class GUIItem {
                     "functions=" + functions +
                     '}';
         }
-    }
-
-    @Override
-    public String toString() {
-        return "GUIItem{" +
-                "item=" + item +
-                ", args=" + args +
-                ", repeatedItem=" + repeatedItem +
-                '}';
     }
 }

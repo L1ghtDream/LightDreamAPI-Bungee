@@ -1,4 +1,4 @@
-package dev.lightdream.api.files.dto;
+package dev.lightdream.api.dto;
 
 import lombok.Data;
 import lombok.SneakyThrows;

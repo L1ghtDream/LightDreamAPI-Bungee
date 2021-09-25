@@ -3,7 +3,7 @@ package dev.lightdream.api.databases;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import dev.lightdream.api.API;
-import dev.lightdream.api.files.dto.PluginLocation;
+import dev.lightdream.api.dto.PluginLocation;
 import dev.lightdream.api.utils.XPUtils;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
@@ -76,47 +76,47 @@ public class User {
     }
 
     @SuppressWarnings("unused")
-    public boolean hasMoney(double amount){
+    public boolean hasMoney(double amount) {
         return API.instance.getEconomy().has(getOfflinePlayer(), amount);
     }
 
     @SuppressWarnings("unused")
-    public void addMoney(double amount){
+    public void addMoney(double amount) {
         API.instance.getEconomy().depositPlayer(getOfflinePlayer(), amount);
     }
 
     @SuppressWarnings("unused")
-    public void removeMoney(double amount){
+    public void removeMoney(double amount) {
         API.instance.getEconomy().withdrawPlayer(getOfflinePlayer(), amount);
     }
 
     @SuppressWarnings("unused")
-    public double getMoney(){
+    public double getMoney() {
         return API.instance.getEconomy().getBalance(getOfflinePlayer());
     }
 
     @SuppressWarnings({"unused", "ConstantConditions"})
-    public boolean hasXP(int xp){
-        if(!isOnline()){
+    public boolean hasXP(int xp) {
+        if (!isOnline()) {
             return false;
         }
-        return XPUtils.getTotalExperience(getPlayer())>=xp;
+        return XPUtils.getTotalExperience(getPlayer()) >= xp;
     }
 
     @SuppressWarnings("unused")
-    public void addXP(int xp){
-        if(!isOnline()) {
+    public void addXP(int xp) {
+        if (!isOnline()) {
             return;
         }
-        XPUtils.setTotalExperience(getPlayer(), getXP()+xp);
+        XPUtils.setTotalExperience(getPlayer(), getXP() + xp);
     }
 
     @SuppressWarnings("unused")
-    public void removeXP(int xp){
-        if(!isOnline()){
+    public void removeXP(int xp) {
+        if (!isOnline()) {
             return;
         }
-        XPUtils.setTotalExperience(getPlayer(),getXP()-xp);
+        XPUtils.setTotalExperience(getPlayer(), getXP() - xp);
     }
 
     @SuppressWarnings({"unused", "ConstantConditions"})

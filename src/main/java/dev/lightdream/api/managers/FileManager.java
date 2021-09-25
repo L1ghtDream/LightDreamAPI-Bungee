@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import dev.lightdream.api.IAPI;
-import dev.lightdream.api.files.dto.Position;
+import dev.lightdream.api.dto.Position;
 
 import java.io.File;
 import java.io.FileOutputStream;

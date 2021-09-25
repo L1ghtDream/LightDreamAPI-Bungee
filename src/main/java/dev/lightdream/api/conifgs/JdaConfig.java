@@ -1,6 +1,5 @@
-package dev.lightdream.api.files.config;
+package dev.lightdream.api.conifgs;
 
-@SuppressWarnings("ALL")
 public class JdaConfig {
 
     public boolean useJDA = false;

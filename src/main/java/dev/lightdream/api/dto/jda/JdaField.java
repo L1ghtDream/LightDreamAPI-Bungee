@@ -1,4 +1,4 @@
-package dev.lightdream.api.files.dto.jda;
+package dev.lightdream.api.dto.jda;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
 package dev.lightdream.api.utils;
 
-import dev.lightdream.api.files.dto.jda.JdaEmbed;
+import dev.lightdream.api.dto.jda.JdaEmbed;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 @SuppressWarnings("unused")

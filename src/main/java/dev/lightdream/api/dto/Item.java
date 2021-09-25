@@ -1,4 +1,4 @@
-package dev.lightdream.api.files.dto;
+package dev.lightdream.api.dto;
 
 import dev.lightdream.api.utils.ItemBuilder;
 import lombok.NoArgsConstructor;
@@ -217,6 +217,7 @@ public class Item {
         }
     }
 
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
     public boolean equals(Object o) {
         return equals(o, true);
