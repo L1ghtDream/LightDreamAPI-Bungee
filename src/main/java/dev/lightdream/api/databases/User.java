@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @NoArgsConstructor
 @DatabaseTable(tableName = "users")
-public class User {
+public class User implements DatabaseEntry {
 
     @SuppressWarnings("unused")
     @DatabaseField(columnName = "id", generatedId = true, canBeNull = false)
@@ -127,4 +127,8 @@ public class User {
         return XPUtils.getTotalExperience(getPlayer());
     }
 
+    @Override
+    public Integer getID() {
+        return this.id;
+    }
 }

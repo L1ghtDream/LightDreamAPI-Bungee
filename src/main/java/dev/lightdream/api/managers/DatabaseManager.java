@@ -9,6 +9,7 @@ import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.TableUtils;
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.conifgs.SQLConfig;
+import dev.lightdream.api.databases.DatabaseEntry;
 import dev.lightdream.api.databases.User;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
@@ -30,7 +31,7 @@ public class DatabaseManager {
     private final ConnectionSource connectionSource;
     private final DatabaseConnection databaseConnection;
     @SuppressWarnings("FieldMayBeFinal")
-    private HashMap<Class<?>, List<?>> cacheMap = new HashMap<>();
+    private HashMap<Class<?>, List<DatabaseEntry>> cacheMap = new HashMap<>();
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
 
@@ -97,7 +98,7 @@ public class DatabaseManager {
             cacheMap.forEach((clazz, list) -> {
                 list.forEach(obj -> {
                     try {
-                        ((Dao<Object, Integer>) getDao(clazz)).createOrUpdate(obj);
+                        ((Dao<DatabaseEntry, Integer>) getDao(clazz)).createOrUpdate(obj);
                     } catch (SQLException sqlException) {
                         sqlException.printStackTrace();
                     }
@@ -123,23 +124,23 @@ public class DatabaseManager {
     }
 
     @SneakyThrows
-    public void save(Object object, boolean cache) {
+    public void save(DatabaseEntry entry, boolean cache) {
         if (cache) {
-            List<Object> list = (List<Object>) cacheMap.getOrDefault(object.getClass(), new ArrayList<>());
-            if (list.contains(object)) {
-                list.remove(object);
+            List<DatabaseEntry> list = (List<DatabaseEntry>) cacheMap.getOrDefault(entry.getClass(), new ArrayList<>());
+            if (list.contains(entry)) {
+                list.remove(entry);
             } else {
-                ((Dao<Object, Integer>) daoMap.get(object.getClass())).createOrUpdate(object);
+                ((Dao<DatabaseEntry, Integer>) daoMap.get(entry.getClass())).createOrUpdate(entry);
             }
-            list.add(object);
-            cacheMap.put(object.getClass(), list);
+            list.add((DatabaseEntry) entry);
+            cacheMap.put(entry.getClass(), list);
         } else {
-            ((Dao<Object, Integer>) daoMap.get(object.getClass())).createOrUpdate(object);
+            ((Dao<DatabaseEntry, Integer>) daoMap.get(entry.getClass())).createOrUpdate(entry);
         }
     }
 
-    public void save(Object object) {
-        save(object, true);
+    public void save(DatabaseEntry entry) {
+        save(entry, true);
     }
 
     @SneakyThrows
@@ -154,17 +155,39 @@ public class DatabaseManager {
         }
     }
 
+    @SneakyThrows
+    public List<Integer> getAllIDs(Class<?> clazz, boolean cache) {
+        List<DatabaseEntry> entries = new ArrayList<>();
+        if (cache) {
+            if (!cacheMap.containsKey(clazz)) {
+                throw new Exception("The class '" + clazz.getSimpleName() + "' has not been setup. Use setup(" + clazz.getSimpleName() + ".class); in your database manager");
+            }
+            entries = cacheMap.get(clazz);
+        } else {
+            entries = (List<DatabaseEntry>) getDao(clazz).queryForAll();
+        }
+        List<Integer> output = new ArrayList<>();
+        for (DatabaseEntry databaseEntry : entries) {
+            output.add(databaseEntry.getID());
+        }
+        return output;
+    }
+
+    public List<Integer> getAllIDs(Class<?> clazz) {
+        return getAllIDs(clazz, true);
+    }
+
     public <T> List<T> getAll(Class<T> clazz) {
         return getAll(clazz, true);
     }
 
     @SuppressWarnings("unused")
     @SneakyThrows
-    public void delete(Object object) {
-        List<Object> list = (List<Object>) cacheMap.get(object.getClass());
-        list.remove(object);
-        cacheMap.put(object.getClass(), list);
-        ((Dao<Object, Integer>) daoMap.get(object.getClass())).delete(object);
+    public void delete(DatabaseEntry entry) {
+        List<DatabaseEntry> list = cacheMap.get(entry.getClass());
+        list.remove(entry);
+        cacheMap.put(entry.getClass(), list);
+        ((Dao<DatabaseEntry, Integer>) daoMap.get(entry.getClass())).delete(entry);
     }
 
 
@@ -173,7 +196,7 @@ public class DatabaseManager {
         api.getLogger().info("Setting up " + clazz.getSimpleName() + " database table");
         createTable(clazz);
         createDao(clazz).setAutoCommit(databaseConnection, false);
-        cacheMap.put(clazz, getAll(clazz, false));
+        cacheMap.put(clazz, (List<DatabaseEntry>) getAll(clazz, false));
     }
 
     //Users
