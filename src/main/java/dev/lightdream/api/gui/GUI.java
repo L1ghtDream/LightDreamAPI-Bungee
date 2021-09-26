@@ -4,6 +4,7 @@ import dev.lightdream.api.IAPI;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.dto.GUIConfig;
 import dev.lightdream.api.dto.GUIItem;
+import dev.lightdream.api.dto.XMaterial;
 import dev.lightdream.api.utils.ItemBuilder;
 import dev.lightdream.api.utils.MessageBuilder;
 import dev.lightdream.api.utils.Utils;
@@ -72,6 +73,7 @@ public abstract class GUI implements InventoryProvider {
                     iter++;
                 }
 
+                item.item.material = XMaterial.valueOf(parse(item.item.material.toString(), player));
                 item.item.displayName = parse(item.item.displayName, player);
                 item.item.lore = parse(item.item.lore, player);
                 item.item.headOwner = parse(item.item.displayName, player);
