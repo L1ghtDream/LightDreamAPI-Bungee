@@ -11,6 +11,7 @@ import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
+import lombok.SneakyThrows;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
@@ -24,9 +25,13 @@ public abstract class GUI implements InventoryProvider {
     public final IAPI api;
     public final GUIConfig config;
 
+    @SneakyThrows
     public GUI(IAPI api) {
         this.api = api;
         this.config = setConfig();
+        if (this.config == null) {
+            throw new Exception("The sql config with this id does not exist in the config");
+        }
     }
 
     public SmartInventory getInventory() {
@@ -59,11 +64,11 @@ public abstract class GUI implements InventoryProvider {
             while (canAddItem(items.get(0), keys.get(i))) {
                 GUIItem item = items.get(i).clone();
 
-                if(item.repeated){
-                    if(item.nextSlots.size()<=iter){
+                if (item.repeated) {
+                    if (item.nextSlots.size() <= iter) {
                         break;
                     }
-                    item.item.slot=item.nextSlots.get(iter);
+                    item.item.slot = item.nextSlots.get(iter);
                     iter++;
                 }
 
