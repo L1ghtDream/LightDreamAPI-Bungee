@@ -1,7 +1,6 @@
 package dev.lightdream.api.dto;
 
 import dev.lightdream.api.utils.MessageBuilder;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 @NoArgsConstructor
-@AllArgsConstructor
 public class GUIItem {
 
     public Item item;
@@ -24,6 +22,36 @@ public class GUIItem {
         this.args = args;
         this.repeated = false;
         this.nextSlots = new ArrayList<>();
+    }
+
+    @SuppressWarnings("unused")
+    public GUIItem(Item item) {
+        this.item = item;
+        this.args = new GUIItemArgs();
+        this.repeated = false;
+        this.nextSlots = new ArrayList<>();
+    }
+
+    @SuppressWarnings("unused")
+    public GUIItem(Item item, GUIItemArgs args, List<Integer> nextSlots) {
+        this.item = item;
+        this.args = args;
+        this.repeated = true;
+        this.nextSlots = nextSlots;
+    }
+
+    @SuppressWarnings("unused")
+    public GUIItem(Item item, List<Integer> nextSlots) {
+        this.item = item;
+        this.repeated = true;
+        this.nextSlots = nextSlots;
+    }
+
+    private GUIItem(Item item, GUIItemArgs args, boolean repeated, List<Integer> nextSlots) {
+        this.item = item;
+        this.args = args;
+        this.repeated = repeated;
+        this.nextSlots = nextSlots;
     }
 
     public List<String> getFunctions() {
