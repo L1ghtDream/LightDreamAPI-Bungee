@@ -73,7 +73,7 @@ public abstract class GUI implements InventoryProvider {
                     iter++;
                 }
 
-                item.item.material = XMaterial.valueOf(parse(item.item.material.toString(), player));
+                item.item.material = XMaterial.matchXMaterial(parse(item.item.material.name(), player)).get();
                 item.item.displayName = parse(item.item.displayName, player);
                 item.item.lore = parse(item.item.lore, player);
                 item.item.headOwner = parse(item.item.displayName, player);
