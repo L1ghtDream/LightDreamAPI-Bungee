@@ -1,6 +1,5 @@
 package dev.lightdream.api.dto;
 
-import dev.lightdream.api.utils.MessageBuilder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -59,7 +58,7 @@ public class GUIItem {
         return args.getArgs();
     }
 
-    public MessageBuilder getFunctionArgs(String function) {
+    public List<String> getFunctionArgs(String function) {
         return args.getFunctionArgs(function);
     }
 
@@ -77,25 +76,32 @@ public class GUIItem {
                 '}';
     }
 
-    @AllArgsConstructor
     @NoArgsConstructor
     public static class GUIItemArg extends Serializable implements java.io.Serializable {
-        public MessageBuilder function;
-        public MessageBuilder args;
+        public String function;
+        public List<String> args;
 
-        @SuppressWarnings("unchecked")
-        public GUIItemArg(String function, Object args) {
-            this.function = new MessageBuilder(function);
+        public GUIItemArg(String function, String arg) {
+            this.function = function;
+            this.args = new ArrayList<>();
+            this.args.add(arg);
+            /*
             if (args instanceof String) {
                 this.args = new MessageBuilder((String) args);
             } else {
                 this.args = new MessageBuilder((List<String>) args);
             }
+             */
+        }
+
+        public GUIItemArg(String function, List<String> args) {
+            this.function = function;
+            this.args = args;
         }
 
         @SuppressWarnings("MethodDoesntCallSuperMethod")
         public GUIItemArg clone() {
-            return new GUIItemArg(function.clone(), args.clone());
+            return new GUIItemArg(function, new ArrayList<>(args));
         }
 
         @Override
@@ -112,9 +118,15 @@ public class GUIItem {
     public static class GUIItemArgs extends Serializable implements java.io.Serializable {
         public List<GUIItemArg> args = new ArrayList<>();
 
-        @SuppressWarnings("unused")
+        @SuppressWarnings({"unused", "unchecked"})
         public GUIItemArgs(HashMap<String, Object> functions) {
-            functions.forEach((function, args) -> this.args.add(new GUIItemArg(function, args)));
+            functions.forEach((function, args) -> {
+                if (args instanceof String) {
+                    this.args.add(new GUIItemArg(function, (String) args));
+                } else {
+                    this.args.add(new GUIItemArg(function, (List<String>) args));
+                }
+            });
 
             /*
             HashMap<MessageBuilder, MessageBuilder> f = new HashMap<>();
@@ -140,16 +152,14 @@ public class GUIItem {
         public List<String> getArgs() {
             List<String> functions = new ArrayList<>();
             for (GUIItemArg arg : this.args) {
-                if (!arg.function.isList()) {
-                    functions.add((String) arg.function.getBase());
-                }
+                functions.add(arg.function);
             }
             return functions;
         }
 
-        public MessageBuilder getFunctionArgs(String function) {
+        public List<String> getFunctionArgs(String function) {
             for (GUIItemArg guiItemArg : this.args) {
-                if (guiItemArg.function.equals(new MessageBuilder(function))) {
+                if (guiItemArg.function.equals(function)) {
                     return guiItemArg.args;
                 }
             }
@@ -165,7 +175,7 @@ public class GUIItem {
             return new GUIItemArgs(args);
         }
 
-        public GUIItemArgs parse(BiConsumer<MessageBuilder, MessageBuilder> parser) {
+        public GUIItemArgs parse(BiConsumer<String, List<String>> parser) {
             //HashMap<Object, Object> functions = new HashMap<>();
             List<GUIItemArg> args = new ArrayList<>();
             this.args.forEach(arg -> parser.andThen((k, v) -> args.add(new GUIItemArg(k, v))).accept(arg.function, arg.args));

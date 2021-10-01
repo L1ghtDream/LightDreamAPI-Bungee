@@ -46,6 +46,7 @@ public abstract class GUI implements InventoryProvider {
                 .build();
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Override
     public void init(Player player, InventoryContents contents) {
         contents.fill(ClickableItem.empty(ItemBuilder.makeItem(config.fillItem)));
@@ -130,7 +131,7 @@ public abstract class GUI implements InventoryProvider {
 
     public abstract InventoryProvider getProvider();
 
-    public abstract void functionCall(Player player, String function, MessageBuilder args);
+    public abstract void functionCall(Player player, String function, List<String> args);
 
     public abstract boolean canAddItem(GUIItem item, String key);
 
