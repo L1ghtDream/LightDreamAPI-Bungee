@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unused")
+@Getter
 public class ScoreBoardUtils {
 
     private final Scoreboard scoreboard;
