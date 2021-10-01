@@ -100,13 +100,9 @@ public class GUIItem {
     }
 
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class GUIItemArgs {
-        public List<GUIItemArg> args;
-
-        @SuppressWarnings("unused")
-        public GUIItemArgs() {
-            this.args = new ArrayList<>();
-        }
+        public List<GUIItemArg> args = new ArrayList<>();
 
         @SuppressWarnings("unused")
         public GUIItemArgs(HashMap<String, Object> functions) {
