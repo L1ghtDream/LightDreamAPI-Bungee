@@ -79,12 +79,8 @@ public abstract class GUI implements InventoryProvider {
                 item.item.lore = parse(item.item.lore, player);
                 item.item.headOwner = parse(item.item.displayName, player);
 
-                System.out.println(item);
-
                 item.args = parse(item.args, player);
-
-                System.out.println(item);
-
+                
                 contents.set(Utils.getSlotPosition(item.item.slot), ClickableItem.of(ItemBuilder.makeItem(item.item), e -> {
                     List<String> functions = item.getFunctions();
                     functions.forEach(function -> functionCall(player, function, item.getFunctionArgs(function)));
