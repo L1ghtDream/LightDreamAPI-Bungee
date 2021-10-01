@@ -1,6 +1,7 @@
 package dev.lightdream.api.dto;
 
 import dev.lightdream.api.utils.MessageBuilder;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class GUIItem {
     }
 
     public List<String> getFunctions() {
-        return args.getFunctions();
+        return args.getArgs();
     }
 
     public MessageBuilder getFunctionArgs(String function) {
@@ -76,15 +77,42 @@ public class GUIItem {
                 '}';
     }
 
+    @AllArgsConstructor
+    public static class GUIItemArg {
+        public MessageBuilder function;
+        public MessageBuilder args;
+
+        @SuppressWarnings("unchecked")
+        public GUIItemArg(String function, Object args) {
+            this.function = new MessageBuilder(function);
+            if (args instanceof String) {
+                this.args = new MessageBuilder((String) args);
+            } else {
+                this.args = new MessageBuilder((List<String>) args);
+            }
+        }
+
+        @SuppressWarnings("MethodDoesntCallSuperMethod")
+        public GUIItemArg clone(){
+            return new GUIItemArg(function.clone(), args.clone());
+        }
+
+    }
+
+    @AllArgsConstructor
     public static class GUIItemArgs {
-        public HashMap<MessageBuilder, MessageBuilder> functions;
+        public List<GUIItemArg> args;
 
         @SuppressWarnings("unused")
         public GUIItemArgs() {
-            this.functions = new HashMap<>();
+            this.args = new ArrayList<>();
         }
 
-        public GUIItemArgs(HashMap<Object, Object> functions) {
+        @SuppressWarnings("unused")
+        public GUIItemArgs(HashMap<String, Object> functions) {
+            functions.forEach((function, args)-> this.args.add(new GUIItemArg(function, args)));
+
+            /*
             HashMap<MessageBuilder, MessageBuilder> f = new HashMap<>();
             functions.forEach((function, arg) -> {
                 if (function instanceof String) {
@@ -102,39 +130,48 @@ public class GUIItem {
                 }
             });
             this.functions = f;
+            */
         }
 
-        public List<String> getFunctions() {
+        public List<String> getArgs() {
             List<String> functions = new ArrayList<>();
-            for (MessageBuilder message : this.functions.keySet()) {
-                if (!message.isList()) {
-                    functions.add((String) message.getBase());
+            for (GUIItemArg arg : this.args) {
+                if (!arg.function.isList()) {
+                    functions.add((String) arg.function.getBase());
                 }
             }
             return functions;
         }
 
         public MessageBuilder getFunctionArgs(String function) {
-            return functions.get(new MessageBuilder(function));
+            for (GUIItemArg guiItemArg : this.args) {
+                if(guiItemArg.function.equals(new MessageBuilder(function))){
+                    return guiItemArg.args;
+                }
+            }
+            return null;
         }
 
         @SuppressWarnings({"MethodDoesntCallSuperMethod"})
         public GUIItemArgs clone() {
-            HashMap<Object, Object> functions = new HashMap<>();
-            this.functions.forEach((function, value) -> functions.put(function.clone(), value.clone()));
-            return new GUIItemArgs(functions);
+            List<GUIItemArg> args = new ArrayList<>();
+
+            this.args.forEach(arg->args.add(arg.clone()));
+
+            return new GUIItemArgs(args);
         }
 
         public GUIItemArgs parse(BiConsumer<MessageBuilder, MessageBuilder> parser) {
-            HashMap<Object, Object> functions = new HashMap<>();
-            this.functions.forEach((function, arg) -> parser.andThen(functions::put).accept(function, arg));
-            return new GUIItemArgs(functions);
+            //HashMap<Object, Object> functions = new HashMap<>();
+            List<GUIItemArg> args = new ArrayList<>();
+            this.args.forEach(arg -> parser.andThen((k,v)->args.add(new GUIItemArg(k,v))).accept(arg.function, arg.args));
+            return new GUIItemArgs(args);
         }
 
         @Override
         public String toString() {
             return "GUIItemArgs{" +
-                    "functions=" + functions +
+                    "functions=" + args +
                     '}';
         }
     }
