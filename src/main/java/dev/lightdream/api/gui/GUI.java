@@ -46,7 +46,6 @@ public abstract class GUI implements InventoryProvider {
                 .build();
     }
 
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Override
     public void init(Player player, InventoryContents contents) {
         contents.fill(ClickableItem.empty(ItemBuilder.makeItem(config.fillItem)));
@@ -73,7 +72,9 @@ public abstract class GUI implements InventoryProvider {
                     iter++;
                 }
 
-                item.item.material = XMaterial.matchXMaterial(parse(item.item.material.name(), player)).get();
+                if (item.item.material.equals(XMaterial.PLACEHOLDER)) {
+                    item.item.material = XMaterial.matchXMaterial(parse("%material%", player)).orElse(XMaterial.AIR);
+                }
                 item.item.displayName = parse(item.item.displayName, player);
                 item.item.lore = parse(item.item.lore, player);
                 item.item.headOwner = parse(item.item.displayName, player);

@@ -20,7 +20,7 @@ import java.util.regex.PatternSyntaxException;
 
 @SuppressWarnings({"UnstableApiUsage", "unused"})
 public enum XMaterial {
-    PLACEHOLDER("%material%"),
+    PLACEHOLDER,
     ACACIA_BOAT("BOAT_ACACIA"),
     ACACIA_BUTTON("WOOD_BUTTON"),
     ACACIA_DOOR("ACACIA_DOOR", "ACACIA_DOOR_ITEM"),
