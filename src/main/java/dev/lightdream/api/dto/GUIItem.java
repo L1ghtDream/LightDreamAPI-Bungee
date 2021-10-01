@@ -78,7 +78,7 @@ public class GUIItem {
     }
 
     @AllArgsConstructor
-    public static class GUIItemArg {
+    public static class GUIItemArg extends Serializable implements java.io.Serializable {
         public MessageBuilder function;
         public MessageBuilder args;
 
@@ -97,11 +97,18 @@ public class GUIItem {
             return new GUIItemArg(function.clone(), args.clone());
         }
 
+        @Override
+        public String toString() {
+            return "GUIItemArg{" +
+                    "function=" + function +
+                    ", args=" + args +
+                    '}';
+        }
     }
 
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class GUIItemArgs {
+    public static class GUIItemArgs extends Serializable implements java.io.Serializable {
         public List<GUIItemArg> args = new ArrayList<>();
 
         @SuppressWarnings("unused")
