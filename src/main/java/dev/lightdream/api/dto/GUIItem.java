@@ -1,5 +1,6 @@
 package dev.lightdream.api.dto;
 
+import dev.lightdream.api.utils.MessageBuilder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -175,10 +176,11 @@ public class GUIItem {
             return new GUIItemArgs(args);
         }
 
-        public GUIItemArgs parse(BiConsumer<String, List<String>> parser) {
-            //HashMap<Object, Object> functions = new HashMap<>();
+        public GUIItemArgs parse(BiConsumer<MessageBuilder, MessageBuilder> parser) {
             List<GUIItemArg> args = new ArrayList<>();
-            this.args.forEach(arg -> parser.andThen((k, v) -> args.add(new GUIItemArg(k, v))).accept(arg.function, arg.args));
+            this.args.forEach(arg -> parser.andThen((k, v) -> {
+                args.add(new GUIItemArg(k.getBaseString(), v.getBaseList()));
+            }).accept(new MessageBuilder(arg.function), new MessageBuilder(arg.args)));
             return new GUIItemArgs(args);
         }
 
