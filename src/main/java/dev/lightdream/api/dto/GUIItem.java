@@ -78,6 +78,7 @@ public class GUIItem {
     }
 
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class GUIItemArg extends Serializable implements java.io.Serializable {
         public MessageBuilder function;
         public MessageBuilder args;
@@ -93,7 +94,7 @@ public class GUIItem {
         }
 
         @SuppressWarnings("MethodDoesntCallSuperMethod")
-        public GUIItemArg clone(){
+        public GUIItemArg clone() {
             return new GUIItemArg(function.clone(), args.clone());
         }
 
@@ -113,7 +114,7 @@ public class GUIItem {
 
         @SuppressWarnings("unused")
         public GUIItemArgs(HashMap<String, Object> functions) {
-            functions.forEach((function, args)-> this.args.add(new GUIItemArg(function, args)));
+            functions.forEach((function, args) -> this.args.add(new GUIItemArg(function, args)));
 
             /*
             HashMap<MessageBuilder, MessageBuilder> f = new HashMap<>();
@@ -148,7 +149,7 @@ public class GUIItem {
 
         public MessageBuilder getFunctionArgs(String function) {
             for (GUIItemArg guiItemArg : this.args) {
-                if(guiItemArg.function.equals(new MessageBuilder(function))){
+                if (guiItemArg.function.equals(new MessageBuilder(function))) {
                     return guiItemArg.args;
                 }
             }
@@ -159,7 +160,7 @@ public class GUIItem {
         public GUIItemArgs clone() {
             List<GUIItemArg> args = new ArrayList<>();
 
-            this.args.forEach(arg->args.add(arg.clone()));
+            this.args.forEach(arg -> args.add(arg.clone()));
 
             return new GUIItemArgs(args);
         }
@@ -167,7 +168,7 @@ public class GUIItem {
         public GUIItemArgs parse(BiConsumer<MessageBuilder, MessageBuilder> parser) {
             //HashMap<Object, Object> functions = new HashMap<>();
             List<GUIItemArg> args = new ArrayList<>();
-            this.args.forEach(arg -> parser.andThen((k,v)->args.add(new GUIItemArg(k,v))).accept(arg.function, arg.args));
+            this.args.forEach(arg -> parser.andThen((k, v) -> args.add(new GUIItemArg(k, v))).accept(arg.function, arg.args));
             return new GUIItemArgs(args);
         }
 
