@@ -1,10 +1,11 @@
 package dev.lightdream.api.utils;
 
+import dev.lightdream.api.dto.Serializable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class MessageBuilder {
+public class MessageBuilder extends Serializable implements java.io.Serializable{
 
     private String base;
     private List<String> baseList;

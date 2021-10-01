@@ -57,6 +57,14 @@ public abstract class Serializable {
             }
         }
 
+        for(Method method:String.class.getMethods()){
+            if(method.getName().equals("valueOf")){
+                baseParseMethods.put(String.class, method);
+                instances.put(String.class, "");
+                break;
+            }
+        }
+
         Serializable.baseParseMethods = baseParseMethods;
         Serializable.instances = instances;
     }
@@ -90,6 +98,7 @@ public abstract class Serializable {
             }
             String parameter = parameters.get(field.getName());
             Object parsed = null;
+            System.out.println(field.getType() + field.getType().getSimpleName());
             if (Serializable.baseParseMethods.containsKey(field.getType())) {
                 parsed = Serializable.baseParseMethods.get(field.getType()).invoke(instances.get(field.getType()), parameter);
             } else {

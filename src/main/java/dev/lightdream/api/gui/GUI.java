@@ -31,7 +31,7 @@ public abstract class GUI implements InventoryProvider {
         this.api = api;
         this.config = setConfig();
         if (this.config == null) {
-            throw new Exception("The sql config with this id does not exist in the config");
+            throw new Exception("The gui config with this id does not exist in the config");
         }
     }
 
