@@ -7,6 +7,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.dto.GUIItem;
 import dev.lightdream.api.dto.Position;
+import dev.lightdream.api.utils.MessageBuilder;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,7 +29,7 @@ public class FileManager {
         this.persistType = persistType;
         this.objectMapper = new ObjectMapper(persistType.getFactory());
         this.objectMapper.registerModule(new SimpleModule().addKeyDeserializer(Position.class, api.getKeyDeserializerManager()));
-        this.objectMapper.registerModule(new SimpleModule().addKeyDeserializer(GUIItem.GUIItemArgs.class, api.getKeyDeserializerManager()));
+        this.objectMapper.registerModule(new SimpleModule().addKeyDeserializer(MessageBuilder.class, api.getKeyDeserializerManager()));
     }
 
     private static String getName(Class<?> clazz) {
