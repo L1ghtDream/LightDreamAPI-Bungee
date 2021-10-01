@@ -98,6 +98,7 @@ public abstract class Serializable {
             }
             String parameter = parameters.get(field.getName());
             Object parsed = null;
+            //todo remove
             System.out.println(field.getType() + field.getType().getSimpleName());
             if (Serializable.baseParseMethods.containsKey(field.getType())) {
                 parsed = Serializable.baseParseMethods.get(field.getType()).invoke(instances.get(field.getType()), parameter);
