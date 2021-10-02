@@ -157,7 +157,7 @@ public abstract class GUI implements InventoryProvider {
         getInventory().open(user.getPlayer());
     }
 
-    public abstract HashMap<Class<?>, Object> getArgs();
+    private abstract HashMap<Class<?>, Object> getArgs();
 
     public abstract void setItems(Player player, InventoryContents contents);
 
@@ -172,6 +172,11 @@ public abstract class GUI implements InventoryProvider {
             return "";
         }
         return config.id;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getArg(Class<T> clazz){
+        return (T) getArgs().getOrDefault(clazz, null);
     }
 
 }
