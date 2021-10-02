@@ -96,7 +96,7 @@ public abstract class GUI implements InventoryProvider {
 
     @Override
     public void update(Player player, InventoryContents contents) {
-        if(config.update){
+        if (config.update) {
             beforeUpdate(player, contents);
             init(player, contents);
         }
@@ -162,5 +162,16 @@ public abstract class GUI implements InventoryProvider {
     public abstract void setItems(Player player, InventoryContents contents);
 
     public abstract void beforeUpdate(Player player, InventoryContents contents);
+
+    public GUIConfig getConfig() {
+        return config;
+    }
+
+    public String getID() {
+        if (config == null) {
+            return "";
+        }
+        return config.id;
+    }
 
 }
