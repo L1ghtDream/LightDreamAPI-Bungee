@@ -80,7 +80,7 @@ public abstract class GUI implements InventoryProvider {
                 item.item.headOwner = parse(item.item.displayName, player);
 
                 item.args = parse(item.args, player);
-                
+
                 contents.set(Utils.getSlotPosition(item.item.slot), ClickableItem.of(ItemBuilder.makeItem(item.item), e -> {
                     List<String> functions = item.getFunctions();
                     functions.forEach(function -> functionCall(player, function, item.getFunctionArgs(function)));
@@ -89,13 +89,17 @@ public abstract class GUI implements InventoryProvider {
                     break;
                 }
             }
-
         }
+
+        setItems();
     }
 
     @Override
     public void update(Player player, InventoryContents contents) {
-
+        if(config.update){
+            beforeUpdate();
+            init(player, contents);
+        }
     }
 
     public abstract String parse(String raw, Player player);
@@ -154,5 +158,9 @@ public abstract class GUI implements InventoryProvider {
     }
 
     public abstract HashMap<Class<?>, Object> getArgs();
+
+    public abstract void setItems();
+
+    public abstract void beforeUpdate();
 
 }

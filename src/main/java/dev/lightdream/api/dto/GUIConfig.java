@@ -16,9 +16,10 @@ public class GUIConfig {
     public int columns;
     public Item fillItem;
     public HashMap<String, GUIItem> items;
+    public boolean update;
 
     @SuppressWarnings("unused")
-    public GUIConfig(String id, String type, String title, int rows, Item fillItem, HashMap<String, GUIItem> items) {
+    public GUIConfig(String id, String type, String title, int rows, Item fillItem, HashMap<String, GUIItem> items, Boolean update) {
         this.id = id;
         this.type = type;
         this.title = title;
@@ -26,6 +27,7 @@ public class GUIConfig {
         this.columns = 9;
         this.fillItem = fillItem;
         this.items = items;
+        this.update = update;
     }
 
 
