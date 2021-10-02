@@ -9,12 +9,15 @@ import dev.lightdream.api.utils.ItemBuilder;
 import dev.lightdream.api.utils.MessageBuilder;
 import dev.lightdream.api.utils.Utils;
 import fr.minuskube.inv.ClickableItem;
+import fr.minuskube.inv.InventoryListener;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
 import lombok.SneakyThrows;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 
 import java.util.ArrayList;
@@ -43,6 +46,8 @@ public abstract class GUI implements InventoryProvider {
                 .title(config.title)
                 .type(InventoryType.valueOf(config.type))
                 .manager(api.getInventoryManager())
+                .listener(getInventoryCloseListener())
+                .listener(getInventoryClickListener())
                 .build();
     }
 
@@ -175,8 +180,21 @@ public abstract class GUI implements InventoryProvider {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T getArg(Class<T> clazz){
+    public <T> T getArg(Class<T> clazz) {
         return (T) getArgs().getOrDefault(clazz, null);
     }
+
+    public InventoryListener<InventoryCloseEvent> getInventoryCloseListener() {
+        return new InventoryListener<>(InventoryCloseEvent.class, this::onInventoryClose);
+    }
+
+    public InventoryListener<InventoryClickEvent> getInventoryClickListener() {
+        return new InventoryListener<>(InventoryClickEvent.class, this::onInventoryClick);
+    }
+
+    public abstract void onInventoryClose(InventoryCloseEvent event);
+
+    public abstract void onInventoryClick(InventoryClickEvent event);
+
 
 }
