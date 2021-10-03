@@ -87,8 +87,8 @@ public abstract class GUI implements InventoryProvider {
                 item.args = parse(item.args, player);
 
                 contents.set(Utils.getSlotPosition(item.item.slot), ClickableItem.of(ItemBuilder.makeItem(item.item), e -> {
-                    List<String> functions = item.getFunctions();
-                    functions.forEach(function -> functionCall(player, function, item.getFunctionArgs(function)));
+                    List<String> functions = item.functions();
+                    functions.forEach(function -> functionCall(player, function, item.functionArgs(function)));
                 }));
                 if (!item.repeated) {
                     break;

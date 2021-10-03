@@ -1,7 +1,7 @@
 package dev.lightdream.api.dto;
 
 import dev.lightdream.api.utils.MessageBuilder;
-import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -55,12 +55,12 @@ public class GUIItem {
         this.nextSlots = nextSlots;
     }
 
-    public List<String> getFunctions() {
-        return args.getArgs();
+    public List<String> functions() {
+        return args.args();
     }
 
-    public List<String> getFunctionArgs(String function) {
-        return args.getFunctionArgs(function);
+    public List<String> functionArgs(String function) {
+        return args.functionArgs(function);
     }
 
     @SuppressWarnings("MethodDoesntCallSuperMethod")
@@ -107,10 +107,14 @@ public class GUIItem {
         }
     }
 
-    @AllArgsConstructor
     @NoArgsConstructor
     public static class GUIItemArgs extends Serializable implements java.io.Serializable {
-        public List<GUIItemArg> args = new ArrayList<>();
+        @Getter
+        private List<GUIItemArg> args = new ArrayList<>();
+
+        public GUIItemArgs(List<GUIItemArg> args) {
+            this.args = args;
+        }
 
         @SuppressWarnings({"unused", "unchecked"})
         public GUIItemArgs(HashMap<String, Object> functions) {
@@ -143,7 +147,7 @@ public class GUIItem {
             */
         }
 
-        public List<String> getArgs() {
+        public List<String> args() {
             List<String> functions = new ArrayList<>();
             for (GUIItemArg arg : this.args) {
                 functions.add(arg.function);
@@ -151,7 +155,7 @@ public class GUIItem {
             return functions;
         }
 
-        public List<String> getFunctionArgs(String function) {
+        public List<String> functionArgs(String function) {
             for (GUIItemArg guiItemArg : this.args) {
                 if (guiItemArg.function.equals(function)) {
                     return guiItemArg.args;
