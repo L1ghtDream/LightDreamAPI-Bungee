@@ -6,9 +6,9 @@ import dev.lightdream.api.commands.commands.ldapi.ChoseLangCommand;
 import dev.lightdream.api.commands.commands.ldapi.PluginsCommand;
 import dev.lightdream.api.commands.commands.base.ReloadCommand;
 import dev.lightdream.api.commands.commands.base.VersionCommand;
-import dev.lightdream.api.conifgs.Config;
-import dev.lightdream.api.conifgs.Lang;
-import dev.lightdream.api.conifgs.SQLConfig;
+import dev.lightdream.api.configs.Config;
+import dev.lightdream.api.configs.Lang;
+import dev.lightdream.api.configs.SQLConfig;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.dto.Position;
 import dev.lightdream.api.managers.*;
@@ -228,7 +228,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.184";
+        return "2.185";
     }
 
     @Override
