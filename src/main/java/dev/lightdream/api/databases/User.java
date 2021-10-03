@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import dev.lightdream.api.API;
 import dev.lightdream.api.dto.PluginLocation;
-import dev.lightdream.api.utils.XPUtils;
+import dev.lightdream.api.utils.Utils;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -100,7 +100,7 @@ public class User implements DatabaseEntry {
         if (!isOnline()) {
             return false;
         }
-        return XPUtils.getTotalExperience(getPlayer()) >= xp;
+        return Utils.getTotalExperience(getPlayer()) >= xp;
     }
 
     @SuppressWarnings("unused")
@@ -108,7 +108,7 @@ public class User implements DatabaseEntry {
         if (!isOnline()) {
             return;
         }
-        XPUtils.setTotalExperience(getPlayer(), getXP() + xp);
+        Utils.setTotalExperience(getPlayer(), getXP() + xp);
     }
 
     @SuppressWarnings("unused")
@@ -116,7 +116,7 @@ public class User implements DatabaseEntry {
         if (!isOnline()) {
             return;
         }
-        XPUtils.setTotalExperience(getPlayer(), getXP() - xp);
+        Utils.setTotalExperience(getPlayer(), getXP() - xp);
     }
 
     @SuppressWarnings({"unused", "ConstantConditions"})
@@ -124,7 +124,7 @@ public class User implements DatabaseEntry {
         if (!isOnline()) {
             return 0;
         }
-        return XPUtils.getTotalExperience(getPlayer());
+        return Utils.getTotalExperience(getPlayer());
     }
 
     @Override

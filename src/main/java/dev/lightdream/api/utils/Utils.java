@@ -9,6 +9,7 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -114,6 +115,7 @@ public class Utils {
         return new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z));
     }
 
+    @SuppressWarnings("unused")
     public static PluginLocation maxPluginLocation(List<PluginLocation> positions){
         double maxX=-Double.MAX_VALUE;
         double maxY=-Double.MAX_VALUE;
@@ -128,6 +130,7 @@ public class Utils {
         return new PluginLocation(positions.get(0).world, maxX, maxY, maxZ);
     }
 
+    @SuppressWarnings("unused")
     public static PluginLocation minPluginLocation(List<PluginLocation> positions){
         double minX=Double.MAX_VALUE;
         double minY=Double.MAX_VALUE;
@@ -141,6 +144,52 @@ public class Utils {
 
         return new PluginLocation(positions.get(0).world, minX, minY, minZ);
     }
+
+    public static int getTotalExperience(int level) {
+        int xp = 0;
+
+        if (level >= 0 && level <= 15) {
+            xp = (int) Math.round(Math.pow(level, 2) + 6 * level);
+        } else if (level > 15 && level <= 30) {
+            xp = (int) Math.round((2.5 * Math.pow(level, 2) - 40.5 * level + 360));
+        } else if (level > 30) {
+            xp = (int) Math.round(((4.5 * Math.pow(level, 2) - 162.5 * level + 2220)));
+        }
+        return xp;
+    }
+
+    @SuppressWarnings("unused")
+    public static int getTotalExperience(Player player) {
+        return Math.round(player.getExp() * player.getExpToLevel()) + getTotalExperience(player.getLevel());
+    }
+
+    @SuppressWarnings("unused")
+    public static void setTotalExperience(Player player, int amount) {
+        int level;
+        int xp;
+        float a = 0;
+        float b = 0;
+        float c = -amount;
+
+        if (amount > getTotalExperience(0) && amount <= getTotalExperience(15)) {
+            a = 1;
+            b = 6;
+        } else if (amount > getTotalExperience(15) && amount <= getTotalExperience(30)) {
+            a = 2.5f;
+            b = -40.5f;
+            c += 360;
+        } else if (amount > getTotalExperience(30)) {
+            a = 4.5f;
+            b = -162.5f;
+            c += 2220;
+        }
+        level = (int) Math.floor((-b + Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a));
+        xp = amount - getTotalExperience(level);
+        player.setLevel(level);
+        player.setExp(0);
+        player.giveExp(xp);
+    }
+
 
 
 }

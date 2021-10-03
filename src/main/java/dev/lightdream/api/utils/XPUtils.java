@@ -3,6 +3,7 @@ package dev.lightdream.api.utils;
 import org.bukkit.entity.Player;
 
 @SuppressWarnings("unused")
+@Deprecated
 public class XPUtils {
 
     public static int getTotalExperience(int level) {
