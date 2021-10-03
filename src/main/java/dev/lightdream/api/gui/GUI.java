@@ -46,8 +46,8 @@ public abstract class GUI implements InventoryProvider {
                 .title(config.title)
                 .type(InventoryType.valueOf(config.type))
                 .manager(api.getInventoryManager())
-                .listener(getInventoryCloseListener())
                 .listener(getInventoryClickListener())
+                .listener(getInventoryCloseListener())
                 .build();
     }
 
@@ -189,6 +189,7 @@ public abstract class GUI implements InventoryProvider {
     }
 
     public InventoryListener<InventoryClickEvent> getInventoryClickListener() {
+        System.out.println(5);
         return new InventoryListener<>(InventoryClickEvent.class, this::onInventoryClick);
     }
 
