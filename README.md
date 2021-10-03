@@ -24,3 +24,17 @@
 </dependencies>
 ```
 
+## Dependencies
+
+- Vault - 1.7+
+- PlaceholderAPI - 2.10.10+
+- WorldEdit - 6.1.3+
+
+## Versioning
+
+- All versions can be found in the [repository](https://repo.lightdream.dev/ui/native/lightdream-api-libs-release-local/dev/lightdream/LightDreamAPI)
+- Plugins with the version number 1.x only support provided jar in /plugins as a limitation of the API
+- Plugins with the version number 2.x support both provided jar in /plugins and shaded jar into the plugin
+
+
+

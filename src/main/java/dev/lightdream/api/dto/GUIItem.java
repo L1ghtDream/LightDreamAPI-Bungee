@@ -86,13 +86,6 @@ public class GUIItem {
             this.function = function;
             this.args = new ArrayList<>();
             this.args.add(arg);
-            /*
-            if (args instanceof String) {
-                this.args = new MessageBuilder((String) args);
-            } else {
-                this.args = new MessageBuilder((List<String>) args);
-            }
-             */
         }
 
         public GUIItemArg(String function, List<String> args) {
@@ -108,7 +101,7 @@ public class GUIItem {
         @Override
         public String toString() {
             return "GUIItemArg{" +
-                    "function=" + function +
+                    "function='" + function + '\'' +
                     ", args=" + args +
                     '}';
         }
@@ -178,16 +171,14 @@ public class GUIItem {
 
         public GUIItemArgs parse(BiConsumer<MessageBuilder, MessageBuilder> parser) {
             List<GUIItemArg> args = new ArrayList<>();
-            this.args.forEach(arg -> parser.andThen((k, v) -> {
-                args.add(new GUIItemArg(k.getBaseString(), v.getBaseList()));
-            }).accept(new MessageBuilder(arg.function), new MessageBuilder(arg.args)));
+            this.args.forEach(arg -> parser.andThen((k, v) -> args.add(new GUIItemArg(k.getBaseString(), v.getBaseList()))).accept(new MessageBuilder(arg.function), new MessageBuilder(arg.args)));
             return new GUIItemArgs(args);
         }
 
         @Override
         public String toString() {
             return "GUIItemArgs{" +
-                    "functions=" + args +
+                    "args=" + args +
                     '}';
         }
     }

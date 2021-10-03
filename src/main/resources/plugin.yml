@@ -8,7 +8,6 @@ depend:
 softdepend:
   - PlaceholderAPI
   - WorldEdit
-  - WorldGuard
 commands:
   ld-api:
     description: NA

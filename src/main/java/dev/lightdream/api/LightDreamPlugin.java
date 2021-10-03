@@ -112,7 +112,6 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
         }
         if(this.isLEnabled()){
             this.disable();
-            //databaseManager.save();
         }
     }
 
