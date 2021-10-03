@@ -16,6 +16,8 @@ import fr.minuskube.inv.content.InventoryProvider;
 import lombok.SneakyThrows;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -25,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public abstract class GUI implements InventoryProvider {
+public abstract class GUI implements InventoryProvider, Listener {
     public final IAPI api;
     public final GUIConfig config;
 
@@ -36,6 +38,7 @@ public abstract class GUI implements InventoryProvider {
         if (this.config == null) {
             throw new Exception("The gui config with this id does not exist in the config");
         }
+        api.getAPI().getPlugin().getServer().getPluginManager().registerEvents(this, api.getAPI().getPlugin());
     }
 
     public SmartInventory getInventory() {
@@ -189,13 +192,28 @@ public abstract class GUI implements InventoryProvider {
     }
 
     public InventoryListener<InventoryClickEvent> getInventoryClickListener() {
-        System.out.println(5);
         return new InventoryListener<>(InventoryClickEvent.class, this::onInventoryClick);
     }
+
+    @EventHandler
+    public void a(InventoryClickEvent event) {
+        if (event.getRawSlot() < 54) {
+            return;
+        }
+
+        if (event.isCancelled()) {
+            return;
+        }
+
+        onPlayerInventoryClick(event);
+    }
+
 
     public abstract void onInventoryClose(InventoryCloseEvent event);
 
     public abstract void onInventoryClick(InventoryClickEvent event);
+
+    public abstract void onPlayerInventoryClick(InventoryClickEvent event);
 
 
 }
