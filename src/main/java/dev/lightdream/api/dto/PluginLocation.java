@@ -130,4 +130,11 @@ public class PluginLocation extends Position {
     public Position toPosition() {
         return new Position(x, y, z);
     }
+
+    @SuppressWarnings("unused")
+    public void round() {
+        this.x = Math.floor(x);
+        this.y = Math.floor(y);
+        this.z = Math.floor(z);
+    }
 }
