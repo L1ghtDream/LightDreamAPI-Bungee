@@ -9,7 +9,6 @@ public abstract class EditableDatabaseEntry implements DatabaseEntry {
 
     public EditableDatabaseEntry(IAPI api){
         this.api = api;
-        save();
     }
 
     public void save(){
