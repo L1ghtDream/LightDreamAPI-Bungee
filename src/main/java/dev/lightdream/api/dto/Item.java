@@ -195,6 +195,14 @@ public class Item {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Item item = (Item) o;
+
+            if (this.lore == null) {
+                this.lore = new ArrayList<>();
+            }
+            if (item.lore == null) {
+                item.lore = new ArrayList<>();
+            }
+
             return amount == item.amount &&
                     material == item.material &&
                     Objects.equals(displayName, item.displayName) &&
@@ -207,6 +215,14 @@ public class Item {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Item item = (Item) o;
+
+            if (this.lore == null) {
+                this.lore = new ArrayList<>();
+            }
+            if (item.lore == null) {
+                item.lore = new ArrayList<>();
+            }
+
             return material == item.material &&
                     Objects.equals(displayName, item.displayName) &&
                     Objects.equals(headData, item.headData) &&
