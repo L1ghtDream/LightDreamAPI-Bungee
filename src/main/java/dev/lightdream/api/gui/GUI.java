@@ -83,6 +83,9 @@ public abstract class GUI implements InventoryProvider, Listener {
                 if (item.item.material.equals(XMaterial.PLACEHOLDER)) {
                     item.item.material = XMaterial.matchXMaterial(parse("%material%", player)).orElse(XMaterial.AIR);
                 }
+                if (item.item.amount == null) {
+                    item.item.amount = Integer.parseInt(parse("%amount%", player));
+                }
                 item.item.displayName = parse(item.item.displayName, player);
                 item.item.lore = parse(item.item.lore, player);
                 item.item.headOwner = parse(item.item.displayName, player);

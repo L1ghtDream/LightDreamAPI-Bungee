@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Item {
 
     public XMaterial material;
-    public int amount;
+    public Integer amount;
     public String displayName;
     public String headData;
     public String headOwner;
@@ -50,7 +50,7 @@ public class Item {
         this.nbtTags = new HashMap<>();
     }
 
-    public Item(XMaterial material, int amount) {
+    public Item(XMaterial material, Integer amount) {
         this.material = material;
         this.amount = amount;
         this.lore = new ArrayList<>();
@@ -70,7 +70,7 @@ public class Item {
         this.nbtTags = new HashMap<>();
     }
 
-    public Item(XMaterial material, int amount, String displayName, List<String> lore, HashMap<String, Object> nbtTags) {
+    public Item(XMaterial material, Integer amount, String displayName, List<String> lore, HashMap<String, Object> nbtTags) {
         this.material = material;
         this.amount = amount;
         this.lore = lore;
@@ -78,7 +78,7 @@ public class Item {
         this.nbtTags = nbtTags;
     }
 
-    public Item(XMaterial material, int amount, String displayName, List<String> lore) {
+    public Item(XMaterial material, Integer amount, String displayName, List<String> lore) {
         this.material = material;
         this.amount = amount;
         this.lore = lore;
@@ -86,7 +86,7 @@ public class Item {
         this.nbtTags = new HashMap<>();
     }
 
-    public Item(XMaterial material, int slot, int amount, String displayName, List<String> lore, HashMap<String, Object> nbtTags) {
+    public Item(XMaterial material, int slot, Integer amount, String displayName, List<String> lore, HashMap<String, Object> nbtTags) {
         this.material = material;
         this.amount = amount;
         this.lore = lore;
@@ -95,7 +95,7 @@ public class Item {
         this.nbtTags = nbtTags;
     }
 
-    public Item(XMaterial material, int slot, int amount, String displayName, List<String> lore) {
+    public Item(XMaterial material, int slot, Integer amount, String displayName, List<String> lore) {
         this.material = material;
         this.amount = amount;
         this.lore = lore;
@@ -104,7 +104,7 @@ public class Item {
         this.nbtTags = new HashMap<>();
     }
 
-    public Item(XMaterial material, int slot, String headData, int amount, String displayName, List<String> lore, HashMap<String, Object> nbtTags) {
+    public Item(XMaterial material, int slot, String headData, Integer amount, String displayName, List<String> lore, HashMap<String, Object> nbtTags) {
         this.material = material;
         this.amount = amount;
         this.lore = lore;
@@ -114,7 +114,7 @@ public class Item {
         this.nbtTags = nbtTags;
     }
 
-    public Item(XMaterial material, int slot, String headData, int amount, String displayName, List<String> lore) {
+    public Item(XMaterial material, int slot, String headData, Integer amount, String displayName, List<String> lore) {
         this.material = material;
         this.amount = amount;
         this.lore = lore;
@@ -124,7 +124,7 @@ public class Item {
         this.nbtTags = new HashMap<>();
     }
 
-    public Item(XMaterial material, int slot, int amount, String displayName, String headOwner, List<String> lore, HashMap<String, Object> nbtTags) {
+    public Item(XMaterial material, int slot, Integer amount, String displayName, String headOwner, List<String> lore, HashMap<String, Object> nbtTags) {
         this.material = material;
         this.amount = amount;
         this.lore = lore;
@@ -134,7 +134,7 @@ public class Item {
         this.nbtTags = nbtTags;
     }
 
-    public Item(XMaterial material, int slot, int amount, String displayName, String headOwner, List<String> lore) {
+    public Item(XMaterial material, int slot, Integer amount, String displayName, String headOwner, List<String> lore) {
         this.material = material;
         this.amount = amount;
         this.lore = lore;
@@ -144,7 +144,7 @@ public class Item {
         this.nbtTags = new HashMap<>();
     }
 
-    public Item(XMaterial material, int amount, String displayName, String headOwner, List<String> lore, HashMap<String, Object> nbtTags) {
+    public Item(XMaterial material, Integer amount, String displayName, String headOwner, List<String> lore, HashMap<String, Object> nbtTags) {
         this.material = material;
         this.amount = amount;
         this.lore = lore;
@@ -153,7 +153,7 @@ public class Item {
         this.nbtTags = nbtTags;
     }
 
-    public Item(XMaterial material, int amount, String displayName, String headOwner, List<String> lore) {
+    public Item(XMaterial material, Integer amount, String displayName, String headOwner, List<String> lore) {
         this.material = material;
         this.amount = amount;
         this.lore = lore;
