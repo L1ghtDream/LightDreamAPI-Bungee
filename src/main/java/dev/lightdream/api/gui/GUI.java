@@ -151,6 +151,8 @@ public abstract class GUI implements InventoryProvider, Listener {
     public abstract boolean canAddItem(GUIItem item, String key);
 
     public void open(Player player) {
+        InventoryContents contents = new InventoryContents.Impl(getInventory(), player);
+        init(player, contents);
         getInventory().open(player);
     }
 
@@ -158,14 +160,14 @@ public abstract class GUI implements InventoryProvider, Listener {
         if (!(sender instanceof Player)) {
             return;
         }
-        getInventory().open((Player) sender);
+        open((Player) sender);
     }
 
     public void open(User user) {
         if (!user.isOnline()) {
             return;
         }
-        getInventory().open(user.getPlayer());
+        open(user.getPlayer());
     }
 
     public abstract HashMap<Class<?>, Object> getArgs();
