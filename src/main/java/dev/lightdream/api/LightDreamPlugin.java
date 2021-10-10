@@ -47,6 +47,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     public DatabaseManager databaseManager;
     public InventoryManager inventoryManager;
     public MessageManager messageManager;
+    public CommandManager baseCommandManager;
 
     //Bot
     public JDA bot;
@@ -90,7 +91,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
         baseSubCommands.add(new ReloadCommand(this));
         baseSubCommands.add(new VersionCommand(this));
         loadBaseCommands();
-        new CommandManager(this, projectID, baseSubCommands);
+        baseCommandManager = new CommandManager(this, projectID, baseSubCommands);
 
         //Bot
         if (baseJdaConfig != null) {
