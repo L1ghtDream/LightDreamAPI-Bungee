@@ -151,8 +151,6 @@ public abstract class GUI implements InventoryProvider, Listener {
     public abstract boolean canAddItem(GUIItem item, String key);
 
     public void open(Player player) {
-        InventoryContents contents = new InventoryContents.Impl(getInventory(), player);
-        init(player, contents);
         getInventory().open(player);
     }
 
