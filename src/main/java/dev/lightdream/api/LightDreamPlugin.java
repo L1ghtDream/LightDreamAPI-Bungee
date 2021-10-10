@@ -2,6 +2,7 @@ package dev.lightdream.api;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import dev.lightdream.api.commands.SubCommand;
+import dev.lightdream.api.commands.commands.base.HelpCommand;
 import dev.lightdream.api.commands.commands.base.ReloadCommand;
 import dev.lightdream.api.commands.commands.base.VersionCommand;
 import dev.lightdream.api.configs.Config;
@@ -90,6 +91,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
         //Commands
         baseSubCommands.add(new ReloadCommand(this));
         baseSubCommands.add(new VersionCommand(this));
+        baseSubCommands.add(new HelpCommand(this));
         loadBaseCommands();
         baseCommandManager = new CommandManager(this, projectID, baseSubCommands);
 
@@ -217,5 +219,10 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     @Override
     public boolean isLEnabled() {
         return enabled;
+    }
+
+    @Override
+    public CommandManager getCommandManager() {
+        return baseCommandManager;
     }
 }

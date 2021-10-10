@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class SubCommand {
 
@@ -42,5 +43,23 @@ public abstract class SubCommand {
     @SuppressWarnings("unused")
     public void sendUsage(CommandSender sender) {
         api.getMessageManager().sendMessage(sender, new MessageBuilder(usage));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SubCommand that = (SubCommand) o;
+        for (String alias : aliases) {
+            if (that.aliases.contains(alias)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(aliases);
     }
 }

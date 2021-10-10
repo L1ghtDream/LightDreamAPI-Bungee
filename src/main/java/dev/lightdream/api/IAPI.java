@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import dev.lightdream.api.configs.Config;
 import dev.lightdream.api.configs.Lang;
 import dev.lightdream.api.configs.SQLConfig;
+import dev.lightdream.api.managers.CommandManager;
 import dev.lightdream.api.managers.DatabaseManager;
 import dev.lightdream.api.managers.KeyDeserializerManager;
 import dev.lightdream.api.managers.MessageManager;
@@ -61,5 +62,7 @@ public interface IAPI {
 
     @SuppressWarnings("EmptyMethod")
     void registerFileManagerModules();
+
+    CommandManager getCommandManager();
 
 }

@@ -26,7 +26,15 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             return;
         }
 
-        this.subCommands = subCommands;
+        List<SubCommand> sc = new ArrayList<>();
+
+        subCommands.forEach(subCommand -> {
+            if (!sc.contains(subCommand)) {
+                sc.add(subCommand);
+            }
+        });
+
+        this.subCommands = sc;
         this.subCommands.sort(Comparator.comparing(com -> com.aliases.get(0)));
     }
 

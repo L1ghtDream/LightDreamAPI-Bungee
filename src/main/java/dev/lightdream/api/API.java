@@ -2,6 +2,7 @@ package dev.lightdream.api;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import dev.lightdream.api.commands.SubCommand;
+import dev.lightdream.api.commands.commands.base.HelpCommand;
 import dev.lightdream.api.commands.commands.ldapi.ChoseLangCommand;
 import dev.lightdream.api.commands.commands.ldapi.PluginsCommand;
 import dev.lightdream.api.commands.commands.base.ReloadCommand;
@@ -52,6 +53,7 @@ public final class API implements IAPI {
     public DatabaseManager databaseManager;
     public FileManager fileManager;
     public KeyDeserializerManager keyDeserializerManager;
+    public CommandManager commandManager;
 
     public API(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -87,7 +89,7 @@ public final class API implements IAPI {
 
         //Commands
         List<SubCommand> baseSubCommands = new ArrayList<>(getBaseCommands());
-        new CommandManager(this, getProjectID(), baseSubCommands);
+        commandManager = new CommandManager(this, getProjectID(), baseSubCommands);
 
         getLogger().info(ChatColor.GREEN + getProjectName() + "(by github.com/L1ghtDream) has been enabled");
     }
@@ -115,7 +117,8 @@ public final class API implements IAPI {
                 new ChoseLangCommand(this),
                 new ReloadCommand(this),
                 new VersionCommand(this),
-                new PluginsCommand(this)
+                new PluginsCommand(this),
+                new HelpCommand(this)
         );
     }
 
@@ -139,6 +142,11 @@ public final class API implements IAPI {
     @Override
     public void registerFileManagerModules() {
 
+    }
+
+    @Override
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 
     @Override
@@ -228,7 +236,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "2.199";
+        return "3.0";
     }
 
     @Override
