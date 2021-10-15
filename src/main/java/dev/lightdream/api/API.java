@@ -3,13 +3,14 @@ package dev.lightdream.api;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import dev.lightdream.api.commands.SubCommand;
 import dev.lightdream.api.commands.commands.base.HelpCommand;
-import dev.lightdream.api.commands.commands.ldapi.ChoseLangCommand;
-import dev.lightdream.api.commands.commands.ldapi.PluginsCommand;
 import dev.lightdream.api.commands.commands.base.ReloadCommand;
 import dev.lightdream.api.commands.commands.base.VersionCommand;
+import dev.lightdream.api.commands.commands.ldapi.ChoseLangCommand;
+import dev.lightdream.api.commands.commands.ldapi.PluginsCommand;
 import dev.lightdream.api.configs.Config;
 import dev.lightdream.api.configs.Lang;
 import dev.lightdream.api.configs.SQLConfig;
+import dev.lightdream.api.databases.ConsoleUser;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.dto.Position;
 import dev.lightdream.api.managers.*;
@@ -93,6 +94,7 @@ public final class API implements IAPI {
 
         getLogger().info(ChatColor.GREEN + getProjectName() + "(by github.com/L1ghtDream) has been enabled");
     }
+
     private Economy setupEconomy() {
         RegisteredServiceProvider<Economy> rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
         return rsp.getProvider();
@@ -129,7 +131,7 @@ public final class API implements IAPI {
     }
 
     @Override
-    public void disable(){
+    public void disable() {
         this.databaseManager.save();
         this.enabled = false;
     }
@@ -145,8 +147,13 @@ public final class API implements IAPI {
     }
 
     @Override
-    public CommandManager getCommandManager() {
+    public CommandManager getBaseCommandManager() {
         return commandManager;
+    }
+
+    @Override
+    public ConsoleUser getConsoleUser() {
+        return null;
     }
 
     @Override
@@ -236,14 +243,18 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.2";
+        return "3.3";
     }
 
     @Override
     public void setLang(Player player, String lang) {
-        User user = databaseManager.getUser(player);
+        setLang(databaseManager.getUser(player), lang);
+    }
+
+    @Override
+    public void setLang(User user, String lang) {
         user.setLang(lang);
-        databaseManager.save(user);
+        user.save();
     }
 
 }

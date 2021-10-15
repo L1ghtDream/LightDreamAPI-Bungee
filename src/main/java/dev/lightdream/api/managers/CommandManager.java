@@ -2,6 +2,7 @@ package dev.lightdream.api.managers;
 
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.commands.SubCommand;
+import dev.lightdream.api.databases.User;
 import dev.lightdream.api.utils.MessageBuilder;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,12 +40,16 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     }
 
     public void sendUsage(CommandSender sender) {
+        sendUsage(api.getDatabaseManager().getUser(sender));
+    }
+
+    public void sendUsage(User user) {
         StringBuilder helpCommandOutput = new StringBuilder();
         helpCommandOutput.append("\n");
 
         if (api.getLang().helpCommand.equals("")) {
             for (SubCommand subCommand : subCommands) {
-                if (sender.hasPermission(subCommand.permission)) {
+                if (user.hasPermission(subCommand.permission)) {
                     helpCommandOutput.append(subCommand.usage);
                     helpCommandOutput.append("\n");
                 }
@@ -53,7 +58,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             helpCommandOutput.append(api.getLang().helpCommand);
         }
 
-        api.getMessageManager().sendMessage(sender, new MessageBuilder(helpCommandOutput.toString()));
+        user.sendMessage(api, helpCommandOutput.toString());
     }
 
     @Override

@@ -9,6 +9,8 @@ import dev.lightdream.api.configs.Config;
 import dev.lightdream.api.configs.JdaConfig;
 import dev.lightdream.api.configs.Lang;
 import dev.lightdream.api.configs.SQLConfig;
+import dev.lightdream.api.databases.ConsoleUser;
+import dev.lightdream.api.databases.User;
 import dev.lightdream.api.managers.*;
 import fr.minuskube.inv.InventoryManager;
 import lombok.SneakyThrows;
@@ -110,10 +112,10 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
 
     @Override
     public void onDisable() {
-        if(api.isLEnabled()){
+        if (api.isLEnabled()) {
             api.disable();
         }
-        if(this.isLEnabled()){
+        if (this.isLEnabled()) {
             this.disable();
         }
     }
@@ -171,9 +173,6 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     }
 
     @Override
-    public abstract DatabaseManager getDatabaseManager();
-
-    @Override
     public Config getSettings() {
         return baseConfig;
     }
@@ -194,7 +193,20 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     }
 
     @Override
-    public abstract void setLang(Player player, String lang);
+    public void setLang(Player player, String lang) {
+        setLang(databaseManager.getUser(player), lang);
+    }
+
+    @Override
+    public void setLang(User user, String lang) {
+        user.setLang(lang);
+        user.save();
+    }
+
+    @Override
+    public ConsoleUser getConsoleUser() {
+        return new ConsoleUser();
+    }
 
     @Override
     public InventoryManager getInventoryManager() {
@@ -222,7 +234,9 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     }
 
     @Override
-    public CommandManager getCommandManager() {
+    public CommandManager getBaseCommandManager() {
         return baseCommandManager;
     }
+
+
 }

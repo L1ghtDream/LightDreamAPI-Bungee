@@ -2,8 +2,8 @@ package dev.lightdream.api.commands.commands.base;
 
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.commands.SubCommand;
+import dev.lightdream.api.databases.User;
 import dev.lightdream.api.utils.MessageBuilder;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -18,15 +18,15 @@ public class VersionCommand extends SubCommand {
     }
 
     @Override
-    public void execute(CommandSender sender, List<String> args) {
-        api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().version).addPlaceholders(new HashMap<String, String>() {{
+    public void execute(User user, List<String> args) {
+        user.sendMessage(api, new MessageBuilder(api.getLang().version).addPlaceholders(new HashMap<String, String>() {{
             put("project_name", api.getProjectName());
             put("version", api.getProjectVersion());
         }}));
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, List<String> args) {
+    public List<String> onTabComplete(User user, List<String> args) {
         return new ArrayList<>();
     }
 }

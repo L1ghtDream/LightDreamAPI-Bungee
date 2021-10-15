@@ -10,6 +10,7 @@ import com.j256.ormlite.table.TableUtils;
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.configs.SQLConfig;
 import dev.lightdream.api.databases.DatabaseEntry;
+import dev.lightdream.api.databases.EditableDatabaseEntry;
 import dev.lightdream.api.databases.User;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
@@ -23,7 +24,6 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.*;
 
-@SuppressWarnings("ALL")
 public class DatabaseManager {
 
     public final IAPI api;
@@ -90,7 +90,7 @@ public class DatabaseManager {
         return daoMap.get(clazz);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "unchecked"})
     @SneakyThrows
     public void save(boolean commit) {
         api.getLogger().info("Saving database tables to " + api.getDataFolder());
@@ -123,16 +123,17 @@ public class DatabaseManager {
         save(true);
     }
 
+    @SuppressWarnings("unchecked")
     @SneakyThrows
     public void save(DatabaseEntry entry, boolean cache) {
         if (cache) {
-            List<DatabaseEntry> list = (List<DatabaseEntry>) cacheMap.getOrDefault(entry.getClass(), new ArrayList<>());
+            List<DatabaseEntry> list = cacheMap.getOrDefault(entry.getClass(), new ArrayList<>());
             if (list.contains(entry)) {
                 list.remove(entry);
             } else {
                 ((Dao<DatabaseEntry, Integer>) daoMap.get(entry.getClass())).createOrUpdate(entry);
             }
-            list.add((DatabaseEntry) entry);
+            list.add(entry);
             cacheMap.put(entry.getClass(), list);
         } else {
             ((Dao<DatabaseEntry, Integer>) daoMap.get(entry.getClass())).createOrUpdate(entry);
@@ -143,6 +144,7 @@ public class DatabaseManager {
         save(entry, true);
     }
 
+    @SuppressWarnings("unchecked")
     @SneakyThrows
     public <T> List<T> getAll(Class<T> clazz, boolean cache) {
         if (cache) {
@@ -151,13 +153,20 @@ public class DatabaseManager {
             }
             return (List<T>) cacheMap.get(clazz);
         } else {
-            return (List<T>) getDao(clazz).queryForAll();
+            List<T> list = (List<T>) getDao(clazz).queryForAll();
+            for (T t : list) {
+                if (t instanceof EditableDatabaseEntry) {
+                    ((EditableDatabaseEntry) t).setAPI(api);
+                }
+            }
+            return list;
         }
     }
 
+    @SuppressWarnings("unchecked")
     @SneakyThrows
     public List<Integer> getAllIDs(Class<?> clazz, boolean cache) {
-        List<DatabaseEntry> entries = new ArrayList<>();
+        List<DatabaseEntry> entries;
         if (cache) {
             if (!cacheMap.containsKey(clazz)) {
                 throw new Exception("The class '" + clazz.getSimpleName() + "' has not been setup. Use setup(" + clazz.getSimpleName() + ".class); in your database manager");
@@ -173,6 +182,7 @@ public class DatabaseManager {
         return output;
     }
 
+    @SuppressWarnings("unused")
     public List<Integer> getAllIDs(Class<?> clazz) {
         return getAllIDs(clazz, true);
     }
@@ -181,7 +191,7 @@ public class DatabaseManager {
         return getAll(clazz, true);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "unchecked"})
     @SneakyThrows
     public void delete(DatabaseEntry entry) {
         List<DatabaseEntry> list = cacheMap.get(entry.getClass());
@@ -191,6 +201,7 @@ public class DatabaseManager {
     }
 
 
+    @SuppressWarnings("unchecked")
     @SneakyThrows
     public void setup(Class<?> clazz) {
         api.getLogger().info("Setting up " + clazz.getSimpleName() + " database table");
@@ -200,7 +211,6 @@ public class DatabaseManager {
     }
 
     //Users
-
     public @NotNull User getUser(@NotNull UUID uuid) {
         Optional<User> optionalUser = getAll(User.class).stream().filter(user -> user.uuid.equals(uuid)).findFirst();
 
@@ -208,7 +218,7 @@ public class DatabaseManager {
             return optionalUser.get();
         }
 
-        User user = new User(uuid, Bukkit.getOfflinePlayer(uuid).getName(), api.getSettings().baseLang);
+        User user = new User(api, uuid, Bukkit.getOfflinePlayer(uuid).getName(), api.getSettings().baseLang);
         save(user);
         return user;
     }
@@ -238,10 +248,10 @@ public class DatabaseManager {
 
     @SuppressWarnings("unused")
     public @Nullable User getUser(@NotNull CommandSender sender) {
-        if (!(sender instanceof Player)) {
-            return null;
+        if (sender instanceof Player) {
+            return getUser((Player) sender);
         }
-        return getUser((Player) sender);
+        return api.getConsoleUser();
     }
 
 

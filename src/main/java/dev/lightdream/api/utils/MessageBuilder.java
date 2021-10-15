@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class MessageBuilder extends Serializable implements java.io.Serializable{
+public class MessageBuilder extends Serializable implements java.io.Serializable {
 
     private String base;
     private List<String> baseList;
@@ -156,33 +156,38 @@ public class MessageBuilder extends Serializable implements java.io.Serializable
     }
 
     @SuppressWarnings("unused")
-    public @Nullable String getBaseString(){
-        if(isList()){
+    public @Nullable String getBaseString() {
+        if (isList()) {
             return null;
         }
         return (String) getBase();
     }
 
     @SuppressWarnings({"unchecked", "unused"})
-    public @Nullable List<String> getBaseList(){
-        if(isList()){
+    public @Nullable List<String> getBaseList() {
+        if (isList()) {
             return (List<String>) getBase();
         }
         return null;
     }
 
-    @SuppressWarnings("unused")
-    public @Nullable String parseString(){
-        if(isList()){
-            return null;
+    @SuppressWarnings({"unused", "ConstantConditions"})
+    public @Nullable String parseString() {
+        if (isList()) {
+            StringBuilder output = new StringBuilder();
+            for (String s : parseStringList()) {
+                output.append(s).append("\n");
+            }
+            return output.toString();
         }
         return (String) parse();
     }
 
     @SuppressWarnings({"unchecked", "unused"})
-    public @Nullable List<String> parseStringList(){
-        if(isList()){
+    public @Nullable List<String> parseStringList() {
+        if (isList()) {
             return (List<String>) parse();
         }
-        return null;
-    }}
+        return Collections.singletonList((String) parse());
+    }
+}

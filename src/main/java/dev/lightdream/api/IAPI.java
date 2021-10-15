@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import dev.lightdream.api.configs.Config;
 import dev.lightdream.api.configs.Lang;
 import dev.lightdream.api.configs.SQLConfig;
+import dev.lightdream.api.databases.ConsoleUser;
+import dev.lightdream.api.databases.User;
 import dev.lightdream.api.managers.CommandManager;
 import dev.lightdream.api.managers.DatabaseManager;
 import dev.lightdream.api.managers.KeyDeserializerManager;
@@ -45,6 +47,8 @@ public interface IAPI {
 
     void setLang(Player player, String lang);
 
+    void setLang(User user, String lang);
+
     void loadConfigs();
 
     InventoryManager getInventoryManager();
@@ -63,6 +67,7 @@ public interface IAPI {
     @SuppressWarnings("EmptyMethod")
     void registerFileManagerModules();
 
-    CommandManager getCommandManager();
+    CommandManager getBaseCommandManager();
 
+    ConsoleUser getConsoleUser();
 }

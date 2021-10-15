@@ -5,18 +5,22 @@ import dev.lightdream.api.IAPI;
 @SuppressWarnings("unused")
 public abstract class EditableDatabaseEntry implements DatabaseEntry {
 
-    private final IAPI api;
+    private IAPI api;
 
-    public EditableDatabaseEntry(IAPI api){
+    public EditableDatabaseEntry(IAPI api) {
         this.api = api;
     }
 
-    public void save(){
+    public void save() {
         api.getDatabaseManager().save(this);
     }
 
-    public void delete(){
+    public void delete() {
         api.getDatabaseManager().delete(this);
+    }
+
+    public void setAPI(IAPI api) {
+        this.api = api;
     }
 
 }

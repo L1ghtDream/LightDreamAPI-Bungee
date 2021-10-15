@@ -2,7 +2,7 @@ package dev.lightdream.api.commands.commands.base;
 
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.commands.SubCommand;
-import org.bukkit.command.CommandSender;
+import dev.lightdream.api.databases.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -15,12 +15,12 @@ public class ReloadCommand extends SubCommand {
     }
 
     @Override
-    public void execute(CommandSender sender, List<String> args) {
+    public void execute(User user, List<String> args) {
         api.loadConfigs();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, List<String> args) {
+    public List<String> onTabComplete(User user, List<String> args) {
         return new ArrayList<>();
     }
 }

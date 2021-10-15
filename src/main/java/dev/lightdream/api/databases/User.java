@@ -3,7 +3,9 @@ package dev.lightdream.api.databases;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import dev.lightdream.api.API;
+import dev.lightdream.api.IAPI;
 import dev.lightdream.api.dto.PluginLocation;
+import dev.lightdream.api.utils.MessageBuilder;
 import dev.lightdream.api.utils.Utils;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
@@ -15,9 +17,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.UUID;
 
-@NoArgsConstructor
 @DatabaseTable(tableName = "users")
-public class User implements DatabaseEntry {
+public class User extends EditableDatabaseEntry {
 
     @SuppressWarnings("unused")
     @DatabaseField(columnName = "id", generatedId = true, canBeNull = false)
@@ -29,7 +30,12 @@ public class User implements DatabaseEntry {
     @DatabaseField(columnName = "lang")
     public String lang;
 
-    public User(UUID uuid, String name, String lang) {
+    public User() {
+        super(null);
+    }
+
+    public User(IAPI api, UUID uuid, String name, String lang) {
+        super(api);
         this.uuid = uuid;
         this.name = name;
         this.lang = lang;
@@ -39,6 +45,7 @@ public class User implements DatabaseEntry {
         return Bukkit.getPlayer(uuid);
     }
 
+    @SuppressWarnings("NullableProblems")
     public @NotNull OfflinePlayer getOfflinePlayer() {
         return Bukkit.getOfflinePlayer(uuid);
     }
@@ -131,4 +138,24 @@ public class User implements DatabaseEntry {
     public Integer getID() {
         return this.id;
     }
+
+    @SuppressWarnings("unused")
+    public void sendMessage(IAPI api, String msg) {
+        api.getMessageManager().sendMessage(this, msg);
+    }
+
+    @SuppressWarnings("unused")
+    public void sendMessage(IAPI api, MessageBuilder msg) {
+        api.getMessageManager().sendMessage(this, msg);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public boolean hasPermission(String permission) {
+        if (isOnline()) {
+            return false;
+        }
+        return getPlayer().hasPermission(permission);
+    }
+
+
 }

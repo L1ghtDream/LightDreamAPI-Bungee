@@ -2,8 +2,8 @@ package dev.lightdream.api.commands.commands.ldapi;
 
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.commands.SubCommand;
+import dev.lightdream.api.databases.User;
 import dev.lightdream.api.utils.MessageBuilder;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -16,7 +16,7 @@ public class PluginsCommand extends SubCommand {
     }
 
     @Override
-    public void execute(CommandSender sender, List<String> args) {
+    public void execute(User user, List<String> args) {
         StringBuilder s = new StringBuilder();
         api.getAPI().plugins.forEach(plugin -> s.append(new MessageBuilder(api.getLang().pluginFormat).addPlaceholders(new HashMap<String, String>() {{
             put("project-name", plugin.getProjectName());
@@ -24,13 +24,13 @@ public class PluginsCommand extends SubCommand {
             put("project-version", plugin.getProjectVersion());
         }}).parse()));
 
-        api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().pluginList).addPlaceholders(new HashMap<String, String>() {{
+        user.sendMessage(api, new MessageBuilder(api.getLang().pluginList).addPlaceholders(new HashMap<String, String>() {{
             put("plugins", s.toString());
         }}));
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, List<String> args) {
+    public List<String> onTabComplete(User user, List<String> args) {
         return null;
     }
 }
