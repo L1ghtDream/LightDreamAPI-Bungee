@@ -7,7 +7,6 @@ import dev.lightdream.api.IAPI;
 import dev.lightdream.api.dto.PluginLocation;
 import dev.lightdream.api.utils.MessageBuilder;
 import dev.lightdream.api.utils.Utils;
-import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -151,7 +150,7 @@ public class User extends EditableDatabaseEntry {
 
     @SuppressWarnings("ConstantConditions")
     public boolean hasPermission(String permission) {
-        if (isOnline()) {
+        if (!isOnline()) {
             return false;
         }
         return getPlayer().hasPermission(permission);
