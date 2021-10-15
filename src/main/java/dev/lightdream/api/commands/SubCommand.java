@@ -46,6 +46,19 @@ public abstract class SubCommand {
         this.usage = "/" + api.getProjectID() + " " + aliases.get(0) + " " + usage;
     }
 
+    @SuppressWarnings("unused")
+    public SubCommand(@NotNull IAPI api, List<String> aliases, boolean onlyForPlayers, boolean onlyForConsole, @NotNull String usage) {
+        this.api = api;
+        for (String alias : aliases) {
+            this.aliases.add(alias.toLowerCase());
+        }
+        this.description = "description";
+        this.permission = api.getProjectID() + "." + aliases.get(0);
+        this.onlyForPlayers = onlyForPlayers;
+        this.onlyForConsole = onlyForConsole;
+        this.usage = "/" + api.getProjectID() + " " + aliases.get(0) + " " + usage;
+    }
+
     public abstract void execute(CommandSender sender, List<String> args);
 
     public abstract List<String> onTabComplete(CommandSender sender, List<String> args);
