@@ -47,10 +47,13 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         StringBuilder helpCommandOutput = new StringBuilder();
         helpCommandOutput.append("\n");
 
+        System.out.println("Checking the help command config");
         if (api.getLang().helpCommand.equals("")) {
+            System.out.println("Checking all the subCommands (" + subCommands.size() + ")");
             for (SubCommand subCommand : subCommands) {
+                System.out.println("Checking subcommand " + subCommand.aliases.get(0));
                 if (user.hasPermission(subCommand.permission)) {
-                    System.out.println("adding the usage of subcommand " + subCommand.aliases.get(0)  );
+                    System.out.println("Adding the usage of subcommand " + subCommand.aliases.get(0));
                     helpCommandOutput.append(subCommand.usage);
                     helpCommandOutput.append("\n");
                 }
