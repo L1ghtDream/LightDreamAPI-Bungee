@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public abstract class SubCommand {
 
-    public final @NotNull List<String> aliases;
+    public final @NotNull List<String> aliases = new ArrayList<>();
     public final @NotNull String description;
     public final @NotNull String permission;
     public final boolean onlyForPlayers;
@@ -21,7 +21,6 @@ public abstract class SubCommand {
 
     public SubCommand(@NotNull IAPI api, @NotNull List<String> aliases, @NotNull String description, @NotNull String permission, boolean onlyForPlayers, boolean onlyForConsole, @NotNull String usage) {
         this.api = api;
-        this.aliases = new ArrayList<>();
         for (String alias : aliases) {
             this.aliases.add(alias.toLowerCase());
         }
@@ -31,6 +30,17 @@ public abstract class SubCommand {
         } else {
             this.permission = api.getProjectID() + "." + permission;
         }
+        this.onlyForPlayers = onlyForPlayers;
+        this.onlyForConsole = onlyForConsole;
+        this.usage = "/" + api.getProjectID() + " " + aliases.get(0) + " " + usage;
+    }
+
+    @SuppressWarnings("unused")
+    public SubCommand(@NotNull IAPI api, String alias, boolean onlyForPlayers, boolean onlyForConsole, @NotNull String usage) {
+        this.api = api;
+        this.aliases.add(alias.toLowerCase());
+        this.description = "description";
+        this.permission = api.getProjectID() + "." + aliases.get(0);
         this.onlyForPlayers = onlyForPlayers;
         this.onlyForConsole = onlyForConsole;
         this.usage = "/" + api.getProjectID() + " " + aliases.get(0) + " " + usage;
