@@ -103,4 +103,6 @@ public class ConsoleUser extends User {
     public boolean hasPermission(String permission) {
         return true;
     }
+
+
 }
