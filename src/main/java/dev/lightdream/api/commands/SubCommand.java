@@ -41,7 +41,7 @@ public abstract class SubCommand {
     public SubCommand(@NotNull IAPI api, String alias, boolean onlyForPlayers, boolean onlyForConsole, @NotNull String usage) {
         this.api = api;
         this.aliases.add(alias.toLowerCase());
-        this.description = "description";
+        this.description = "";
         this.permission = api.getProjectID() + "." + aliases.get(0);
         this.onlyForPlayers = onlyForPlayers;
         this.onlyForConsole = onlyForConsole;
@@ -54,7 +54,7 @@ public abstract class SubCommand {
         for (String alias : aliases) {
             this.aliases.add(alias.toLowerCase());
         }
-        this.description = "description";
+        this.description = "";
         this.permission = api.getProjectID() + "." + aliases.get(0);
         this.onlyForPlayers = onlyForPlayers;
         this.onlyForConsole = onlyForConsole;

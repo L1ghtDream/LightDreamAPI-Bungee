@@ -50,6 +50,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         if (api.getLang().helpCommand.equals("")) {
             for (SubCommand subCommand : subCommands) {
                 if (user.hasPermission(subCommand.permission)) {
+                    System.out.println("adding the usage of subcommand " + subCommand.aliases.get(0)  );
                     helpCommandOutput.append(subCommand.usage);
                     helpCommandOutput.append("\n");
                 }
