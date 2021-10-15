@@ -1282,11 +1282,8 @@ public enum XMaterial {
 
     static {
         if (Data.ISFLAT) {
-            // It's not needed at all if it's the newer version. We can save some memory.
             DUPLICATED = null;
         } else {
-            // MELON_SLICE, CARROTS, POTATOES, BEETROOTS, GRASS_BLOCK, BRICKS, NETHER_BRICKS, BROWN_MUSHROOM
-            // Using the constructor to add elements will decide to allocate more size which we don't need.
             DUPLICATED = new HashSet<>(4);
             DUPLICATED.add(GRASS.name());
             DUPLICATED.add(MELON.name());
@@ -1357,7 +1354,6 @@ public enum XMaterial {
         if (cache != null) return cache;
 
         for (XMaterial material : VALUES) {
-            // Not using material.name().equals(name) check is intended.
             if ((data == UNKNOWN_DATA_VALUE || data == material.data) && material.anyMatchLegacy(name)) {
                 NAME_CACHE.put(holder, material);
                 return material;
@@ -1404,29 +1400,22 @@ public enum XMaterial {
         String material = item.getType().name();
         byte data = (byte) (Data.ISFLAT || item.getType().getMaxDurability() > 0 ? 0 : item.getDurability());
 
-        // Check FILLED_MAP enum for more info.
-        //if (!Data.ISFLAT && item.hasItemMeta() && item.getItemMeta() instanceof org.bukkit.inventory.meta.MapMeta) return FILLED_MAP;
-
         return matchDefinedXMaterial(material, data)
                 .orElseThrow(() -> new IllegalArgumentException("Unsupported material from item: " + material + " (" + data + ')'));
     }
 
     @NotNull
     protected static Optional<XMaterial> matchDefinedXMaterial(@NotNull String name, byte data) {
-        // if (!Boolean.valueOf(Boolean.getBoolean(Boolean.TRUE.toString())).equals(Boolean.FALSE.booleanValue())) return null;
         Boolean duplicated = null;
         boolean isAMap = name.equalsIgnoreCase("MAP");
 
-        // Do basic number and boolean checks before accessing more complex enum stuff.
         if (Data.ISFLAT || (!isAMap && data <= 0 && !(duplicated = isDuplicated(name)))) {
             Optional<XMaterial> xMaterial = getIfPresent(name);
             if (xMaterial.isPresent()) return xMaterial;
         }
-        // Usually flat versions wouldn't pass this point, but some special materials do.
 
         XMaterial oldXMaterial = requestOldXMaterial(name, data);
         if (oldXMaterial == null) {
-            // Special case. Refer to FILLED_MAP for more info.
             return (data >= 0 && isAMap) ? Optional.of(FILLED_MAP) : Optional.empty();
         }
 

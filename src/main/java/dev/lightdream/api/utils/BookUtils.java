@@ -36,22 +36,17 @@ public final class BookUtils {
     @SuppressWarnings("unused")
     public static void openPlayer(Player p, ItemStack book) {
         CustomBookOpenEvent event = new CustomBookOpenEvent(p, book, false);
-        //Call the CustomBookOpenEvent
         Bukkit.getPluginManager().callEvent(event);
-        //Check if it's cancelled
         if (event.isCancelled())
             return;
         p.closeInventory();
-        //Store the previous item
         ItemStack hand = p.getItemInHand();
 
         p.setItemInHand(event.getBook());
         p.updateInventory();
 
-        //Opening the GUI
         NmsBookHelper.openBook(p, event.getBook(), event.getHand() == CustomBookOpenEvent.Hand.OFF_HAND);
 
-        //Returning whatever was on hand.
         p.setItemInHand(hand);
         p.updateInventory();
     }

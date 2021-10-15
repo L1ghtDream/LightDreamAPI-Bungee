@@ -24,18 +24,12 @@ public final class NmsBookHelper {
 
     private static final Class<?> craftMetaBookClass;
     private static final Field craftMetaBookField;
-    // Converts JSON string to IChatBaseComponent
     private static final Method chatSerializerA;
 
-    // Only present in versions >= 1.16.4 (otherwise null)
     private static final Method craftMetaBookInternalAddPageMethod;
 
     private static final Method craftPlayerGetHandle;
-    // This method takes an enum that represents the player's hand only in versions
-    // >= 1.9
-    // In the other versions it only takes the nms item
     private static final Method entityPlayerOpenBook;
-    // only version >= 1.9
     private static final Object[] hands;
 
     private static final Method nmsItemStackSave;
@@ -76,13 +70,9 @@ public final class NmsBookHelper {
 
             Class<?> chatSerializer = getNmsClass("IChatBaseComponent$ChatSerializer", "network.chat", false);
             if (chatSerializer == null) {
-                //ChatSerializer was renamed to IChatBaseComponent$ChatSerializer
-                // this class will only exists when below on version below 1.17
                 chatSerializer = getNmsClass("ChatSerializer", true);
             }
 
-            // On versions < 1.16.4 the CraftMetaBook accepted IChatBaseComponent
-            // This method converts JSON strings to its IChatBaseComponent equivalent
             chatSerializerA = chatSerializer.getDeclaredMethod("a", String.class);
 
             final Class<?> craftPlayerClass = getCraftClass("entity.CraftPlayer");
@@ -96,8 +86,6 @@ public final class NmsBookHelper {
                 Method openBookMethod;
 
                 try {
-                    // In 1.14.4 The method was renamed from "a" to "openBook"
-                    // There is no way to test for the "fix" number in the version so we just try-catch it
                     openBookMethod = entityPlayerClass.getMethod("a", itemStackClass, enumHandClass);
                 } catch (NoSuchMethodException e) {
                     openBookMethod = entityPlayerClass.getMethod("openBook", itemStackClass, enumHandClass);
@@ -136,7 +124,6 @@ public final class NmsBookHelper {
                 if (craftMetaBookInternalAddPageMethod != null) {
                     craftMetaBookInternalAddPageMethod.invoke(meta, json);
                 } else {
-                    // Are pages always not null pre 1.16?
                     pages.add(chatSerializerA.invoke(null, json));
                 }
             }
@@ -146,7 +133,6 @@ public final class NmsBookHelper {
     }
 
     public static void openBook(Player player, ItemStack book, boolean offHand) {
-        // nms(player).openBook(nms(player), nms(book), hand);
         try {
             if (doubleHands) {
                 entityPlayerOpenBook.invoke(toNms(player), nmsCopy(book), hands[offHand ? 1 : 0]);
