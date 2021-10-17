@@ -73,6 +73,10 @@ public abstract class SubCommand {
 
     public List<String> onTabComplete(CommandSender sender, List<String> args) {
         if (sender instanceof Player) {
+            System.out.println(api);
+            System.out.println(sender);
+            System.out.println(api.getDatabaseManager());
+            System.out.println(api.getDatabaseManager().getUser(sender));
             return onTabComplete(api.getDatabaseManager().getUser(sender), args);
         } else {
             return onTabComplete(api.getConsoleUser(), args);
