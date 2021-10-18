@@ -29,7 +29,7 @@ public class Reward {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public void give(User user) {
+    public void win(User user) {
         switch (this.type) {
             case ITEM:
                 if(!user.isOnline()){
