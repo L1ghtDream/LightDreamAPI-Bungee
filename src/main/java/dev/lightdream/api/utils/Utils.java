@@ -191,7 +191,7 @@ public class Utils {
         player.giveExp(xp);
     }
 
-    public int getTotalChances(List<Reward> rewards){
+    public static int getTotalChances(List<Reward> rewards){
         int output = 0;
         for (Reward reward : rewards) {
             output += reward.money;
@@ -199,7 +199,7 @@ public class Utils {
         return output;
     }
 
-    public Reward getRandomReward(List<Reward> rewards){
+    public static Reward getRandomReward(List<Reward> rewards){
         int chances = getTotalChances(rewards);
         int rnd = generateRandom(0, chances);
         int index = 0;
