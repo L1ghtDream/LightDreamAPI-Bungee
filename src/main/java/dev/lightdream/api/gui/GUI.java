@@ -93,10 +93,14 @@ public abstract class GUI implements InventoryProvider, Listener {
 
                 item.args = parse(item.args, player);
 
-                contents.set(Utils.getSlotPosition(item.item.slot), ClickableItem.of(ItemBuilder.makeItem(item.item), e -> {
-                    List<String> functions = item.functions();
-                    functions.forEach(function -> functionCall(player, function, item.functionArgs(function)));
-                }));
+                if (item.item.material.equals(XMaterial.AIR)) {
+                    contents.set(Utils.getSlotPosition(item.item.slot), null);
+                } else {
+                    contents.set(Utils.getSlotPosition(item.item.slot), ClickableItem.of(ItemBuilder.makeItem(item.item), e -> {
+                        List<String> functions = item.functions();
+                        functions.forEach(function -> functionCall(player, function, item.functionArgs(function)));
+                    }));
+                }
                 if (!item.repeated) {
                     break;
                 }
