@@ -63,6 +63,7 @@ public abstract class SubCommand {
 
     public void execute(CommandSender sender, List<String> args) {
         if (sender instanceof Player) {
+            System.out.println(api.getDatabaseManager());
             execute(api.getDatabaseManager().getUser(sender), args);
         } else {
             execute(api.getConsoleUser(), args);
