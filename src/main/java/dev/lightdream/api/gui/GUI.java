@@ -57,7 +57,9 @@ public abstract class GUI implements InventoryProvider, Listener {
 
     @Override
     public void init(Player player, InventoryContents contents) {
-        contents.fill(ClickableItem.empty(ItemBuilder.makeItem(config.fillItem)));
+        if(!config.fillItem.material.equals(XMaterial.AIR)){
+            contents.fill(ClickableItem.empty(ItemBuilder.makeItem(config.fillItem)));
+        }
 
         List<GUIItem> items = new ArrayList<>();
         List<String> keys = new ArrayList<>();
