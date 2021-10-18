@@ -51,7 +51,7 @@ public abstract class GUI implements InventoryProvider, Listener {
                 .manager(api.getInventoryManager())
                 .listener(getInventoryClickListener())
                 .listener(getInventoryCloseListener())
-                .closeable(preventClose())
+                .closeable(!preventClose())
                 .build();
     }
 
