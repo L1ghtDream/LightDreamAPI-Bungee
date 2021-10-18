@@ -2,7 +2,7 @@ package dev.lightdream.api.utils;
 
 import dev.lightdream.api.dto.Item;
 import dev.lightdream.api.dto.PluginLocation;
-import dev.lightdream.api.dto.Reward;
+import dev.lightdream.api.dto.Randomizable;
 import fr.minuskube.inv.content.SlotPos;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -191,16 +191,24 @@ public class Utils {
         player.giveExp(xp);
     }
 
-    public static int getTotalChances(List<Reward> rewards){
+    public static int getTotalChances(List<Randomizable> objects){
         int output = 0;
-        for (Reward reward : rewards) {
-            output += reward.money;
+        for (Randomizable object : objects) {
+            output += object.getChance();
         }
         return output;
     }
 
-    public static Reward getRandomReward(List<Reward> rewards){
-        int chances = getTotalChances(rewards);
+    @SuppressWarnings({"unchecked", "unused"})
+    public static <T> T getRandom(List<T> objects){
+        if(objects.size()==0){
+            return null;
+        }
+
+        if(!(objects.get(0) instanceof Randomizable)){
+            return null;
+        }
+        int chances = getTotalChances((List<Randomizable>) objects);
         int rnd = generateRandom(0, chances);
         int index = 0;
 
@@ -209,11 +217,11 @@ public class Utils {
             chances-=rnd;
         }
 
-        if(index>=rewards.size()){
-            index= rewards.size()-1;
+        if(index>=objects.size()){
+            index= objects.size()-1;
         }
 
-        return rewards.get(index);
+        return objects.get(index);
     }
 
 
