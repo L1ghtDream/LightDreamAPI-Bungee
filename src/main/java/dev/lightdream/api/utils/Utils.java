@@ -2,6 +2,7 @@ package dev.lightdream.api.utils;
 
 import dev.lightdream.api.dto.Item;
 import dev.lightdream.api.dto.PluginLocation;
+import dev.lightdream.api.dto.Reward;
 import fr.minuskube.inv.content.SlotPos;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -188,6 +189,31 @@ public class Utils {
         player.setLevel(level);
         player.setExp(0);
         player.giveExp(xp);
+    }
+
+    public int getTotalChances(List<Reward> rewards){
+        int output = 0;
+        for (Reward reward : rewards) {
+            output += reward.money;
+        }
+        return output;
+    }
+
+    public Reward getRandomReward(List<Reward> rewards){
+        int chances = getTotalChances(rewards);
+        int rnd = generateRandom(0, chances);
+        int index = 0;
+
+        while(chances>rnd){
+            index++;
+            chances-=rnd;
+        }
+
+        if(index>=rewards.size()){
+            index= rewards.size()-1;
+        }
+
+        return rewards.get(index);
     }
 
 
