@@ -42,11 +42,6 @@ public abstract class SubCommand {
         this.api = api;
         this.aliases.add(alias.toLowerCase());
         this.description = "";
-        System.out.println(api);
-        System.out.println(api.getProjectID());
-        System.out.println(aliases);
-        System.out.println(aliases.size());
-        System.out.println(aliases.get(0));
         this.permission = api.getProjectID() + "." + aliases.get(0);
         this.onlyForPlayers = onlyForPlayers;
         this.onlyForConsole = onlyForConsole;
