@@ -117,10 +117,10 @@ public class Utils {
     }
 
     @SuppressWarnings("unused")
-    public static PluginLocation maxPluginLocation(List<PluginLocation> positions){
-        double maxX=-Double.MAX_VALUE;
-        double maxY=-Double.MAX_VALUE;
-        double maxZ=-Double.MAX_VALUE;
+    public static PluginLocation maxPluginLocation(List<PluginLocation> positions) {
+        double maxX = -Double.MAX_VALUE;
+        double maxY = -Double.MAX_VALUE;
+        double maxZ = -Double.MAX_VALUE;
 
         for (PluginLocation position : positions) {
             maxX = Math.max(maxX, position.x);
@@ -132,10 +132,10 @@ public class Utils {
     }
 
     @SuppressWarnings("unused")
-    public static PluginLocation minPluginLocation(List<PluginLocation> positions){
-        double minX=Double.MAX_VALUE;
-        double minY=Double.MAX_VALUE;
-        double minZ=Double.MAX_VALUE;
+    public static PluginLocation minPluginLocation(List<PluginLocation> positions) {
+        double minX = Double.MAX_VALUE;
+        double minY = Double.MAX_VALUE;
+        double minZ = Double.MAX_VALUE;
 
         for (PluginLocation position : positions) {
             minX = Math.min(minX, position.x);
@@ -191,7 +191,7 @@ public class Utils {
         player.giveExp(xp);
     }
 
-    public static int getTotalChances(List<Randomizable> objects){
+    public static int getTotalChances(List<Randomizable> objects) {
         int output = 0;
         for (Randomizable object : objects) {
             output += object.getChance();
@@ -200,30 +200,32 @@ public class Utils {
     }
 
     @SuppressWarnings({"unchecked", "unused"})
-    public static <T> T getRandom(List<T> objects){
-        if(objects.size()==0){
+    public static <T> T getRandom(List<T> objects) {
+        if (objects.size() == 0) {
             return null;
         }
 
-        if(!(objects.get(0) instanceof Randomizable)){
+        if (!(objects.get(0) instanceof Randomizable)) {
             return null;
         }
         int chances = getTotalChances((List<Randomizable>) objects);
-        int rnd = generateRandom(0, chances);
         int index = 0;
+        int rnd = generateRandom(0, chances);
 
-        while(chances>rnd){
+        do {
+            if (index >= objects.size()) {
+                break;
+            }
+            rnd -= ((Randomizable) objects.get(index)).getChance();
             index++;
-            chances-=rnd;
-        }
+        } while (rnd > 0);
 
-        if(index>=objects.size()){
-            index= objects.size()-1;
+        if (index >= objects.size()) {
+            index = objects.size() - 1;
         }
 
         return objects.get(index);
     }
-
 
 
 }
