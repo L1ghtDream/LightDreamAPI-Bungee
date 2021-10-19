@@ -208,10 +208,17 @@ public abstract class GUI implements InventoryProvider, Listener {
     @EventHandler
     public void a(InventoryClickEvent event) {
         if (event.getRawSlot() < 54) {
+            System.out.println(1);
             return;
         }
 
         if (event.isCancelled()) {
+            System.out.println(2);
+            return;
+        }
+
+        if(!event.getView().getTopInventory().getName().equals(Utils.color(config.title))){
+            System.out.println(3);
             return;
         }
 
