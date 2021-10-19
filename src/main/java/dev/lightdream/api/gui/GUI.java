@@ -57,7 +57,7 @@ public abstract class GUI implements InventoryProvider, Listener {
 
     @Override
     public void init(Player player, InventoryContents contents) {
-        if(!config.fillItem.material.equals(XMaterial.AIR)){
+        if (!config.fillItem.material.equals(XMaterial.AIR)) {
             contents.fill(ClickableItem.empty(ItemBuilder.makeItem(config.fillItem)));
         }
 
@@ -207,18 +207,15 @@ public abstract class GUI implements InventoryProvider, Listener {
 
     @EventHandler
     public void a(InventoryClickEvent event) {
-        if (event.getRawSlot() < 54) {
-            System.out.println(1);
+        if (event.getRawSlot() < 9 * config.rows) {
             return;
         }
 
         if (event.isCancelled()) {
-            System.out.println(2);
             return;
         }
 
-        if(!event.getView().getTopInventory().getName().equals(Utils.color(config.title))){
-            System.out.println(3);
+        if (!event.getView().getTopInventory().getName().equals(Utils.color(config.title))) {
             return;
         }
 
