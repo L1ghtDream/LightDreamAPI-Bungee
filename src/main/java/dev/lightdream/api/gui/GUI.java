@@ -236,4 +236,19 @@ public abstract class GUI implements InventoryProvider {
 
     public abstract boolean preventClose();
 
+    @SuppressWarnings("unchecked")
+    public <T> T getInventoryHandler(User user, Class<T> clazz) {
+        SmartInventory smartInventory = api.getInventoryManager().getInventory(user.getPlayer()).orElse(null);
+        if (smartInventory == null) {
+            return null;
+        }
+        InventoryProvider provider = smartInventory.getProvider();
+
+        if (provider == null) {
+            return null;
+        }
+
+        return (T) provider;
+    }
+
 }
