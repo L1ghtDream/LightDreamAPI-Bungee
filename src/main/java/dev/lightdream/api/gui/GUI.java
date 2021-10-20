@@ -216,12 +216,10 @@ public abstract class GUI implements InventoryProvider {
     public final void c(InventoryClickEvent event) {
 
         if (event.getRawSlot() < 9 * config.rows) {
-            System.out.println("Not in player inventory");
             return;
         }
 
         if (!event.getView().getTopInventory().getTitle().equals(Utils.color(config.title))) {
-            System.out.println("Not the title");
             return;
         }
 
