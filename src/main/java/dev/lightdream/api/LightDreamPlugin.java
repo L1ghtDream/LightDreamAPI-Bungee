@@ -51,6 +51,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     public InventoryManager inventoryManager;
     public MessageManager messageManager;
     public CommandManager baseCommandManager;
+    public EventManager eventManager;
 
     //Bot
     public JDA bot;
@@ -89,6 +90,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
         this.inventoryManager = new InventoryManager(this);
         this.inventoryManager.init();
         this.messageManager = instantiateMessageManager();
+        this.eventManager = new EventManager(this);
 
         //Commands
         baseSubCommands.add(new ReloadCommand(this));
@@ -238,5 +240,8 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
         return baseCommandManager;
     }
 
-
+    @Override
+    public EventManager getEventManager() {
+        return eventManager;
+    }
 }

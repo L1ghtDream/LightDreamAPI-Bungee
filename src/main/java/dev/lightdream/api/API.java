@@ -55,6 +55,7 @@ public final class API implements IAPI {
     public FileManager fileManager;
     public KeyDeserializerManager keyDeserializerManager;
     public CommandManager commandManager;
+    public EventManager eventManager;
 
     public API(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -87,6 +88,7 @@ public final class API implements IAPI {
         this.databaseManager = new DatabaseManager(this);
         this.databaseManager.setup(User.class);
         this.langManager = new LangManager(API.class, getLangs());
+        this.eventManager = new EventManager(this);
 
         //Commands
         List<SubCommand> baseSubCommands = new ArrayList<>(getBaseCommands());
@@ -153,7 +155,12 @@ public final class API implements IAPI {
 
     @Override
     public ConsoleUser getConsoleUser() {
-        return null;
+        return new ConsoleUser();
+    }
+
+    @Override
+    public EventManager getEventManager() {
+        return eventManager;
     }
 
     @Override
@@ -243,7 +250,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.27";
+        return "3.28";
     }
 
     @Override

@@ -16,8 +16,6 @@ import fr.minuskube.inv.content.InventoryProvider;
 import lombok.SneakyThrows;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -27,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public abstract class GUI implements InventoryProvider, Listener {
+public abstract class GUI implements InventoryProvider {
     public final IAPI api;
     public final GUIConfig config;
 
@@ -38,7 +36,7 @@ public abstract class GUI implements InventoryProvider, Listener {
         if (this.config == null) {
             throw new Exception("The gui config with this id does not exist in the config");
         }
-        api.getAPI().getPlugin().getServer().getPluginManager().registerEvents(this, api.getAPI().getPlugin());
+        api.getEventManager().registeredGUIs.add(this);
     }
 
     public SmartInventory getInventory() {
@@ -197,31 +195,36 @@ public abstract class GUI implements InventoryProvider, Listener {
         return (T) getArgs().getOrDefault(clazz, null);
     }
 
+
     public InventoryListener<InventoryCloseEvent> getInventoryCloseListener() {
-        return new InventoryListener<>(InventoryCloseEvent.class, this::onInventoryClose);
+        return new InventoryListener<>(InventoryCloseEvent.class, this::a);
     }
 
     public InventoryListener<InventoryClickEvent> getInventoryClickListener() {
-        return new InventoryListener<>(InventoryClickEvent.class, this::onInventoryClick);
+        return new InventoryListener<>(InventoryClickEvent.class, this::b);
     }
 
-    @EventHandler
-    public void a(InventoryClickEvent event) {
+    public final void a(InventoryCloseEvent event) {
+        api.getEventManager().registeredGUIs.remove(this);
+        onInventoryClose(event);
+    }
+
+    public final void b(InventoryClickEvent event) {
+        onInventoryClick(event);
+    }
+
+    public final void c(InventoryClickEvent event) {
+
         if (event.getRawSlot() < 9 * config.rows) {
             return;
         }
 
-        if (event.isCancelled()) {
-            return;
-        }
-
-        if (!event.getView().getTopInventory().getName().equals(Utils.color(config.title))) {
+        if (!event.getView().getTopInventory().getTitle().equals(Utils.color(config.title))) {
             return;
         }
 
         onPlayerInventoryClick(event);
     }
-
 
     public abstract void onInventoryClose(InventoryCloseEvent event);
 

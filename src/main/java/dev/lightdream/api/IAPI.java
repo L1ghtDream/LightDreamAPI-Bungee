@@ -6,10 +6,7 @@ import dev.lightdream.api.configs.Lang;
 import dev.lightdream.api.configs.SQLConfig;
 import dev.lightdream.api.databases.ConsoleUser;
 import dev.lightdream.api.databases.User;
-import dev.lightdream.api.managers.CommandManager;
-import dev.lightdream.api.managers.DatabaseManager;
-import dev.lightdream.api.managers.KeyDeserializerManager;
-import dev.lightdream.api.managers.MessageManager;
+import dev.lightdream.api.managers.*;
 import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
@@ -70,4 +67,6 @@ public interface IAPI {
     CommandManager getBaseCommandManager();
 
     ConsoleUser getConsoleUser();
+
+    EventManager getEventManager();
 }
