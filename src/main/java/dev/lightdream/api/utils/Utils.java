@@ -208,16 +208,16 @@ public class Utils {
         if (!(objects.get(0) instanceof Randomizable)) {
             return null;
         }
-        int chances = getTotalChances((List<Randomizable>) objects);
-        int index = 0;
-        int rnd = generateRandom(0, chances);
+        int chances = getTotalChances((List<Randomizable>) objects); //200
+        int index = -1;
+        int rnd = generateRandom(0, chances); //90
 
         do {
-            if (index >= objects.size()) {
+            if (index >= objects.size()) { // 0>=2(false)
                 break;
             }
-            rnd -= ((Randomizable) objects.get(index)).getChance();
             index++;
+            rnd -= ((Randomizable) objects.get(index)).getChance(); // rnd=-10
         } while (rnd > 0);
 
         if (index >= objects.size()) {
