@@ -281,4 +281,9 @@ public abstract class GUI implements InventoryProvider {
         return (T) provider;
     }
 
+    public User getUser(){
+        return user;
+    }
+
+
 }

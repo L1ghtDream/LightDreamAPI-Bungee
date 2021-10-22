@@ -250,7 +250,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.34";
+        return "3.35";
     }
 
     @Override
