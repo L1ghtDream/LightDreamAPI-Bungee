@@ -26,17 +26,20 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public abstract class GUI implements InventoryProvider {
+
     public final IAPI api;
     public final GUIConfig config;
+    private final User user;
 
     @SneakyThrows
-    public GUI(IAPI api) {
+    public GUI(IAPI api, User user) {
         this.api = api;
         this.config = setConfig();
         if (this.config == null) {
             throw new Exception("The gui config with this id does not exist in the config");
         }
         api.getEventManager().registeredGUIs.add(this);
+        this.user = user;
     }
 
     public SmartInventory getInventory() {
@@ -205,21 +208,46 @@ public abstract class GUI implements InventoryProvider {
     }
 
     public final void a(InventoryCloseEvent event) {
+        User eventUser = api.getDatabaseManager().getUser(event.getPlayer());
+
+        if (!event.getView().getTopInventory().getTitle().equals(Utils.color(config.title))) {
+            return;
+        }
+
+        if (!user.equals(eventUser)) {
+            return;
+        }
+
         api.getEventManager().registeredGUIs.remove(this);
         onInventoryClose(event);
     }
 
     public final void b(InventoryClickEvent event) {
+        User eventUser = api.getDatabaseManager().getUser((Player) event.getWhoClicked());
+
+        if (!event.getView().getTopInventory().getTitle().equals(Utils.color(config.title))) {
+            return;
+        }
+
+        if (!user.equals(eventUser)) {
+            return;
+        }
+
         onInventoryClick(event);
     }
 
     public final void c(InventoryClickEvent event) {
+        User eventUser = api.getDatabaseManager().getUser((Player) event.getWhoClicked());
 
         if (event.getRawSlot() < 9 * config.rows) {
             return;
         }
 
         if (!event.getView().getTopInventory().getTitle().equals(Utils.color(config.title))) {
+            return;
+        }
+
+        if (!user.equals(eventUser)) {
             return;
         }
 
