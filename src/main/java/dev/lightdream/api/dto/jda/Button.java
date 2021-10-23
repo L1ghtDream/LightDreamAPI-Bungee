@@ -54,5 +54,10 @@ public class Button {
         return null;
     }
 
+    public void parse(String target, String replacement) {
+        id = id.replace("%" + target + "%", replacement);
+        text = text.replace("%" + target + "%", replacement);
+    }
+
 
 }

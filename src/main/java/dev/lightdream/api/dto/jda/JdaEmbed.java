@@ -25,7 +25,11 @@ public class JdaEmbed {
 
     @SuppressWarnings("unused")
     public void parse(String target, String replacement) {
-        fields.forEach(field -> field.content = field.content.replace(target, replacement));
+        description = description.replace("%" + target + "%", replacement);
+        thumbnail = thumbnail.replace("%" + target + "%", replacement);
+        title = title.replace("%" + target + "%", replacement);
+        fields.forEach(field -> field.parse(target, replacement));
+        buttons.forEach(button -> button.parse(target, replacement));
     }
 
     @SuppressWarnings("MethodDoesntCallSuperMethod")
