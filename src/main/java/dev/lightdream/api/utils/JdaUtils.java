@@ -4,6 +4,7 @@ import dev.lightdream.api.dto.jda.JdaEmbed;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 @SuppressWarnings("unused")
+@Deprecated
 public class JdaUtils {
 
     public static EmbedBuilder createEmbed(JdaEmbed jdaEmbed) {

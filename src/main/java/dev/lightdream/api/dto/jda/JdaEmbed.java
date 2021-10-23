@@ -2,6 +2,10 @@ package dev.lightdream.api.dto.jda;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +22,7 @@ public class JdaEmbed {
     public String thumbnail;
     public String description;
     public List<JdaField> fields;
+    public List<Button> buttons;
 
     @SuppressWarnings("unused")
     public void parse(String target, String replacement) {
@@ -28,7 +33,7 @@ public class JdaEmbed {
     public JdaEmbed clone() {
         List<JdaField> fields = new ArrayList<>();
         this.fields.forEach(field -> fields.add(field.clone()));
-        return new JdaEmbed(channel, red, green, blue, title, thumbnail, description, fields);
+        return new JdaEmbed(channel, red, green, blue, title, thumbnail, description, fields, buttons);
     }
 
     @Override
@@ -43,6 +48,23 @@ public class JdaEmbed {
                 ", description='" + description + '\'' +
                 ", fields=" + fields +
                 '}';
+    }
+
+    public EmbedBuilder build() {
+        EmbedBuilder embed = new EmbedBuilder();
+
+        embed.setThumbnail(thumbnail);
+        fields.forEach(field -> embed.addField(field.title, field.content, field.inline));
+        embed.setTitle(title, null);
+        embed.setColor(new java.awt.Color(red, green, blue));
+        embed.setDescription(description);
+        embed.setFooter("Author: LightDream#4379");
+
+        return embed;
+    }
+
+    public MessageAction buildMessageAction(MessageChannel channel) {
+        return channel.sendMessageEmbeds(build().build()).setActionRow(buttons);
     }
 
 }
