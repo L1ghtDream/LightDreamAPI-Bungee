@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.interactions.components.Button;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
 import java.util.ArrayList;
@@ -63,7 +62,12 @@ public class JdaEmbed {
         return embed;
     }
 
+    @SuppressWarnings("unused")
     public MessageAction buildMessageAction(MessageChannel channel) {
+        List<net.dv8tion.jda.api.interactions.components.Button> buttons = new ArrayList<>();
+
+        this.buttons.forEach(button -> buttons.add(button.getButton()));
+
         return channel.sendMessageEmbeds(build().build()).setActionRow(buttons);
     }
 
