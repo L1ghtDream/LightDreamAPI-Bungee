@@ -3,8 +3,9 @@ version: ${project.version}
 main: dev.lightdream.api.APIPlugin
 authors: [ L1ghtDream ]
 website: https://lightdream.dev
-softdepend:
+depend:
   - Vault
+softdepend:
   - PlaceholderAPI
   - WorldEdit
 commands:
