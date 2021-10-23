@@ -24,12 +24,14 @@ public class JdaEmbed {
     public List<Button> buttons;
 
     @SuppressWarnings("unused")
-    public void parse(String target, String replacement) {
-        description = description.replace("%" + target + "%", replacement);
-        thumbnail = thumbnail.replace("%" + target + "%", replacement);
-        title = title.replace("%" + target + "%", replacement);
-        fields.forEach(field -> field.parse(target, replacement));
-        buttons.forEach(button -> button.parse(target, replacement));
+    public JdaEmbed parse(String target, String replacement) {
+        JdaEmbed parsed = clone();
+        parsed.description = parsed.description.replace("%" + target + "%", replacement);
+        parsed.thumbnail = parsed.thumbnail.replace("%" + target + "%", replacement);
+        parsed.title = parsed.title.replace("%" + target + "%", replacement);
+        parsed.fields.forEach(field -> field.parse(target, replacement));
+        parsed.buttons.forEach(button -> button.parse(target, replacement));
+        return this;
     }
 
     @SuppressWarnings("MethodDoesntCallSuperMethod")
