@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 public class JdaEmbed {
 
-    public Long channel;
     public int red;
     public int green;
     public int blue;
@@ -38,20 +37,20 @@ public class JdaEmbed {
     public JdaEmbed clone() {
         List<JdaField> fields = new ArrayList<>();
         this.fields.forEach(field -> fields.add(field.clone()));
-        return new JdaEmbed(channel, red, green, blue, title, thumbnail, description, fields, buttons);
+        return new JdaEmbed(red, green, blue, title, thumbnail, description, fields, buttons);
     }
 
     @Override
     public String toString() {
         return "JdaEmbed{" +
-                "channel=" + channel +
-                ", red=" + red +
+                "red=" + red +
                 ", green=" + green +
                 ", blue=" + blue +
                 ", title='" + title + '\'' +
                 ", thumbnail='" + thumbnail + '\'' +
                 ", description='" + description + '\'' +
                 ", fields=" + fields +
+                ", buttons=" + buttons +
                 '}';
     }
 
