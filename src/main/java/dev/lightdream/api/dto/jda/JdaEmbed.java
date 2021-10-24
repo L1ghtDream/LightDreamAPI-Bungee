@@ -28,9 +28,13 @@ public class JdaEmbed {
         parsed.description = parsed.description.replace("%" + target + "%", replacement);
         parsed.thumbnail = parsed.thumbnail.replace("%" + target + "%", replacement);
         parsed.title = parsed.title.replace("%" + target + "%", replacement);
-        parsed.fields.forEach(field -> field.parse(target, replacement));
-        parsed.buttons.forEach(button -> button.parse(target, replacement));
-        return this;
+        List<JdaField> fields = new ArrayList<>();
+        parsed.fields.forEach(field -> fields.add(field.parse(target, replacement)));
+        parsed.fields = fields;
+        List<Button> buttons = new ArrayList<>();
+        parsed.buttons.forEach(button -> buttons.add(button.parse(target, replacement)));
+        parsed.buttons = buttons;
+        return parsed;
     }
 
     @SuppressWarnings("MethodDoesntCallSuperMethod")

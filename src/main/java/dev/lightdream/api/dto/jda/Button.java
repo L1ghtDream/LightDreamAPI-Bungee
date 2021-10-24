@@ -2,11 +2,13 @@ package dev.lightdream.api.dto.jda;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.lightdream.api.enums.JDAButtonType;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import net.dv8tion.jda.api.entities.Emoji;
 
 @SuppressWarnings("unused")
 @NoArgsConstructor
+@AllArgsConstructor
 public class Button {
 
     public JDAButtonType type;
@@ -58,9 +60,15 @@ public class Button {
         return null;
     }
 
-    public void parse(String target, String replacement) {
-        id = id.replace("%" + target + "%", replacement);
-        text = text.replace("%" + target + "%", replacement);
+    public Button clone(){
+        return new Button(type, id, text, emoji);
+    }
+
+    public Button parse(String target, String replacement) {
+        Button button = clone();
+        button.id = button.id.replace("%" + target + "%", replacement);
+        button.text = button.text.replace("%" + target + "%", replacement);
+        return button;
     }
 
 

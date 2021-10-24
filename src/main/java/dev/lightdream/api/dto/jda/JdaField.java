@@ -16,9 +16,11 @@ public class JdaField {
         return new JdaField(title, content, inline);
     }
 
-    public void parse(String target, String replacement){
-        title = title.replace("%"+target+"%", replacement);
-        content = content.replace("%"+target+"%", replacement);
+    public JdaField parse(String target, String replacement) {
+        JdaField jdaField = clone();
+        jdaField.title = jdaField.title.replace("%" + target + "%", replacement);
+        jdaField.content = jdaField.content.replace("%" + target + "%", replacement);
+        return jdaField;
     }
 
 }
