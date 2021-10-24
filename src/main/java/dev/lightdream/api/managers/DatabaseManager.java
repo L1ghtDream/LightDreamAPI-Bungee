@@ -92,9 +92,9 @@ public class DatabaseManager {
 
     @SuppressWarnings({"unused", "unchecked"})
     @SneakyThrows
-    public void save(boolean commit) {
+    public void save(boolean cache) {
         api.getLogger().info("Saving database tables to " + api.getDataFolder());
-        if (commit) {
+        if (cache) {
             cacheMap.forEach((clazz, list) -> {
                 list.forEach(obj -> {
                     try {
@@ -137,6 +137,7 @@ public class DatabaseManager {
             cacheMap.put(entry.getClass(), list);
         } else {
             ((Dao<DatabaseEntry, Integer>) daoMap.get(entry.getClass())).createOrUpdate(entry);
+            daoMap.get(entry.getClass()).commit(databaseConnection);
         }
     }
 
