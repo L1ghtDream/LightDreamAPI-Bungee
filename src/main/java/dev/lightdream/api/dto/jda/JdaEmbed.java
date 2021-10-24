@@ -57,11 +57,17 @@ public class JdaEmbed {
     public EmbedBuilder build() {
         EmbedBuilder embed = new EmbedBuilder();
 
-        embed.setThumbnail(thumbnail);
+        if (!thumbnail.equals("")) {
+            embed.setThumbnail(thumbnail);
+        }
         fields.forEach(field -> embed.addField(field.title, field.content, field.inline));
-        embed.setTitle(title, null);
+        if (title != null) {
+            embed.setTitle(title, null);
+        }
         embed.setColor(new java.awt.Color(red, green, blue));
-        embed.setDescription(description);
+        if (description != null) {
+            embed.setDescription(description);
+        }
         embed.setFooter("Author: LightDream#4379");
 
         return embed;
