@@ -1,9 +1,11 @@
 package dev.lightdream.api.dto.jda;
 
 import dev.lightdream.api.enums.JDAButtonType;
+import lombok.NoArgsConstructor;
 import net.dv8tion.jda.api.entities.Emoji;
 
 @SuppressWarnings("unused")
+@NoArgsConstructor
 public class Button {
 
     public JDAButtonType type;
