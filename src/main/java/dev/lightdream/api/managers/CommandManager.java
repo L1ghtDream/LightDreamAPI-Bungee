@@ -98,6 +98,13 @@ public class CommandManager implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        for (SubCommand subCommand : subCommands) {
+            if (subCommand.aliases.get(0).equals("")) {
+                subCommand.execute(sender, Arrays.asList(args));
+                return true;
+            }
+        }
+
         api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().unknownCommand));
         return true;
     }
