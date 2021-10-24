@@ -7,7 +7,7 @@
     <groupId>dev.lightdream</groupId>
     <artifactId>LightDreamAPI</artifactId>
     <packaging>jar</packaging>
-    <version>3.46</version>
+    <version>3.47</version>
 
     <url>https://lightdream.dev</url>
 
@@ -200,7 +200,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.3.0_281</version>
+            <version>4.3.0_339</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
