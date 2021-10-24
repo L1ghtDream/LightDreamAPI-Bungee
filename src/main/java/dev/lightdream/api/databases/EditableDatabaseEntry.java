@@ -12,7 +12,11 @@ public abstract class EditableDatabaseEntry implements DatabaseEntry {
     }
 
     public void save() {
-        api.getDatabaseManager().save(this);
+        save(true);
+    }
+
+    public void save(boolean cache){
+        api.getDatabaseManager().save(this, cache);
     }
 
     public void delete() {
