@@ -1,5 +1,6 @@
 package dev.lightdream.api.dto.jda;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.lightdream.api.enums.JDAButtonType;
 import lombok.NoArgsConstructor;
 import net.dv8tion.jda.api.entities.Emoji;
@@ -25,6 +26,7 @@ public class Button {
         this.emoji = emoji;
     }
 
+    @JsonIgnore
     public net.dv8tion.jda.api.interactions.components.Button getButton() {
         switch (type) {
             case PRIMARY:
