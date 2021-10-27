@@ -29,7 +29,7 @@ public class DatabaseManager {
     public final IAPI api;
     private final SQLConfig sqlSettings;
     private final ConnectionSource connectionSource;
-    private final DatabaseConnection databaseConnection;
+    private DatabaseConnection databaseConnection;
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, List<DatabaseEntry>> cacheMap = new HashMap<>();
     @SuppressWarnings("FieldMayBeFinal")
@@ -49,7 +49,13 @@ public class DatabaseManager {
                 DatabaseTypeUtils.createDatabaseType(databaseURL)
         );
 
+        connect();
+    }
+
+    @SneakyThrows
+    public void connect(){
         this.databaseConnection = connectionSource.getReadWriteConnection(null);
+
     }
 
 
@@ -187,10 +193,10 @@ public class DatabaseManager {
         try{
             return getDao(clazz).queryForAll();
         }catch (Throwable t){
-            System.out.println("Caught a throwable");
-            t.printStackTrace();
+            api.getLogger().info("Connection to database lost. Reconnecting");
+            connect();
+            return queryAll(clazz);
         }
-        return new ArrayList<>();
     }
 
     @SuppressWarnings("unused")
