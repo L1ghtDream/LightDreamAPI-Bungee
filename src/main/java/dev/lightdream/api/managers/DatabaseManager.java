@@ -31,9 +31,9 @@ public class DatabaseManager {
     private ConnectionSource connectionSource;
     private DatabaseConnection databaseConnection;
     @SuppressWarnings("FieldMayBeFinal")
-    private HashMap<Class<?>, List<DatabaseEntry>> cacheMap = new HashMap<>();
+    private HashMap<Class<?>, List<DatabaseEntry>> cacheMap;
     @SuppressWarnings("FieldMayBeFinal")
-    private HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
+    private HashMap<Class<?>, Dao<?, ?>> daoMap;
     private final String databaseURL;
 
 
@@ -47,8 +47,15 @@ public class DatabaseManager {
         connect();
     }
 
+    public void setup(){
+
+    }
+
     @SneakyThrows
     public void connect(){
+        this.cacheMap = new HashMap<>();
+        this.daoMap = new HashMap<>();
+
         this.connectionSource = new JdbcConnectionSource(
                 databaseURL,
                 sqlSettings.username,
@@ -57,6 +64,7 @@ public class DatabaseManager {
         );
 
         this.databaseConnection = connectionSource.getReadWriteConnection(null);
+        setup();
     }
 
 
