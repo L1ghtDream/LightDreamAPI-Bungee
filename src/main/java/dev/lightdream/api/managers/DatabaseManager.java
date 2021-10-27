@@ -154,7 +154,7 @@ public class DatabaseManager {
             }
             return (List<T>) cacheMap.get(clazz);
         } else {
-            List<T> list = (List<T>) getDao(clazz).queryForAll();
+            List<T> list = (List<T>) queryAll(clazz);
             for (T t : list) {
                 if (t instanceof EditableDatabaseEntry) {
                     ((EditableDatabaseEntry) t).setAPI(api);
@@ -174,13 +174,22 @@ public class DatabaseManager {
             }
             entries = cacheMap.get(clazz);
         } else {
-            entries = (List<DatabaseEntry>) getDao(clazz).queryForAll();
+            entries = (List<DatabaseEntry>) queryAll(clazz);
         }
         List<Integer> output = new ArrayList<>();
         for (DatabaseEntry databaseEntry : entries) {
             output.add(databaseEntry.getID());
         }
         return output;
+    }
+
+    public List<?> queryAll(Class<?> clazz){
+        try{
+            return getDao(clazz).queryForAll();
+        }catch (Throwable t){
+            t.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     @SuppressWarnings("unused")
