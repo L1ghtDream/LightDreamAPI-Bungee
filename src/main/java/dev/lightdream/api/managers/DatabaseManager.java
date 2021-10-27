@@ -28,20 +28,27 @@ public class DatabaseManager {
 
     public final IAPI api;
     private final SQLConfig sqlSettings;
-    private final ConnectionSource connectionSource;
+    private ConnectionSource connectionSource;
     private DatabaseConnection databaseConnection;
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, List<DatabaseEntry>> cacheMap = new HashMap<>();
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, Dao<?, ?>> daoMap = new HashMap<>();
+    private final String databaseURL;
+
 
     @SneakyThrows
     @SuppressWarnings("unused")
     public DatabaseManager(IAPI api) {
         this.api = api;
         this.sqlSettings = api.getSQLConfig();
-        String databaseURL = getDatabaseURL();
+        this.databaseURL = getDatabaseURL();
 
+        connect();
+    }
+
+    @SneakyThrows
+    public void connect(){
         this.connectionSource = new JdbcConnectionSource(
                 databaseURL,
                 sqlSettings.username,
@@ -49,13 +56,7 @@ public class DatabaseManager {
                 DatabaseTypeUtils.createDatabaseType(databaseURL)
         );
 
-        connect();
-    }
-
-    @SneakyThrows
-    public void connect(){
         this.databaseConnection = connectionSource.getReadWriteConnection(null);
-
     }
 
 
