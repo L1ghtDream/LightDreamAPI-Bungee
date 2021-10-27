@@ -187,6 +187,7 @@ public class DatabaseManager {
         try{
             return getDao(clazz).queryForAll();
         }catch (Throwable t){
+            System.out.println("Caught a throwable");
             t.printStackTrace();
         }
         return new ArrayList<>();
