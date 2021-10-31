@@ -142,10 +142,10 @@ public final class API implements IAPI {
     }
 
     public void loadConfigs() {
-        sqlConfig = fileManager.load(SQLConfig.class, fileManager.getFile("LightDreamAPI", SQLConfig.class.getSimpleName()));
-        config = fileManager.load(Config.class, fileManager.getFile("LightDreamAPI", Config.class.getSimpleName()));
+        sqlConfig = fileManager.load(SQLConfig.class, fileManager.getFile("LightDreamAPI"));
+        config = fileManager.load(Config.class, fileManager.getFile("LightDreamAPI"));
         lang = fileManager.load(Lang.class, fileManager.getFile("LightDreamAPI", config.baseLang));
-        apiConfig = fileManager.load(ApiConfig.class, fileManager.getFile("LightDreamAPI", config.baseLang));
+        apiConfig = fileManager.load(ApiConfig.class, fileManager.getFile("LightDreamAPI"));
     }
 
     @Override
@@ -266,7 +266,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.66";
+        return "3.67";
     }
 
     @Override
