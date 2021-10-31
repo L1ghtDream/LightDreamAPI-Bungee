@@ -208,7 +208,7 @@ public class DatabaseManager {
         } catch (Throwable t) {
             triedConnecting = true;
             Bukkit.getScheduler().runTaskLater(api.getPlugin(), () -> triedConnecting = false, 10 * 20L);
-            t.printStackTrace();
+            System.out.println("Connection to the database has been closed with message %message%. Reconnecting.".replace("%message%",t.getMessage()));
             connect();
             return new ArrayList<>();
         }
