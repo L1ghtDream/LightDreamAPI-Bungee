@@ -210,13 +210,9 @@ public class DatabaseManager {
         try {
             return getDao(clazz).queryForAll();
         } catch (Throwable t) {
-            api.getLogger().info("Connection to database lost. Reconnecting in 10s");
-            List<Object> list = new ArrayList<>();
-            Bukkit.getScheduler().runTaskLater(api.getPlugin(), () -> {
-                connect();
-                list.addAll(queryAll(clazz, retry + 1));
-            }, 10 * 20L);
-            return list;
+            api.getLogger().info("Connection to database lost. Reconnecting!");
+            connect();
+            return new ArrayList<Object>(queryAll(clazz, retry + 1));
         }
     }
 
