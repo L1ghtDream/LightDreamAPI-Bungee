@@ -68,17 +68,17 @@ public final class API implements IAPI {
         instance = this;
         enabled = true;
 
-        //Events
-        new BalanceChangeEventRunnable(this);
-
-        //Placeholders
-        new PAPI(this).register();
-
         //FileManager
         fileManager = new FileManager(this, FileManager.PersistType.YAML);
 
         //Api Settings
         apiConfig = fileManager.load(ApiConfig.class);
+
+        //Events
+        new BalanceChangeEventRunnable(this);
+
+        //Placeholders
+        new PAPI(this).register();
 
         //Setups
         if (apiConfig.useEconomy) {
