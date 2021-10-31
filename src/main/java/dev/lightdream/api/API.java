@@ -68,11 +68,16 @@ public final class API implements IAPI {
         instance = this;
         enabled = true;
 
+        //FileManager pre-setup
+        keyDeserializerManager = new KeyDeserializerManager(new HashMap<String, Class<?>>() {{
+            put("Position", Position.class);
+        }});
+
         //FileManager
         fileManager = new FileManager(this, FileManager.PersistType.YAML);
 
-        //Api Settings
-        apiConfig = fileManager.load(ApiConfig.class);
+        //Load settings
+        loadConfigs();
 
         //Events
         new BalanceChangeEventRunnable(this);
@@ -88,13 +93,8 @@ public final class API implements IAPI {
             permission = setupPermissions();
         }
 
+
         //Managers
-
-        keyDeserializerManager = new KeyDeserializerManager(new HashMap<String, Class<?>>() {{
-            put("Position", Position.class);
-        }});
-        loadConfigs();
-
         messageManager = new MessageManager(this, API.class);
         this.databaseManager = new DatabaseManager(this);
         this.databaseManager.setup(User.class);
@@ -141,6 +141,7 @@ public final class API implements IAPI {
         sqlConfig = fileManager.load(SQLConfig.class, fileManager.getFile("LightDreamAPI", SQLConfig.class.getSimpleName()));
         config = fileManager.load(Config.class, fileManager.getFile("LightDreamAPI", Config.class.getSimpleName()));
         lang = fileManager.load(Lang.class, fileManager.getFile("LightDreamAPI", config.baseLang));
+        apiConfig = fileManager.load(ApiConfig.class);
     }
 
     @Override
@@ -261,7 +262,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.63";
+        return "3.64";
     }
 
     @Override
