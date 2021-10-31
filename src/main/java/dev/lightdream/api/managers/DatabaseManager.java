@@ -169,6 +169,7 @@ public class DatabaseManager {
             return (List<T>) cacheMap.get(clazz);
         } else {
             List<T> list = (List<T>) queryAll(clazz);
+            System.out.println("State 2 list: " + list);
             for (T t : list) {
                 if (t instanceof EditableDatabaseEntry) {
                     ((EditableDatabaseEntry) t).setAPI(api);
