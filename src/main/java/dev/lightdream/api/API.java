@@ -79,6 +79,10 @@ public final class API implements IAPI {
         //Load settings
         loadConfigs();
 
+        System.out.println("API Settings");
+        System.out.println("Use Economy (by Vault)" + apiConfig.useEconomy);
+        System.out.println("Use Permissions (by Vault)" + apiConfig.usePermissions);
+
         //Events
         new BalanceChangeEventRunnable(this);
 
@@ -262,7 +266,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.64";
+        return "3.65";
     }
 
     @Override
