@@ -199,20 +199,13 @@ public class DatabaseManager {
     }
 
     public List<?> queryAll(Class<?> clazz) {
-        return queryAll(clazz, 0);
-    }
-
-    public List<?> queryAll(Class<?> clazz, int retry) {
-        if (retry == 10) {
-            return new ArrayList<>();
-        }
 
         try {
             return getDao(clazz).queryForAll();
         } catch (Throwable t) {
-            api.getLogger().info("Connection to database lost. Reconnecting!");
+            System.out.println(t.getMessage());
             connect();
-            return new ArrayList<Object>(queryAll(clazz, retry + 1));
+            return new ArrayList<>();
         }
     }
 
