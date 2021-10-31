@@ -198,17 +198,24 @@ public class DatabaseManager {
     }
 
     public List<?> queryAll(Class<?> clazz) {
-
         if (triedConnecting) {
             return new ArrayList<>();
         }
 
         try {
-            return getDao(clazz).queryForAll();
+            List<Object> output = new ArrayList<>();
+            Bukkit.getScheduler().runTaskAsynchronously(api.getPlugin(), () -> {
+                try {
+                    output.addAll(getDao(clazz).queryForAll());
+                } catch (SQLException sqlException) {
+                    sqlException.printStackTrace();
+                }
+            });
+            return output;
         } catch (Throwable t) {
             triedConnecting = true;
             Bukkit.getScheduler().runTaskLater(api.getPlugin(), () -> triedConnecting = false, 10 * 20L);
-            System.out.println("Connection to the database has been closed with message %message%. Reconnecting.".replace("%message%",t.getMessage()));
+            System.out.println("Connection to the database has been closed with message %message%. Reconnecting.".replace("%message%", t.getMessage()));
             connect();
             return new ArrayList<>();
         }
