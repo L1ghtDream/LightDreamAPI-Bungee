@@ -7,6 +7,7 @@ import dev.lightdream.api.commands.commands.base.ReloadCommand;
 import dev.lightdream.api.commands.commands.base.VersionCommand;
 import dev.lightdream.api.commands.commands.ldapi.ChoseLangCommand;
 import dev.lightdream.api.commands.commands.ldapi.PluginsCommand;
+import dev.lightdream.api.configs.ApiConfig;
 import dev.lightdream.api.configs.Config;
 import dev.lightdream.api.configs.Lang;
 import dev.lightdream.api.configs.SQLConfig;
@@ -40,6 +41,7 @@ public final class API implements IAPI {
     public SQLConfig sqlConfig;
     public Config config;
     public Lang lang;
+    public ApiConfig apiConfig;
     public boolean enabled;
 
     //Plugins
@@ -72,16 +74,25 @@ public final class API implements IAPI {
         //Placeholders
         new PAPI(this).register();
 
+        //FileManager
+        fileManager = new FileManager(this, FileManager.PersistType.YAML);
+
+        //Api Settings
+        apiConfig = fileManager.load(ApiConfig.class);
+
         //Setups
-        economy = setupEconomy();
-        permission = setupPermissions();
+        if (apiConfig.useEconomy) {
+            economy = setupEconomy();
+        }
+        if (apiConfig.usePermissions) {
+            permission = setupPermissions();
+        }
 
         //Managers
 
         keyDeserializerManager = new KeyDeserializerManager(new HashMap<String, Class<?>>() {{
             put("Position", Position.class);
         }});
-        fileManager = new FileManager(this, FileManager.PersistType.YAML);
         loadConfigs();
 
         messageManager = new MessageManager(this, API.class);
@@ -250,7 +261,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.60";
+        return "3.61";
     }
 
     @Override
@@ -262,10 +273,5 @@ public final class API implements IAPI {
     public void setLang(User user, String lang) {
         user.setLang(lang);
         user.save();
-    }
-
-    @Override
-    public boolean registerBalanceChangeEvent() {
-        return false;
     }
 }

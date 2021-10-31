@@ -69,6 +69,4 @@ public interface IAPI {
     ConsoleUser getConsoleUser();
 
     EventManager getEventManager();
-
-    boolean registerBalanceChangeEvent();
 }
