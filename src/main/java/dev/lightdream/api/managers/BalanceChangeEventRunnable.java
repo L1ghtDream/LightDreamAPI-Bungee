@@ -14,7 +14,9 @@ public class BalanceChangeEventRunnable {
 
     public BalanceChangeEventRunnable(IAPI api) {
         this.api = api;
-        registerBalanceChangeEvent();
+        if(api.registerBalanceChangeEvent()){
+            registerBalanceChangeEvent();
+        }
     }
 
     public void registerBalanceChangeEvent() {

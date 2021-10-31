@@ -250,7 +250,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.58";
+        return "3.59";
     }
 
     @Override
@@ -264,4 +264,8 @@ public final class API implements IAPI {
         user.save();
     }
 
+    @Override
+    public boolean registerBalanceChangeEvent() {
+        return false;
+    }
 }
