@@ -80,8 +80,8 @@ public final class API implements IAPI {
         loadConfigs();
 
         System.out.println("API Settings");
-        System.out.println("Use Economy (by Vault)" + apiConfig.useEconomy);
-        System.out.println("Use Permissions (by Vault)" + apiConfig.usePermissions);
+        System.out.println("Use Economy (by Vault): " + apiConfig.useEconomy);
+        System.out.println("Use Permissions (by Vault): " + apiConfig.usePermissions);
 
         //Events
         new BalanceChangeEventRunnable(this);
@@ -145,7 +145,7 @@ public final class API implements IAPI {
         sqlConfig = fileManager.load(SQLConfig.class, fileManager.getFile("LightDreamAPI", SQLConfig.class.getSimpleName()));
         config = fileManager.load(Config.class, fileManager.getFile("LightDreamAPI", Config.class.getSimpleName()));
         lang = fileManager.load(Lang.class, fileManager.getFile("LightDreamAPI", config.baseLang));
-        apiConfig = fileManager.load(ApiConfig.class);
+        apiConfig = fileManager.load(ApiConfig.class, fileManager.getFile("LightDreamAPI", config.baseLang));
     }
 
     @Override
@@ -266,7 +266,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.65";
+        return "3.66";
     }
 
     @Override
