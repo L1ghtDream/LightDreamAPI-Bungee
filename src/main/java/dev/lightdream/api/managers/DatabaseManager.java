@@ -29,13 +29,13 @@ public class DatabaseManager {
     public final IAPI api;
     private final SQLConfig sqlSettings;
     private final String databaseURL;
+    public boolean triedConnecting = false;
     private ConnectionSource connectionSource;
     private DatabaseConnection databaseConnection;
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, List<DatabaseEntry>> cacheMap;
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, Dao<?, ?>> daoMap;
-
 
     @SneakyThrows
     @SuppressWarnings("unused")
@@ -66,7 +66,6 @@ public class DatabaseManager {
         this.databaseConnection = connectionSource.getReadWriteConnection(null);
         setup();
     }
-
 
     private @NotNull String getDatabaseURL() {
         switch (sqlSettings.driver) {
@@ -200,10 +199,16 @@ public class DatabaseManager {
 
     public List<?> queryAll(Class<?> clazz) {
 
+        if (triedConnecting) {
+            return new ArrayList<>();
+        }
+
         try {
             return getDao(clazz).queryForAll();
         } catch (Throwable t) {
-            System.out.println(t.getMessage());
+            triedConnecting = true;
+            Bukkit.getScheduler().runTaskLater(api.getPlugin(), () -> triedConnecting = false, 10 * 20L);
+            t.printStackTrace();
             connect();
             return new ArrayList<>();
         }
