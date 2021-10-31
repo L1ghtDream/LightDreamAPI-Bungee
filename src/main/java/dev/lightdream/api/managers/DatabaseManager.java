@@ -28,13 +28,13 @@ public class DatabaseManager {
 
     public final IAPI api;
     private final SQLConfig sqlSettings;
+    private final String databaseURL;
     private ConnectionSource connectionSource;
     private DatabaseConnection databaseConnection;
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, List<DatabaseEntry>> cacheMap;
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, Dao<?, ?>> daoMap;
-    private final String databaseURL;
 
 
     @SneakyThrows
@@ -47,12 +47,12 @@ public class DatabaseManager {
         connect();
     }
 
-    public void setup(){
+    public void setup() {
 
     }
 
     @SneakyThrows
-    public void connect(){
+    public void connect() {
         this.cacheMap = new HashMap<>();
         this.daoMap = new HashMap<>();
 
@@ -198,13 +198,25 @@ public class DatabaseManager {
         return output;
     }
 
-    public List<?> queryAll(Class<?> clazz){
-        try{
+    public List<?> queryAll(Class<?> clazz) {
+        return queryAll(clazz, 0);
+    }
+
+    public List<?> queryAll(Class<?> clazz, int retry) {
+        if (retry == 10) {
+            return new ArrayList<>();
+        }
+
+        try {
             return getDao(clazz).queryForAll();
-        }catch (Throwable t){
-            api.getLogger().info("Connection to database lost. Reconnecting");
-            connect();
-            return queryAll(clazz);
+        } catch (Throwable t) {
+            api.getLogger().info("Connection to database lost. Reconnecting in 10s");
+            List<Object> list = new ArrayList<>();
+            Bukkit.getScheduler().runTaskLater(api.getPlugin(), () -> {
+                connect();
+                list.addAll(queryAll(clazz, retry + 1));
+            }, 10 * 20L);
+            return list;
         }
     }
 
