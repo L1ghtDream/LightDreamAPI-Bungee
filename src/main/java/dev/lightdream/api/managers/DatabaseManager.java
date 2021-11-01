@@ -200,6 +200,7 @@ public class DatabaseManager {
 
     public List<?> queryAll(Class<?> clazz) {
         if (triedConnecting) {
+            System.out.println("Already tried reconnecting. Returning empty list");
             return new ArrayList<>();
         }
 
@@ -207,11 +208,13 @@ public class DatabaseManager {
             List<Object> output = new ArrayList<>();
             Bukkit.getScheduler().runTaskAsynchronously(api.getPlugin(), () -> {
                 try {
+                    System.out.println("State 3 list " + getDao(clazz).queryForAll());
                     output.addAll(getDao(clazz).queryForAll());
                 } catch (SQLException sqlException) {
                     sqlException.printStackTrace();
                 }
             });
+            System.out.println("State 4 list " + output);
             return output;
         } catch (Throwable t) {
             triedConnecting = true;
