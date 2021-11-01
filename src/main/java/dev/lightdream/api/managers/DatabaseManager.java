@@ -169,7 +169,7 @@ public class DatabaseManager {
             return (List<T>) cacheMap.get(clazz);
         } else {
             List<T> list = (List<T>) queryAll(clazz);
-            System.out.println("State 2 list: " + list);
+            System.out.println("State 2 list size " + list.size());
             for (T t : list) {
                 if (t instanceof EditableDatabaseEntry) {
                     ((EditableDatabaseEntry) t).setAPI(api);
@@ -208,13 +208,13 @@ public class DatabaseManager {
             List<Object> output = new ArrayList<>();
             Bukkit.getScheduler().runTaskAsynchronously(api.getPlugin(), () -> {
                 try {
-                    System.out.println("State 3 list " + getDao(clazz).queryForAll());
+                    System.out.println("State 3 list size " + getDao(clazz).queryForAll().size());
                     output.addAll(getDao(clazz).queryForAll());
                 } catch (SQLException sqlException) {
                     sqlException.printStackTrace();
                 }
             });
-            System.out.println("State 4 list " + output);
+            System.out.println("State 4 list size " + output.size());
             return output;
         } catch (Throwable t) {
             triedConnecting = true;
