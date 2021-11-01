@@ -23,16 +23,15 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class DatabaseManager {
 
     public final IAPI api;
     private final SQLConfig sqlSettings;
     private final String databaseURL;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
     public boolean triedConnecting = false;
     private ConnectionSource connectionSource;
     private DatabaseConnection databaseConnection;
@@ -40,7 +39,6 @@ public class DatabaseManager {
     private HashMap<Class<?>, List<DatabaseEntry>> cacheMap;
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, Dao<?, ?>> daoMap;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @SneakyThrows
     @SuppressWarnings("unused")
@@ -173,7 +171,7 @@ public class DatabaseManager {
             }
             return (List<T>) cacheMap.get(clazz);
         } else {
-            List<T> list = (List<T>) queryAll(clazz).get();
+            List<T> list = (List<T>) queryAll(clazz);
             System.out.println("State 2 list size " + list.size());
             for (T t : list) {
                 if (t instanceof EditableDatabaseEntry) {
@@ -194,7 +192,7 @@ public class DatabaseManager {
             }
             entries = cacheMap.get(clazz);
         } else {
-            entries = (List<DatabaseEntry>) queryAll(clazz).get();
+            entries = (List<DatabaseEntry>) queryAll(clazz);
         }
         List<Integer> output = new ArrayList<>();
         for (DatabaseEntry databaseEntry : entries) {
@@ -203,32 +201,28 @@ public class DatabaseManager {
         return output;
     }
 
-    public Future<List<?>> queryAll(Class<?> clazz) {
+    public List<?> queryAll(Class<?> clazz) {
         if (triedConnecting) {
             System.out.println("Already tried reconnecting. Returning empty list");
-            return executor.submit((Callable<List<?>>) ArrayList::new);
+            return new ArrayList<>();
         }
 
         try {
-            return executor.submit(() -> {
-                List<Object> output = new ArrayList<>();
-                Bukkit.getScheduler().runTaskAsynchronously(api.getPlugin(), () -> {
-                    try {
-                        System.out.println("State 3 list size " + getDao(clazz).queryForAll().size());
-                        output.addAll(getDao(clazz).queryForAll());
-                    } catch (SQLException sqlException) {
-                        sqlException.printStackTrace();
-                    }
-                });
-                System.out.println("State 4 list size " + output.size());
-                return output;
-            });
+            List<Object> output = new ArrayList<>();
+            try {
+                System.out.println("State 3 list size " + getDao(clazz).queryForAll().size());
+                output.addAll(getDao(clazz).queryForAll());
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+            System.out.println("State 4 list size " + output.size());
+            return output;
         } catch (Throwable t) {
             triedConnecting = true;
             Bukkit.getScheduler().runTaskLater(api.getPlugin(), () -> triedConnecting = false, 10 * 20L);
             System.out.println("Connection to the database has been closed with message %message%. Reconnecting.".replace("%message%", t.getMessage()));
             connect();
-            return executor.submit((Callable<List<?>>) ArrayList::new);
+            return new ArrayList<>();
         }
     }
 
