@@ -173,7 +173,7 @@ public class DatabaseManager {
             }
             return (List<T>) cacheMap.get(clazz);
         } else {
-            List<T> list = (List<T>) queryAll(clazz);
+            List<T> list = (List<T>) queryAll(clazz).get();
             System.out.println("State 2 list size " + list.size());
             for (T t : list) {
                 if (t instanceof EditableDatabaseEntry) {
@@ -194,7 +194,7 @@ public class DatabaseManager {
             }
             entries = cacheMap.get(clazz);
         } else {
-            entries = (List<DatabaseEntry>) queryAll(clazz);
+            entries = (List<DatabaseEntry>) queryAll(clazz).get();
         }
         List<Integer> output = new ArrayList<>();
         for (DatabaseEntry databaseEntry : entries) {
