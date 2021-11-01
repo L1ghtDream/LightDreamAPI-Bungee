@@ -172,7 +172,6 @@ public class DatabaseManager {
             return (List<T>) cacheMap.get(clazz);
         } else {
             List<T> list = (List<T>) queryAll(clazz);
-            System.out.println("State 2 list size " + list.size());
             for (T t : list) {
                 if (t instanceof EditableDatabaseEntry) {
                     ((EditableDatabaseEntry) t).setAPI(api);
@@ -203,24 +202,22 @@ public class DatabaseManager {
 
     public List<?> queryAll(Class<?> clazz) {
         if (triedConnecting) {
-            System.out.println("Already tried reconnecting. Returning empty list");
+            api.getLogger().info("Already tried reconnecting. Returning empty list");
             return new ArrayList<>();
         }
 
         try {
             List<Object> output = new ArrayList<>();
             try {
-                System.out.println("State 3 list size " + getDao(clazz).queryForAll().size());
                 output.addAll(getDao(clazz).queryForAll());
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
             }
-            System.out.println("State 4 list size " + output.size());
             return output;
         } catch (Throwable t) {
             triedConnecting = true;
             Bukkit.getScheduler().runTaskLater(api.getPlugin(), () -> triedConnecting = false, 10 * 20L);
-            System.out.println("Connection to the database has been closed with message %message%. Reconnecting.".replace("%message%", t.getMessage()));
+            api.getLogger().info("Connection to the database has been closed with message %message%. Reconnecting.".replace("%message%", t.getMessage()));
             connect();
             return new ArrayList<>();
         }
