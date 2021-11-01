@@ -23,6 +23,10 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class DatabaseManager {
 
@@ -36,6 +40,7 @@ public class DatabaseManager {
     private HashMap<Class<?>, List<DatabaseEntry>> cacheMap;
     @SuppressWarnings("FieldMayBeFinal")
     private HashMap<Class<?>, Dao<?, ?>> daoMap;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @SneakyThrows
     @SuppressWarnings("unused")
@@ -198,30 +203,32 @@ public class DatabaseManager {
         return output;
     }
 
-    public List<?> queryAll(Class<?> clazz) {
+    public Future<List<?>> queryAll(Class<?> clazz) {
         if (triedConnecting) {
             System.out.println("Already tried reconnecting. Returning empty list");
-            return new ArrayList<>();
+            return executor.submit((Callable<List<?>>) ArrayList::new);
         }
 
         try {
-            List<Object> output = new ArrayList<>();
-            Bukkit.getScheduler().runTaskAsynchronously(api.getPlugin(), () -> {
-                try {
-                    System.out.println("State 3 list size " + getDao(clazz).queryForAll().size());
-                    output.addAll(getDao(clazz).queryForAll());
-                } catch (SQLException sqlException) {
-                    sqlException.printStackTrace();
-                }
+            return executor.submit(() -> {
+                List<Object> output = new ArrayList<>();
+                Bukkit.getScheduler().runTaskAsynchronously(api.getPlugin(), () -> {
+                    try {
+                        System.out.println("State 3 list size " + getDao(clazz).queryForAll().size());
+                        output.addAll(getDao(clazz).queryForAll());
+                    } catch (SQLException sqlException) {
+                        sqlException.printStackTrace();
+                    }
+                });
+                System.out.println("State 4 list size " + output.size());
+                return output;
             });
-            System.out.println("State 4 list size " + output.size());
-            return output;
         } catch (Throwable t) {
             triedConnecting = true;
             Bukkit.getScheduler().runTaskLater(api.getPlugin(), () -> triedConnecting = false, 10 * 20L);
             System.out.println("Connection to the database has been closed with message %message%. Reconnecting.".replace("%message%", t.getMessage()));
             connect();
-            return new ArrayList<>();
+            return executor.submit((Callable<List<?>>) ArrayList::new);
         }
     }
 
