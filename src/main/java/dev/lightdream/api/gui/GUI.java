@@ -44,6 +44,18 @@ public abstract class GUI implements InventoryProvider {
         this.page = page;
     }
 
+    @SneakyThrows
+    public GUI(IAPI api, User user) {
+        this.api = api;
+        this.config = setConfig();
+        if (this.config == null) {
+            throw new Exception("The gui config with this id does not exist in the config");
+        }
+        api.getEventManager().registeredGUIs.add(this);
+        this.user = user;
+        this.page = 0;
+    }
+
     public SmartInventory getInventory() {
         return SmartInventory.builder()
                 .id(config.id)
