@@ -88,9 +88,8 @@ public abstract class GUI implements InventoryProvider {
         int iter = 0;
 
         for (int i = items.size() - 1; i >= 0; i--) {
-            int index = -1;
+            int index = 0;
             while (canAddItem(items.get(i), keys.get(i), index)) {
-                index++;
                 GUIItem item = items.get(i).clone();
 
                 if (item.repeated) {
@@ -128,6 +127,7 @@ public abstract class GUI implements InventoryProvider {
                 if (!item.repeated) {
                     break;
                 }
+                index++;
             }
         }
 
