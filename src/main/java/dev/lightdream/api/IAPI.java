@@ -71,4 +71,6 @@ public interface IAPI {
     EventManager getEventManager();
 
     boolean debug();
+
+    void registerUser(Player player);
 }

@@ -270,7 +270,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.92";
+        return "3.93";
     }
 
     @Override
@@ -287,5 +287,10 @@ public final class API implements IAPI {
     @Override
     public boolean debug() {
         return config.debug;
+    }
+
+    @Override
+    public void registerUser(Player player) {
+        databaseManager.getUser(player);
     }
 }
