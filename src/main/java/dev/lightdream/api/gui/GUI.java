@@ -88,7 +88,7 @@ public abstract class GUI implements InventoryProvider {
 
         for (int i = items.size() - 1; i >= 0; i--) {
             int index = -1;
-            while (canAddItem(items.get(i), keys.get(i))) {
+            while (canAddItem(items.get(i), keys.get(i), index)) {
                 index++;
                 GUIItem item = items.get(i).clone();
 
@@ -172,7 +172,7 @@ public abstract class GUI implements InventoryProvider {
 
     public abstract void functionCall(Player player, String function, List<String> args);
 
-    public abstract boolean canAddItem(GUIItem item, String key);
+    public abstract boolean canAddItem(GUIItem item, String key, Integer index);
 
     public void open(Player player) {
         getInventory().open(player);
