@@ -6,7 +6,11 @@ public class Debugger {
 
     private static IAPI api;
 
-    public static void info(Object object){
+    public static void info(Object object) {
+        if (object == null) {
+            info("null");
+            return;
+        }
         info(object.toString());
     }
 
@@ -15,7 +19,7 @@ public class Debugger {
             System.out.println("The debugger has not been initialized.");
             return;
         }
-        if(!api.debug()){
+        if (!api.debug()) {
             return;
         }
         api.getLogger().info(message);
