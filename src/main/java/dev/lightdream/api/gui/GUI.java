@@ -73,7 +73,9 @@ public abstract class GUI implements InventoryProvider {
         int iter = 0;
 
         for (int i = items.size() - 1; i >= 0; i--) {
+            int index = -1;
             while (canAddItem(items.get(i), keys.get(i))) {
+                index++;
                 GUIItem item = items.get(i).clone();
 
                 if (item.repeated) {
@@ -85,16 +87,16 @@ public abstract class GUI implements InventoryProvider {
                 }
 
                 if (item.item.material.equals(XMaterial.PLACEHOLDER)) {
-                    item.item.material = XMaterial.matchXMaterial(parse("%material%", player)).orElse(XMaterial.AIR);
+                    item.item.material = XMaterial.matchXMaterial(parse("%material%", player, keys.get(i), index)).orElse(XMaterial.AIR);
                 }
                 if (item.item.amount == null) {
-                    item.item.amount = Integer.parseInt(parse("%amount%", player));
+                    item.item.amount = Integer.parseInt(parse("%amount%", player, keys.get(i), index));
                 }
-                item.item.displayName = parse(item.item.displayName, player);
-                item.item.lore = parse(item.item.lore, player);
-                item.item.headOwner = parse(item.item.displayName, player);
+                item.item.displayName = parse(item.item.displayName, player, keys.get(i), index);
+                item.item.lore = parse(item.item.lore, player, keys.get(i), index);
+                item.item.headOwner = parse(item.item.displayName, player, keys.get(i), index);
 
-                item.args = parse(item.args, player);
+                item.args = parse(item.args, player, keys.get(i), index);
 
                 if (item.item.material.equals(XMaterial.AIR)) {
                     contents.set(Utils.getSlotPosition(item.item.slot), null);
@@ -121,31 +123,31 @@ public abstract class GUI implements InventoryProvider {
         }
     }
 
-    public abstract String parse(String raw, Player player);
+    public abstract String parse(String raw, Player player, String id, Integer index);
 
     @SuppressWarnings("unchecked")
-    public MessageBuilder parse(MessageBuilder raw, Player player) {
+    public MessageBuilder parse(MessageBuilder raw, Player player, String id, Integer index) {
         if (raw.isList()) {
-            return raw.changeBase(parse((List<String>) raw.getBase(), player));
+            return raw.changeBase(parse((List<String>) raw.getBase(), player, id, index));
         } else {
-            return raw.changeBase(parse((String) raw.getBase(), player));
+            return raw.changeBase(parse((String) raw.getBase(), player, id, index));
         }
     }
 
 
     @SuppressWarnings("UnusedAssignment")
-    public GUIItem.GUIItemArgs parse(GUIItem.GUIItemArgs args, Player player) {
+    public GUIItem.GUIItemArgs parse(GUIItem.GUIItemArgs args, Player player, String id, Integer index) {
         return args.parse((function, arg) -> {
-            function = parse(function, player);
-            arg = parse(arg, player);
+            function = parse(function, player, id, index);
+            arg = parse(arg, player, id, index);
         });
 
     }
 
-    public List<String> parse(List<String> raw, Player player) {
+    public List<String> parse(List<String> raw, Player player, String id, Integer index) {
         List<String> output = new ArrayList<>();
 
-        raw.forEach(line -> output.add(parse(line, player)));
+        raw.forEach(line -> output.add(parse(line, player, id, index)));
 
         return output;
     }
@@ -281,7 +283,7 @@ public abstract class GUI implements InventoryProvider {
         return (T) provider;
     }
 
-    public User getUser(){
+    public User getUser() {
         return user;
     }
 
