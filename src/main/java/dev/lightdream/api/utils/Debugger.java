@@ -1,0 +1,28 @@
+package dev.lightdream.api.utils;
+
+import dev.lightdream.api.IAPI;
+
+public class Debugger {
+
+    private static IAPI api;
+
+    public static void info(Object object){
+        info(object.toString());
+    }
+
+    public static void info(String message) {
+        if (api == null) {
+            System.out.println("The debugger has not been initialized.");
+            return;
+        }
+        if(!api.debug()){
+            return;
+        }
+        api.getLogger().info(message);
+    }
+
+    public static void init(IAPI api) {
+        Debugger.api = api;
+    }
+
+}

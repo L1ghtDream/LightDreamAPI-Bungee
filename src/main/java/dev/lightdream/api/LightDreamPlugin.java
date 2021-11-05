@@ -244,4 +244,9 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     public EventManager getEventManager() {
         return eventManager;
     }
+
+    @Override
+    public boolean debug() {
+        return baseConfig.debug;
+    }
 }

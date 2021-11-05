@@ -5,6 +5,7 @@ import dev.lightdream.api.databases.User;
 import dev.lightdream.api.dto.GUIConfig;
 import dev.lightdream.api.dto.GUIItem;
 import dev.lightdream.api.dto.XMaterial;
+import dev.lightdream.api.utils.Debugger;
 import dev.lightdream.api.utils.ItemBuilder;
 import dev.lightdream.api.utils.MessageBuilder;
 import dev.lightdream.api.utils.Utils;
@@ -115,10 +116,10 @@ public abstract class GUI implements InventoryProvider {
                 if (item.item.material.equals(XMaterial.AIR)) {
                     contents.set(Utils.getSlotPosition(item.item.slot), null);
                 } else {
-                    System.out.println(contents);
-                    System.out.println(item);
-                    System.out.println(item.item);
-                    System.out.println(item.item.slot);
+                    Debugger.info(contents);
+                    Debugger.info(item);
+                    Debugger.info(item.item);
+                    Debugger.info(item.item.slot);
                     contents.set(Utils.getSlotPosition(item.item.slot), ClickableItem.of(ItemBuilder.makeItem(item.item), e -> {
                         List<String> functions = item.functions();
                         functions.forEach(function -> functionCall(player, function, item.functionArgs(function)));

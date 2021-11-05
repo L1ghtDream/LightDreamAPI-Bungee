@@ -15,6 +15,7 @@ import dev.lightdream.api.databases.ConsoleUser;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.dto.Position;
 import dev.lightdream.api.managers.*;
+import dev.lightdream.api.utils.Debugger;
 import fr.minuskube.inv.InventoryManager;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -65,6 +66,8 @@ public final class API implements IAPI {
     }
 
     public void init() {
+        Debugger.init(this);
+
         instance = this;
         enabled = true;
 
@@ -123,7 +126,8 @@ public final class API implements IAPI {
     }
 
     @SuppressWarnings({"SwitchStatementWithTooFewBranches", "unused"})
-    public @NotNull String parsePapi(OfflinePlayer player, String identifier) {
+    public @NotNull
+    String parsePapi(OfflinePlayer player, String identifier) {
         switch (identifier) {
             case "api_version":
                 return getProjectVersion();
@@ -266,7 +270,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.88";
+        return "3.89";
     }
 
     @Override
@@ -278,5 +282,10 @@ public final class API implements IAPI {
     public void setLang(User user, String lang) {
         user.setLang(lang);
         user.save();
+    }
+
+    @Override
+    public boolean debug() {
+        return config.debug;
     }
 }
