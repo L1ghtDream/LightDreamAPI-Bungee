@@ -30,9 +30,10 @@ public abstract class GUI implements InventoryProvider {
     public final IAPI api;
     public final GUIConfig config;
     private final User user;
+    private final int page;
 
     @SneakyThrows
-    public GUI(IAPI api, User user) {
+    public GUI(IAPI api, User user, int page) {
         this.api = api;
         this.config = setConfig();
         if (this.config == null) {
@@ -40,6 +41,7 @@ public abstract class GUI implements InventoryProvider {
         }
         api.getEventManager().registeredGUIs.add(this);
         this.user = user;
+        this.page = page;
     }
 
     public SmartInventory getInventory() {
@@ -87,16 +89,16 @@ public abstract class GUI implements InventoryProvider {
                 }
 
                 if (item.item.material.equals(XMaterial.PLACEHOLDER)) {
-                    item.item.material = XMaterial.matchXMaterial(parse("%material%", player, keys.get(i), index)).orElse(XMaterial.AIR);
+                    item.item.material = XMaterial.matchXMaterial(parse("%material%", player, keys.get(i), index + page * item.nextSlots.size())).orElse(XMaterial.AIR);
                 }
                 if (item.item.amount == null) {
-                    item.item.amount = Integer.parseInt(parse("%amount%", player, keys.get(i), index));
+                    item.item.amount = Integer.parseInt(parse("%amount%", player, keys.get(i), index + page * item.nextSlots.size()));
                 }
-                item.item.displayName = parse(item.item.displayName, player, keys.get(i), index);
-                item.item.lore = parse(item.item.lore, player, keys.get(i), index);
-                item.item.headOwner = parse(item.item.displayName, player, keys.get(i), index);
+                item.item.displayName = parse(item.item.displayName, player, keys.get(i), index + page * item.nextSlots.size());
+                item.item.lore = parse(item.item.lore, player, keys.get(i), index + page * item.nextSlots.size());
+                item.item.headOwner = parse(item.item.displayName, player, keys.get(i), index + page * item.nextSlots.size());
 
-                item.args = parse(item.args, player, keys.get(i), index);
+                item.args = parse(item.args, player, keys.get(i), index + page * item.nextSlots.size());
 
                 if (item.item.material.equals(XMaterial.AIR)) {
                     contents.set(Utils.getSlotPosition(item.item.slot), null);
@@ -285,6 +287,18 @@ public abstract class GUI implements InventoryProvider {
 
     public User getUser() {
         return user;
+    }
+
+    public abstract void changePage(int page);
+
+    public void nextPage() {
+        changePage(page + 1);
+    }
+
+    public void backPage() {
+        if (page != 0) {
+            changePage(page - 1);
+        }
     }
 
 
