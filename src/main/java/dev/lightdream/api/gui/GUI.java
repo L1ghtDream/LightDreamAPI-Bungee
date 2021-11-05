@@ -101,16 +101,16 @@ public abstract class GUI implements InventoryProvider {
                 }
 
                 if (item.item.material.equals(XMaterial.PLACEHOLDER)) {
-                    item.item.material = XMaterial.matchXMaterial(parse("%material%", player, keys.get(i), index + page * item.nextSlots.size())).orElse(XMaterial.AIR);
+                    item.item.material = XMaterial.matchXMaterial(parse("%material%", keys.get(i), index + page * item.nextSlots.size())).orElse(XMaterial.AIR);
                 }
                 if (item.item.amount == null) {
-                    item.item.amount = Integer.parseInt(parse("%amount%", player, keys.get(i), index + page * item.nextSlots.size()));
+                    item.item.amount = Integer.parseInt(parse("%amount%", keys.get(i), index + page * item.nextSlots.size()));
                 }
-                item.item.displayName = parse(item.item.displayName, player, keys.get(i), index + page * item.nextSlots.size());
-                item.item.lore = parse(item.item.lore, player, keys.get(i), index + page * item.nextSlots.size());
-                item.item.headOwner = parse(item.item.displayName, player, keys.get(i), index + page * item.nextSlots.size());
+                item.item.displayName = parse(item.item.displayName, keys.get(i), index + page * item.nextSlots.size());
+                item.item.lore = parse(item.item.lore, keys.get(i), index + page * item.nextSlots.size());
+                item.item.headOwner = parse(item.item.displayName, keys.get(i), index + page * item.nextSlots.size());
 
-                item.args = parse(item.args, player, keys.get(i), index + page * item.nextSlots.size());
+                item.args = parse(item.args, keys.get(i), index + page * item.nextSlots.size());
 
                 if (item.item.material.equals(XMaterial.AIR)) {
                     contents.set(Utils.getSlotPosition(item.item.slot), null);
@@ -137,31 +137,31 @@ public abstract class GUI implements InventoryProvider {
         }
     }
 
-    public abstract String parse(String raw, Player player, String id, Integer index);
+    public abstract String parse(String raw, String id, Integer index);
 
     @SuppressWarnings("unchecked")
-    public MessageBuilder parse(MessageBuilder raw, Player player, String id, Integer index) {
+    public MessageBuilder parse(MessageBuilder raw, String id, Integer index) {
         if (raw.isList()) {
-            return raw.changeBase(parse((List<String>) raw.getBase(), player, id, index));
+            return raw.changeBase(parse((List<String>) raw.getBase(), id, index));
         } else {
-            return raw.changeBase(parse((String) raw.getBase(), player, id, index));
+            return raw.changeBase(parse((String) raw.getBase(), id, index));
         }
     }
 
 
     @SuppressWarnings("UnusedAssignment")
-    public GUIItem.GUIItemArgs parse(GUIItem.GUIItemArgs args, Player player, String id, Integer index) {
+    public GUIItem.GUIItemArgs parse(GUIItem.GUIItemArgs args, String id, Integer index) {
         return args.parse((function, arg) -> {
-            function = parse(function, player, id, index);
-            arg = parse(arg, player, id, index);
+            function = parse(function, id, index);
+            arg = parse(arg, id, index);
         });
 
     }
 
-    public List<String> parse(List<String> raw, Player player, String id, Integer index) {
+    public List<String> parse(List<String> raw, String id, Integer index) {
         List<String> output = new ArrayList<>();
 
-        raw.forEach(line -> output.add(parse(line, player, id, index)));
+        raw.forEach(line -> output.add(parse(line, id, index)));
 
         return output;
     }
