@@ -204,6 +204,7 @@ public class DatabaseManager {
     }
 
     public List<?> queryAll(Class<?> clazz) {
+        Debugger.info("Getting from database");
         if (triedConnecting) {
             api.getLogger().info("Already tried reconnecting. Returning empty list");
             return new ArrayList<>();
@@ -216,11 +217,12 @@ public class DatabaseManager {
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
             }
+            Debugger.info(output.size());
             return output;
         } catch (Throwable t) {
             triedConnecting = true;
             Bukkit.getScheduler().runTaskLater(api.getPlugin(), () -> triedConnecting = false, 10 * 20L);
-            api.getLogger().info("Connection to the database has been closed with message %message%. Reconnecting.".replace("%message%", t.getMessage()));
+            api.getLogger().severe("Connection to the database has been closed with message %message%. Reconnecting.".replace("%message%", t.getMessage()));
             connect();
             return new ArrayList<>();
         }
