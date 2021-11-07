@@ -12,11 +12,13 @@ import dev.lightdream.api.configs.SQLConfig;
 import dev.lightdream.api.databases.DatabaseEntry;
 import dev.lightdream.api.databases.EditableDatabaseEntry;
 import dev.lightdream.api.databases.User;
+import dev.lightdream.api.utils.Debugger;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Debug;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -153,6 +155,7 @@ public class DatabaseManager {
             list.add(entry);
             cacheMap.put(entry.getClass(), list);
         } else {
+            Debugger.info("Saving " + entry);
             ((Dao<DatabaseEntry, Integer>) daoMap.get(entry.getClass())).createOrUpdate(entry);
             daoMap.get(entry.getClass()).commit(databaseConnection);
         }
