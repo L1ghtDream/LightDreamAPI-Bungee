@@ -156,8 +156,12 @@ public class DatabaseManager {
             cacheMap.put(entry.getClass(), list);
         } else {
             Debugger.info("Saving " + entry);
-            ((Dao<DatabaseEntry, Integer>) daoMap.get(entry.getClass())).createOrUpdate(entry);
-            daoMap.get(entry.getClass()).commit(databaseConnection);
+            try{
+                ((Dao<DatabaseEntry, Integer>) daoMap.get(entry.getClass())).createOrUpdate(entry);
+                daoMap.get(entry.getClass()).commit(databaseConnection);
+            }catch (Throwable e){
+                Debugger.info("Seems like a duplicate, ignoring and using the local value");
+            }
         }
     }
 
