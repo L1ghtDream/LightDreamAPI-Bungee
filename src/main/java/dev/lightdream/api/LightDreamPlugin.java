@@ -12,6 +12,7 @@ import dev.lightdream.api.configs.SQLConfig;
 import dev.lightdream.api.databases.ConsoleUser;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.managers.*;
+import dev.lightdream.api.managers.database.DatabaseManagerImpl;
 import fr.minuskube.inv.InventoryManager;
 import lombok.SneakyThrows;
 import net.dv8tion.jda.api.JDA;
@@ -47,20 +48,17 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     public Economy economy;
     public Permission permission;
     public FileManager fileManager;
-    public DatabaseManager databaseManager;
     public InventoryManager inventoryManager;
     public MessageManager messageManager;
     public CommandManager baseCommandManager;
     public EventManager eventManager;
-
     //Bot
     public JDA bot;
-
     //API
     public API api;
-
     //Commands
     public List<SubCommand> baseSubCommands = new ArrayList<>();
+    private DatabaseManagerImpl databaseManager;
 
     @SuppressWarnings("unused")
     @SneakyThrows
@@ -85,8 +83,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
         registerLangManager();
         this.economy = api.economy;
         this.permission = api.permission;
-        this.databaseManager = new DatabaseManager(this);
-        this.databaseManager = getDatabaseManager();
+        this.databaseManager = new DatabaseManagerImpl(this);
         this.inventoryManager = new InventoryManager(this);
         this.inventoryManager.init();
         this.messageManager = instantiateMessageManager();

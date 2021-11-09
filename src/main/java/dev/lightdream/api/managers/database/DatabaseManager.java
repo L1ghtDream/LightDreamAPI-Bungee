@@ -1,0 +1,68 @@
+package dev.lightdream.api.managers.database;
+
+import dev.lightdream.api.IAPI;
+import dev.lightdream.api.configs.SQLConfig;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.List;
+
+public abstract class DatabaseManager {
+
+    public IAPI api;
+    public SQLConfig sqlConfig;
+
+    public abstract void connect();
+
+    public abstract <T> List<T> getAll(Class<T> clazz);
+
+    public abstract void createTable(Class<?> clazz);
+
+    public abstract void setup();
+
+    public abstract void setup(Class<?> clazz);
+
+    public abstract void save();
+
+    public @NotNull String getDatabaseURL() {
+        switch (sqlConfig.driver) {
+            case MYSQL:
+            case MARIADB:
+            case POSTGRESQL:
+                return "jdbc:" + sqlConfig.driver.toString().toLowerCase() + "://" + sqlConfig.host + ":" + sqlConfig.port + "/" + sqlConfig.database + "?useSSL=" + sqlConfig.useSSL + "&autoReconnect=true";
+            case SQLSERVER:
+                return "jdbc:sqlserver://" + sqlConfig.host + ":" + sqlConfig.port + ";databaseName=" + sqlConfig.database;
+            case H2:
+                return "jdbc:h2:file:" + sqlConfig.database;
+            case SQLITE:
+                return "jdbc:sqlite:" + new File(api.getDataFolder(), sqlConfig.database + ".db");
+            default:
+                throw new UnsupportedOperationException("Unsupported driver (how did we get here?): " + sqlConfig.driver.name());
+        }
+    }
+
+    public String getDataType(Field field) {
+        String name = field.getType().getSimpleName();
+        switch (name) {
+            case "int":
+            case "Integer":
+                return "INT";
+            case "String":
+                return "TEXT";
+            case "boolean":
+            case "Boolean":
+                return "BOOLEAN";
+            case "float":
+            case "Float":
+                return "FLOAT";
+            case "double":
+            case "Double":
+                return "DOUBLE";
+            default:
+                api.getLogger().severe("Datatype not recognised");
+                return "";
+        }
+    }
+
+}

@@ -17,16 +17,21 @@ import java.util.Objects;
 import java.util.UUID;
 
 @DatabaseTable(tableName = "users")
+@dev.lightdream.api.annotations.DatabaseTable(table = "users")
 public class User extends EditableDatabaseEntry {
 
     @SuppressWarnings("unused")
     @DatabaseField(columnName = "id", generatedId = true, canBeNull = false)
+    @dev.lightdream.api.annotations.DatabaseField(columnName = "id", autoGenerate = true)
     public int id;
     @DatabaseField(columnName = "uuid", unique = true)
+    @dev.lightdream.api.annotations.DatabaseField(columnName = "uuid", unique = true)
     public UUID uuid;
     @DatabaseField(columnName = "name", unique = true)
+    @dev.lightdream.api.annotations.DatabaseField(columnName = "name", unique = true)
     public String name;
     @DatabaseField(columnName = "lang")
+    @dev.lightdream.api.annotations.DatabaseField(columnName = "lang")
     public String lang;
 
     public User() {

@@ -1,4 +1,4 @@
-package dev.lightdream.api.managers;
+package dev.lightdream.api.managers.database;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -11,29 +11,19 @@ import dev.lightdream.api.IAPI;
 import dev.lightdream.api.configs.SQLConfig;
 import dev.lightdream.api.databases.DatabaseEntry;
 import dev.lightdream.api.databases.EditableDatabaseEntry;
-import dev.lightdream.api.databases.User;
 import dev.lightdream.api.utils.Debugger;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Debug;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
 import java.sql.SQLException;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class DatabaseManager {
+public class OmrLiteDatabaseManager extends DatabaseManager {
 
     public final IAPI api;
     private final SQLConfig sqlSettings;
-    private final String databaseURL;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
     public boolean triedConnecting = false;
     private ConnectionSource connectionSource;
     private DatabaseConnection databaseConnection;
@@ -44,14 +34,14 @@ public class DatabaseManager {
 
     @SneakyThrows
     @SuppressWarnings("unused")
-    public DatabaseManager(IAPI api) {
+    public OmrLiteDatabaseManager(IAPI api) {
         this.api = api;
         this.sqlSettings = api.getSQLConfig();
-        this.databaseURL = getDatabaseURL();
 
         connect();
     }
 
+    @Override
     public void setup() {
 
     }
@@ -62,32 +52,16 @@ public class DatabaseManager {
         this.daoMap = new HashMap<>();
 
         this.connectionSource = new JdbcConnectionSource(
-                databaseURL,
+                getDatabaseURL(),
                 sqlSettings.username,
                 sqlSettings.password,
-                DatabaseTypeUtils.createDatabaseType(databaseURL)
+                DatabaseTypeUtils.createDatabaseType(getDatabaseURL())
         );
 
         this.databaseConnection = connectionSource.getReadWriteConnection(null);
         setup();
     }
 
-    private @NotNull String getDatabaseURL() {
-        switch (sqlSettings.driver) {
-            case MYSQL:
-            case MARIADB:
-            case POSTGRESQL:
-                return "jdbc:" + sqlSettings.driver.toString().toLowerCase() + "://" + sqlSettings.host + ":" + sqlSettings.port + "/" + sqlSettings.database + "?useSSL=" + sqlSettings.useSSL + "&autoReconnect=true";
-            case SQLSERVER:
-                return "jdbc:sqlserver://" + sqlSettings.host + ":" + sqlSettings.port + ";databaseName=" + sqlSettings.database;
-            case H2:
-                return "jdbc:h2:file:" + sqlSettings.database;
-            case SQLITE:
-                return "jdbc:sqlite:" + new File(api.getDataFolder(), sqlSettings.database + ".db");
-            default:
-                throw new UnsupportedOperationException("Unsupported driver (how did we get here?): " + sqlSettings.driver.name());
-        }
-    }
 
     @SuppressWarnings("unused")
     @SneakyThrows
@@ -156,10 +130,10 @@ public class DatabaseManager {
             cacheMap.put(entry.getClass(), list);
         } else {
             Debugger.info("Saving " + entry);
-            try{
+            try {
                 ((Dao<DatabaseEntry, Integer>) daoMap.get(entry.getClass())).createOrUpdate(entry);
                 daoMap.get(entry.getClass()).commit(databaseConnection);
-            }catch (Throwable e){
+            } catch (Throwable e) {
                 Debugger.info("Seems like a duplicate, ignoring and using the local value");
             }
         }
@@ -259,50 +233,4 @@ public class DatabaseManager {
         createDao(clazz).setAutoCommit(databaseConnection, false);
         cacheMap.put(clazz, (List<DatabaseEntry>) getAll(clazz, false));
     }
-
-    //Users
-    public @NotNull User getUser(@NotNull UUID uuid) {
-        Optional<User> optionalUser = getAll(User.class).stream().filter(user -> user.uuid.equals(uuid)).findFirst();
-
-        if (optionalUser.isPresent()) {
-            return optionalUser.get();
-        }
-
-        User user = new User(api, uuid, Bukkit.getOfflinePlayer(uuid).getName(), api.getSettings().baseLang);
-        save(user);
-        return user;
-    }
-
-    @SuppressWarnings("unused")
-    public @Nullable User getUser(@NotNull String name) {
-        Optional<User> optionalUser = getAll(User.class).stream().filter(user -> user.name.equals(name)).findFirst();
-
-        return optionalUser.orElse(null);
-    }
-
-    @SuppressWarnings("unused")
-    public @NotNull User getUser(@NotNull OfflinePlayer player) {
-        return getUser(player.getUniqueId());
-    }
-
-    public @NotNull User getUser(@NotNull Player player) {
-        return getUser(player.getUniqueId());
-    }
-
-    @SuppressWarnings("unused")
-    public @Nullable User getUser(int id) {
-        Optional<User> optionalUser = getAll(User.class).stream().filter(user -> user.id == id).findFirst();
-
-        return optionalUser.orElse(null);
-    }
-
-    @SuppressWarnings("unused")
-    public @Nullable User getUser(@NotNull CommandSender sender) {
-        if (sender instanceof Player) {
-            return getUser((Player) sender);
-        }
-        return api.getConsoleUser();
-    }
-
-
 }

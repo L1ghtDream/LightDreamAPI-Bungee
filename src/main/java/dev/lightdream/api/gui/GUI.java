@@ -22,7 +22,6 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -201,8 +200,6 @@ public abstract class GUI implements InventoryProvider {
         open(user);
     }
 
-    public abstract HashMap<Class<?>, Object> getArgs();
-
     public abstract void setItems(Player player, InventoryContents contents);
 
     public abstract void beforeUpdate(Player player, InventoryContents contents);
@@ -217,12 +214,6 @@ public abstract class GUI implements InventoryProvider {
         }
         return config.id;
     }
-
-    @SuppressWarnings("unchecked")
-    public <T> T getArg(Class<T> clazz) {
-        return (T) getArgs().getOrDefault(clazz, null);
-    }
-
 
     public InventoryListener<InventoryCloseEvent> getInventoryCloseListener() {
         return new InventoryListener<>(InventoryCloseEvent.class, this::a);
@@ -318,5 +309,7 @@ public abstract class GUI implements InventoryProvider {
         }
     }
 
-
+    public int getPage() {
+        return page;
+    }
 }
