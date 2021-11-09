@@ -22,7 +22,6 @@ import java.util.List;
 
 public class OmrLiteDatabaseManager extends DatabaseManager {
 
-    public final IAPI api;
     public boolean triedConnecting = false;
     private ConnectionSource connectionSource;
     private DatabaseConnection databaseConnection;
