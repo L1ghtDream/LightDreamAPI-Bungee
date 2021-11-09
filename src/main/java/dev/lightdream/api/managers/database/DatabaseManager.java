@@ -8,22 +8,10 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public abstract class DatabaseManager {
+public abstract class DatabaseManager implements IDatabaseManager{
 
     public IAPI api;
     public SQLConfig sqlConfig;
-
-    public abstract void connect();
-
-    public abstract <T> List<T> getAll(Class<T> clazz);
-
-    public abstract void createTable(Class<?> clazz);
-
-    public abstract void setup();
-
-    public abstract void setup(Class<?> clazz);
-
-    public abstract void save();
 
     public @NotNull String getDatabaseURL() {
         switch (sqlConfig.driver) {

@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.annotations.DatabaseTable;
+import dev.lightdream.api.databases.DatabaseEntry;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
@@ -107,6 +108,16 @@ return;
 
     @Override
     public void save() {
+        //todo
+    }
+
+    @Override
+    public void save(DatabaseEntry object, boolean cache) {
+        //todo
+    }
+
+    @Override
+    public void delete(DatabaseEntry entry) {
         //todo
     }
 }

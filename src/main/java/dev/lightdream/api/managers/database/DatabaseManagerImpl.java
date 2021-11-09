@@ -12,12 +12,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public class DatabaseManagerImpl extends OmrLiteDatabaseManager {
+public class DatabaseManagerImpl extends OmrLiteDatabaseManager implements IDatabaseManagerImpl {
     public DatabaseManagerImpl(IAPI api) {
         super(api);
     }
 
     //Users
+    @Override
     public @NotNull User getUser(@NotNull UUID uuid) {
         Optional<User> optionalUser = getAll(User.class).stream().filter(user -> user.uuid.equals(uuid)).findFirst();
 
@@ -31,6 +32,7 @@ public class DatabaseManagerImpl extends OmrLiteDatabaseManager {
     }
 
     @SuppressWarnings("unused")
+    @Override
     public @Nullable User getUser(@NotNull String name) {
         Optional<User> optionalUser = getAll(User.class).stream().filter(user -> user.name.equals(name)).findFirst();
 
@@ -38,15 +40,18 @@ public class DatabaseManagerImpl extends OmrLiteDatabaseManager {
     }
 
     @SuppressWarnings("unused")
+    @Override
     public @NotNull User getUser(@NotNull OfflinePlayer player) {
         return getUser(player.getUniqueId());
     }
 
+    @Override
     public @NotNull User getUser(@NotNull Player player) {
         return getUser(player.getUniqueId());
     }
 
     @SuppressWarnings("unused")
+    @Override
     public @Nullable User getUser(int id) {
         Optional<User> optionalUser = getAll(User.class).stream().filter(user -> user.id == id).findFirst();
 
