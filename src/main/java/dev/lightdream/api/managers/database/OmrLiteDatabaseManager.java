@@ -23,7 +23,6 @@ import java.util.List;
 public class OmrLiteDatabaseManager extends DatabaseManager {
 
     public final IAPI api;
-    private final SQLConfig sqlSettings;
     public boolean triedConnecting = false;
     private ConnectionSource connectionSource;
     private DatabaseConnection databaseConnection;
@@ -36,7 +35,7 @@ public class OmrLiteDatabaseManager extends DatabaseManager {
     @SuppressWarnings("unused")
     public OmrLiteDatabaseManager(IAPI api) {
         this.api = api;
-        this.sqlSettings = api.getSQLConfig();
+        this.sqlConfig = api.getSQLConfig();
 
         connect();
     }
@@ -53,8 +52,8 @@ public class OmrLiteDatabaseManager extends DatabaseManager {
 
         this.connectionSource = new JdbcConnectionSource(
                 getDatabaseURL(),
-                sqlSettings.username,
-                sqlSettings.password,
+                sqlConfig.username,
+                sqlConfig.password,
                 DatabaseTypeUtils.createDatabaseType(getDatabaseURL())
         );
 
