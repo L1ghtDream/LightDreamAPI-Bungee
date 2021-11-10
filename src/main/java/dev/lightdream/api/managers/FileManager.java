@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import dev.lightdream.api.IAPI;
-import dev.lightdream.api.dto.Position;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,7 +25,6 @@ public class FileManager {
         this.api = api;
         this.persistType = persistType;
         this.objectMapper = new ObjectMapper(persistType.getFactory());
-        this.objectMapper.registerModule(new SimpleModule().addKeyDeserializer(Position.class, api.getKeyDeserializerManager()));
     }
 
     private static String getName(Class<?> clazz) {

@@ -7,7 +7,7 @@ public abstract class DatabaseEntry {
 
     @DatabaseField(columnName = "id", autoGenerate = true, unique = true)
     public int id;
-    private IAPI api;
+    public IAPI api;
 
     public DatabaseEntry(IAPI api) {
         this.api = api;

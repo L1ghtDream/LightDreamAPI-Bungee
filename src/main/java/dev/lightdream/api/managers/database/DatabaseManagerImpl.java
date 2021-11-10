@@ -2,10 +2,8 @@ package dev.lightdream.api.managers.database;
 
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.databases.User;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,7 +24,7 @@ public class DatabaseManagerImpl extends OmrLiteDatabaseManager implements IData
             return optionalUser.get();
         }
 
-        User user = new User(api, uuid, Bukkit.getOfflinePlayer(uuid).getName(), api.getSettings().baseLang);
+        User user = new User(api, uuid, api.getPlugin().getProxy().getPlayer(uuid).getName(), api.getSettings().baseLang);
         save(user);
         return user;
     }
@@ -39,14 +37,8 @@ public class DatabaseManagerImpl extends OmrLiteDatabaseManager implements IData
         return optionalUser.orElse(null);
     }
 
-    @SuppressWarnings("unused")
     @Override
-    public @NotNull User getUser(@NotNull OfflinePlayer player) {
-        return getUser(player.getUniqueId());
-    }
-
-    @Override
-    public @NotNull User getUser(@NotNull Player player) {
+    public @NotNull User getUser(@NotNull ProxiedPlayer player) {
         return getUser(player.getUniqueId());
     }
 
@@ -60,8 +52,8 @@ public class DatabaseManagerImpl extends OmrLiteDatabaseManager implements IData
 
     @SuppressWarnings("unused")
     public @Nullable User getUser(@NotNull CommandSender sender) {
-        if (sender instanceof Player) {
-            return getUser((Player) sender);
+        if (sender instanceof ProxiedPlayer) {
+            return getUser((ProxiedPlayer) sender);
         }
         return api.getConsoleUser();
     }

@@ -2,15 +2,9 @@ package dev.lightdream.api.databases;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import dev.lightdream.api.API;
 import dev.lightdream.api.IAPI;
-import dev.lightdream.api.dto.PluginLocation;
 import dev.lightdream.api.utils.MessageBuilder;
-import dev.lightdream.api.utils.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -45,27 +39,16 @@ public class User extends DatabaseEntry {
         this.lang = lang;
     }
 
-    public @Nullable Player getPlayer() {
-        return Bukkit.getPlayer(uuid);
-    }
-
-    @SuppressWarnings("NullableProblems")
-    public @NotNull OfflinePlayer getOfflinePlayer() {
-        return Bukkit.getOfflinePlayer(uuid);
-    }
-
-    @SuppressWarnings("unused")
-    public @Nullable PluginLocation getLocation() {
-        Player player = getPlayer();
-        if (player == null) {
-            return null;
-        }
-        return new PluginLocation(player.getLocation());
+    public @Nullable ProxiedPlayer getPlayer() {
+        return api.getPlugin().getProxy().getPlayer(uuid);
     }
 
     @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted"})
     public boolean isOnline() {
-        return getOfflinePlayer().isOnline();
+        if (getPlayer() == null) {
+            return false;
+        }
+        return getPlayer().isConnected();
     }
 
     @Override
@@ -84,58 +67,6 @@ public class User extends DatabaseEntry {
     @SuppressWarnings("unused")
     public void setLang(String lang) {
         this.lang = lang;
-    }
-
-    @SuppressWarnings("unused")
-    public boolean hasMoney(double amount) {
-        return API.instance.getEconomy().has(getOfflinePlayer(), amount);
-    }
-
-    @SuppressWarnings("unused")
-    public void addMoney(double amount) {
-        API.instance.getEconomy().depositPlayer(getOfflinePlayer(), amount);
-    }
-
-    @SuppressWarnings("unused")
-    public void removeMoney(double amount) {
-        API.instance.getEconomy().withdrawPlayer(getOfflinePlayer(), amount);
-    }
-
-    @SuppressWarnings("unused")
-    public double getMoney() {
-        return API.instance.getEconomy().getBalance(getOfflinePlayer());
-    }
-
-    @SuppressWarnings({"unused", "ConstantConditions"})
-    public boolean hasXP(int xp) {
-        if (!isOnline()) {
-            return false;
-        }
-        return Utils.getTotalExperience(getPlayer()) >= xp;
-    }
-
-    @SuppressWarnings("unused")
-    public void addXP(int xp) {
-        if (!isOnline()) {
-            return;
-        }
-        Utils.setTotalExperience(getPlayer(), getXP() + xp);
-    }
-
-    @SuppressWarnings("unused")
-    public void removeXP(int xp) {
-        if (!isOnline()) {
-            return;
-        }
-        Utils.setTotalExperience(getPlayer(), getXP() - xp);
-    }
-
-    @SuppressWarnings({"unused", "ConstantConditions"})
-    public int getXP() {
-        if (!isOnline()) {
-            return 0;
-        }
-        return Utils.getTotalExperience(getPlayer());
     }
 
     @SuppressWarnings("unused")

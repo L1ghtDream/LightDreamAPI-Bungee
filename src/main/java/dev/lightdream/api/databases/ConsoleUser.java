@@ -1,12 +1,8 @@
 package dev.lightdream.api.databases;
 
 import dev.lightdream.api.IAPI;
-import dev.lightdream.api.dto.PluginLocation;
 import dev.lightdream.api.utils.MessageBuilder;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class ConsoleUser extends User {
     public ConsoleUser() {
@@ -14,20 +10,10 @@ public class ConsoleUser extends User {
     }
 
     @Override
-    public Player getPlayer() {
+    public ProxiedPlayer getPlayer() {
         return null;
     }
 
-    @SuppressWarnings({"NullableProblems", "ConstantConditions"})
-    @Override
-    public OfflinePlayer getOfflinePlayer() {
-        return null;
-    }
-
-    @Override
-    public @Nullable PluginLocation getLocation() {
-        return null;
-    }
 
     @Override
     public boolean isOnline() {
@@ -49,49 +35,13 @@ public class ConsoleUser extends User {
     }
 
     @Override
-    public boolean hasMoney(double amount) {
-        return true;
-    }
-
-    @Override
-    public void addMoney(double amount) {
-    }
-
-    @Override
-    public void removeMoney(double amount) {
-    }
-
-    @Override
-    public double getMoney() {
-        return 0;
-    }
-
-    @Override
-    public boolean hasXP(int xp) {
-        return true;
-    }
-
-    @Override
-    public void addXP(int xp) {
-    }
-
-    @Override
-    public void removeXP(int xp) {
-    }
-
-    @Override
-    public int getXP() {
-        return 0;
-    }
-
-    @Override
     public void sendMessage(IAPI api, String msg) {
-        Bukkit.getConsoleSender().sendMessage(msg);
+        api.getPlugin().getProxy().getConsole().sendMessage(msg);
     }
 
     @Override
     public void sendMessage(IAPI api, MessageBuilder msg) {
-        Bukkit.getConsoleSender().sendMessage(msg.parseString());
+        api.getPlugin().getProxy().getConsole().sendMessage(msg.parseString());
     }
 
     @Override

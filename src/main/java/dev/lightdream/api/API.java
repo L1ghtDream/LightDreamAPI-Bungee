@@ -14,18 +14,12 @@ import dev.lightdream.api.configs.Lang;
 import dev.lightdream.api.configs.SQLConfig;
 import dev.lightdream.api.databases.ConsoleUser;
 import dev.lightdream.api.databases.User;
-import dev.lightdream.api.dto.Position;
 import dev.lightdream.api.managers.*;
 import dev.lightdream.api.managers.database.DatabaseManagerImpl;
 import dev.lightdream.api.utils.Debugger;
-import fr.minuskube.inv.InventoryManager;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -40,7 +34,7 @@ public final class API implements IAPI {
 
     //Settings
     public static API instance;
-    private final JavaPlugin plugin;
+    private final Plugin plugin;
     public SQLConfig sqlConfig;
     public Config config;
     public Lang lang;
@@ -50,9 +44,6 @@ public final class API implements IAPI {
     //Plugins
     public List<LightDreamPlugin> plugins = new ArrayList<>();
 
-    public Economy economy = null;
-    public Permission permission = null;
-
     //Managers
     public LangManager langManager;
     public MessageManager messageManager;
@@ -60,9 +51,8 @@ public final class API implements IAPI {
     public FileManager fileManager;
     public KeyDeserializerManager keyDeserializerManager;
     public Command command;
-    public EventManager eventManager;
 
-    public API(JavaPlugin plugin) {
+    public API(Plugin plugin) {
         this.plugin = plugin;
         init();
     }
@@ -74,9 +64,6 @@ public final class API implements IAPI {
         enabled = true;
 
         //FileManager pre-setup
-        keyDeserializerManager = new KeyDeserializerManager(new HashMap<String, Class<?>>() {{
-            put("Position", Position.class);
-        }});
 
         //FileManager
         fileManager = new FileManager(this, FileManager.PersistType.YAML);
@@ -85,30 +72,12 @@ public final class API implements IAPI {
         loadConfigs();
 
         getLogger().info("API Settings");
-        getLogger().info("Use Economy (by Vault): " + apiConfig.useEconomy);
-        getLogger().info("Use Permissions (by Vault): " + apiConfig.usePermissions);
-
-        //Events
-        new BalanceChangeEventRunnable(this);
-
-        //Placeholders
-        new PAPI(this).register();
-
-        //Setups
-        if (apiConfig.useEconomy) {
-            economy = setupEconomy();
-        }
-        if (apiConfig.usePermissions) {
-            permission = setupPermissions();
-        }
-
 
         //Managers
         messageManager = new MessageManager(this, API.class);
         this.databaseManager = new DatabaseManagerImpl(this);
         this.databaseManager.setup(User.class);
         this.langManager = new LangManager(API.class, getLangs());
-        this.eventManager = new EventManager(this);
 
         //Commands
         List<SubCommand> baseSubCommands = new ArrayList<>(getBaseCommands());
@@ -117,19 +86,10 @@ public final class API implements IAPI {
         getLogger().info(ChatColor.GREEN + getProjectName() + "(by github.com/L1ghtDream) has been enabled");
     }
 
-    private Economy setupEconomy() {
-        RegisteredServiceProvider<Economy> rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
-        return rsp.getProvider();
-    }
-
-    private Permission setupPermissions() {
-        RegisteredServiceProvider<Permission> rsp = plugin.getServer().getServicesManager().getRegistration(Permission.class);
-        return rsp.getProvider();
-    }
 
     @SuppressWarnings({"SwitchStatementWithTooFewBranches", "unused"})
     public @NotNull
-    String parsePapi(OfflinePlayer player, String identifier) {
+    String parsePapi(ProxiedPlayer player, String identifier) {
         switch (identifier) {
             case "api_version":
                 return getProjectVersion();
@@ -181,16 +141,6 @@ public final class API implements IAPI {
     }
 
     @Override
-    public EventManager getEventManager() {
-        return eventManager;
-    }
-
-    @Override
-    public InventoryManager getInventoryManager() {
-        return null;
-    }
-
-    @Override
     public List<SimpleModule> getSimpleModules() {
         return new ArrayList<>();
     }
@@ -217,14 +167,10 @@ public final class API implements IAPI {
     }
 
     @Override
-    public JavaPlugin getPlugin() {
+    public Plugin getPlugin() {
         return plugin;
     }
 
-    @Override
-    public Economy getEconomy() {
-        return economy;
-    }
 
     @Override
     public Lang getLang() {
@@ -262,7 +208,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectName() {
-        return "LightDreamAPI";
+        return "LightDreamAPI-Bungee";
     }
 
     @Override
@@ -272,11 +218,11 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.101";
+        return "1.0";
     }
 
     @Override
-    public void setLang(Player player, String lang) {
+    public void setLang(ProxiedPlayer player, String lang) {
         setLang(databaseManager.getUser(player), lang);
     }
 
@@ -292,7 +238,7 @@ public final class API implements IAPI {
     }
 
     @Override
-    public void registerUser(Player player) {
+    public void registerUser(ProxiedPlayer player) {
         databaseManager.getUser(player);
     }
 }

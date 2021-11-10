@@ -1,9 +1,9 @@
 package dev.lightdream.api;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import net.md_5.bungee.api.plugin.Plugin;
 
 @SuppressWarnings("unused")
-public final class APIPlugin extends JavaPlugin {
+public final class APIPlugin extends Plugin {
 
     public API api;
 

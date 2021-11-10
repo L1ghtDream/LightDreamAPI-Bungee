@@ -1,20 +1,17 @@
 package dev.lightdream.api;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import dev.lightdream.api.commands.Command;
 import dev.lightdream.api.configs.Config;
 import dev.lightdream.api.configs.Lang;
 import dev.lightdream.api.configs.SQLConfig;
 import dev.lightdream.api.databases.ConsoleUser;
 import dev.lightdream.api.databases.User;
-import dev.lightdream.api.commands.Command;
-import dev.lightdream.api.managers.EventManager;
 import dev.lightdream.api.managers.KeyDeserializerManager;
 import dev.lightdream.api.managers.MessageManager;
 import dev.lightdream.api.managers.database.IDatabaseManagerImpl;
-import fr.minuskube.inv.InventoryManager;
-import net.milkbowl.vault.economy.Economy;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.plugin.Plugin;
 
 import java.io.File;
 import java.util.List;
@@ -22,9 +19,7 @@ import java.util.logging.Logger;
 
 public interface IAPI {
 
-    JavaPlugin getPlugin();
-
-    Economy getEconomy();
+    Plugin getPlugin();
 
     Lang getLang();
 
@@ -46,13 +41,11 @@ public interface IAPI {
 
     String getProjectVersion();
 
-    void setLang(Player player, String lang);
+    void setLang(ProxiedPlayer player, String lang);
 
     void setLang(User user, String lang);
 
     void loadConfigs();
-
-    InventoryManager getInventoryManager();
 
     @SuppressWarnings("unused")
     List<SimpleModule> getSimpleModules();
@@ -72,9 +65,7 @@ public interface IAPI {
 
     ConsoleUser getConsoleUser();
 
-    EventManager getEventManager();
-
     boolean debug();
 
-    void registerUser(Player player);
+    void registerUser(ProxiedPlayer player);
 }

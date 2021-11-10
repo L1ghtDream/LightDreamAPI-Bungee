@@ -1,12 +1,8 @@
-name: LightDreamAPI
+name: LightDreamAPIBungee
 version: ${project.version}
 main: dev.lightdream.api.APIPlugin
 authors: [ L1ghtDream ]
 website: https://lightdream.dev
-softdepend:
-  - Vault
-  - PlaceholderAPI
-  - WorldEdit
 commands:
   ld-api:
     description: NA

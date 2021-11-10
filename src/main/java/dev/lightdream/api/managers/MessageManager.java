@@ -1,17 +1,13 @@
 package dev.lightdream.api.managers;
 
-import de.themoep.minedown.MineDown;
 import dev.lightdream.api.API;
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.utils.MessageBuilder;
 import dev.lightdream.api.utils.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,21 +16,10 @@ public class MessageManager {
 
     private final IAPI api;
     private final Class<?> clazz;
-    private final boolean useMineDown;
 
     public MessageManager(IAPI api, Class<?> clazz) {
         this.api = api;
         this.clazz = clazz;
-
-        List<String> mineDownVersions = Arrays.asList("1.16", "1.17");
-        boolean useMineDown = false;
-        for (String version : mineDownVersions) {
-            if (Bukkit.getServer().getVersion().contains(version)) {
-                useMineDown = true;
-                break;
-            }
-        }
-        this.useMineDown = useMineDown;
     }
 
     public void sendMessage(CommandSender sender, String message) {
@@ -42,8 +27,8 @@ public class MessageManager {
     }
 
     public void sendMessage(CommandSender sender, MessageBuilder builder) {
-        if (sender instanceof Player) {
-            User user = api.getDatabaseManager().getUser((Player) sender);
+        if (sender instanceof ProxiedPlayer) {
+            User user = api.getDatabaseManager().getUser((ProxiedPlayer) sender);
             sendMessage(user, builder);
         } else {
             String message = getMessage(builder, api.getSettings().baseLang);
@@ -91,46 +76,37 @@ public class MessageManager {
     }
 
     public void sendMessage(UUID target, String message, String lang) {
-        OfflinePlayer player = Bukkit.getOfflinePlayer(target);
+        ProxiedPlayer player = api.getPlugin().getProxy().getPlayer(target);
         if (player != null) {
-            if (player.isOnline()) {
-                sendMessage((Player) player, new MessageBuilder(message), lang);
+            if (player.isConnected()) {
+                sendMessage(player, new MessageBuilder(message), lang);
             }
         }
     }
 
     public void sendMessage(UUID target, MessageBuilder builder, String lang) {
-        OfflinePlayer player = Bukkit.getOfflinePlayer(target);
+        ProxiedPlayer player = api.getPlugin().getProxy().getPlayer(target);
         if (player != null) {
-            if (player.isOnline()) {
-                sendMessage((Player) player, builder, lang);
+            if (player.isConnected()) {
+                sendMessage(player, builder, lang);
             }
         }
     }
 
-    public void sendMessage(Player target, String message, String lang) {
+    public void sendMessage(ProxiedPlayer target, String message, String lang) {
         sendMessage(target, new MessageBuilder(message), lang);
     }
 
-    public void sendMessage(Player target, MessageBuilder builder, String lang) {
-        String message = getMessage(builder, lang);
-
-        if (useMineDown) {
-            target.spigot().sendMessage(new MineDown(message).toComponent());
-        } else {
-            target.sendMessage(Utils.color(message));
-        }
+    public void sendMessage(ProxiedPlayer target, MessageBuilder builder, String lang) {
+        target.sendMessage(Utils.color(getMessage(builder, lang)));
     }
 
     public void broadcast(String message) {
-        if (useMineDown) {
-            Bukkit.broadcastMessage(Arrays.toString(new MineDown(message).toComponent()));
-        } else {
-            Bukkit.broadcastMessage(Utils.color(message));
-        }
+
+        api.getPlugin().getProxy().broadcast(Utils.color(message));
     }
 
     public void sendAll(MessageBuilder message) {
-        Bukkit.getOnlinePlayers().forEach(player -> sendMessage(player, message));
+        api.getPlugin().getProxy().getPlayers().forEach(player -> sendMessage(player, message));
     }
 }

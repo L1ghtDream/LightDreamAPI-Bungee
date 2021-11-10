@@ -1,19 +1,7 @@
 package dev.lightdream.api.utils;
 
-import dev.lightdream.api.dto.Item;
-import dev.lightdream.api.dto.PluginLocation;
 import dev.lightdream.api.dto.Randomizable;
-import fr.minuskube.inv.content.SlotPos;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.inventory.meta.ItemMeta;
+import net.md_5.bungee.api.ChatColor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.management.Attribute;
@@ -60,96 +48,6 @@ public class Utils {
         return Math.random() * (b - a + 1) + a;
     }
 
-    @SuppressWarnings("unused")
-    public static void spawnFireworks(@NotNull Location location, int amount, @NotNull Color color, boolean flicker) {
-        Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
-        FireworkMeta fwm = fw.getFireworkMeta();
-
-        fwm.setPower(2);
-        fwm.addEffect(FireworkEffect.builder().withColor(color).flicker(flicker).build());
-
-        fw.setFireworkMeta(fwm);
-        fw.detonate();
-
-        for (int i = 0; i < amount; i++) {
-            Firework fw2 = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
-            fw2.setFireworkMeta(fwm);
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public static boolean compareItemToItemStack(ItemStack itemStack, Item item) {
-        if (itemStack == null) {
-            return false;
-        }
-        ItemMeta meta = itemStack.getItemMeta();
-        if (!itemStack.getType().equals(item.material.parseMaterial())) {
-            return false;
-        }
-        if (!meta.getDisplayName().equals(item.displayName)) {
-            return false;
-        }
-        if (!meta.getLore().equals(item.lore)) {
-            return false;
-        }
-        for (String attribute : item.nbtTags.keySet()) {
-            Object value = item.nbtTags.get(attribute);
-            Object itemStackValue = NbtUtils.getNBT(itemStack, attribute);
-            if (!value.equals(itemStackValue)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static SlotPos getSlotPosition(int slot) {
-        slot++;
-        int row = slot / 9; //6
-        int column = slot % 9;
-        if (column == 0) {
-            column = 9;
-            row--;
-        }
-        return new SlotPos(row, column - 1);
-    }
-
-    public static PluginLocation maxPluginLocation(PluginLocation pos1, PluginLocation pos2) {
-        return new PluginLocation(pos1.world, Math.max(pos1.x, pos2.x), Math.max(pos1.y, pos2.y), Math.max(pos1.z, pos2.z));
-    }
-
-    public static PluginLocation minPluginLocation(PluginLocation pos1, PluginLocation pos2) {
-        return new PluginLocation(pos1.world, Math.min(pos1.x, pos2.x), Math.min(pos1.y, pos2.y), Math.min(pos1.z, pos2.z));
-    }
-
-    @SuppressWarnings("unused")
-    public static PluginLocation maxPluginLocation(List<PluginLocation> positions) {
-        double maxX = -Double.MAX_VALUE;
-        double maxY = -Double.MAX_VALUE;
-        double maxZ = -Double.MAX_VALUE;
-
-        for (PluginLocation position : positions) {
-            maxX = Math.max(maxX, position.x);
-            maxY = Math.max(maxY, position.y);
-            maxZ = Math.max(maxZ, position.z);
-        }
-
-        return new PluginLocation(positions.get(0).world, maxX, maxY, maxZ);
-    }
-
-    @SuppressWarnings("unused")
-    public static PluginLocation minPluginLocation(List<PluginLocation> positions) {
-        double minX = Double.MAX_VALUE;
-        double minY = Double.MAX_VALUE;
-        double minZ = Double.MAX_VALUE;
-
-        for (PluginLocation position : positions) {
-            minX = Math.min(minX, position.x);
-            minY = Math.min(minY, position.y);
-            minZ = Math.min(minZ, position.z);
-        }
-
-        return new PluginLocation(positions.get(0).world, minX, minY, minZ);
-    }
 
     public static int getTotalExperience(int level) {
         int xp = 0;
@@ -165,37 +63,6 @@ public class Utils {
     }
 
     @SuppressWarnings("unused")
-    public static int getTotalExperience(Player player) {
-        return Math.round(player.getExp() * player.getExpToLevel()) + getTotalExperience(player.getLevel());
-    }
-
-    @SuppressWarnings("unused")
-    public static void setTotalExperience(Player player, int amount) {
-        int level;
-        int xp;
-        float a = 0;
-        float b = 0;
-        float c = -amount;
-
-        if (amount > getTotalExperience(0) && amount <= getTotalExperience(15)) {
-            a = 1;
-            b = 6;
-        } else if (amount > getTotalExperience(15) && amount <= getTotalExperience(30)) {
-            a = 2.5f;
-            b = -40.5f;
-            c += 360;
-        } else if (amount > getTotalExperience(30)) {
-            a = 4.5f;
-            b = -162.5f;
-            c += 2220;
-        }
-        level = (int) Math.floor((-b + Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a));
-        xp = amount - getTotalExperience(level);
-        player.setLevel(level);
-        player.setExp(0);
-        player.giveExp(xp);
-    }
-
     public static int getTotalChances(List<Randomizable> objects) {
         int output = 0;
         for (Randomizable object : objects) {
@@ -232,8 +99,8 @@ public class Utils {
         return objects.get(index);
     }
 
-    public static double getRam(){
-        return ((double)(Runtime.getRuntime().totalMemory()/1024)/1024) - ((double)(Runtime.getRuntime().freeMemory()/1024)/1024);
+    public static double getRam() {
+        return ((double) (Runtime.getRuntime().totalMemory() / 1024) / 1024) - ((double) (Runtime.getRuntime().freeMemory() / 1024) / 1024);
     }
 
     public static double getCpuLoad() {
@@ -256,7 +123,7 @@ public class Utils {
         }
     }
 
-    public static String getJava(){
+    public static String getJava() {
         return String.format("Java Version: %s %s. \n", System.getProperty("java.vendor"), System.getProperty("java.version"));
     }
 

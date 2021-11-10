@@ -11,12 +11,12 @@ import dev.lightdream.api.IAPI;
 import dev.lightdream.api.databases.DatabaseEntry;
 import dev.lightdream.api.utils.Debugger;
 import lombok.SneakyThrows;
-import org.bukkit.Bukkit;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class OmrLiteDatabaseManager extends DatabaseManager {
 
@@ -193,7 +193,7 @@ public class OmrLiteDatabaseManager extends DatabaseManager {
             return output;
         } catch (Throwable t) {
             triedConnecting = true;
-            Bukkit.getScheduler().runTaskLater(api.getPlugin(), () -> triedConnecting = false, 10 * 20L);
+            api.getPlugin().getProxy().getScheduler().schedule(api.getPlugin(), () -> triedConnecting = false, 10, TimeUnit.SECONDS);
             api.getLogger().severe("Connection to the database has been closed with message %message%. Reconnecting.".replace("%message%", t.getMessage()));
             connect();
             return new ArrayList<>();

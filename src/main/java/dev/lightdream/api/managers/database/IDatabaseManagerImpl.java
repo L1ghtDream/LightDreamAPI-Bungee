@@ -1,9 +1,8 @@
 package dev.lightdream.api.managers.database;
 
 import dev.lightdream.api.databases.User;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,9 +16,7 @@ public interface IDatabaseManagerImpl extends IDatabaseManager{
     @Nullable User getUser(@NotNull String name);
 
     @SuppressWarnings("unused")
-    @NotNull User getUser(@NotNull OfflinePlayer player);
-
-    @NotNull User getUser(@NotNull Player player);
+    @NotNull User getUser(@NotNull ProxiedPlayer player);
 
     @SuppressWarnings("unused")
     @Nullable User getUser(int id);

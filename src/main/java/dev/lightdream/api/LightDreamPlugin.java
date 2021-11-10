@@ -14,24 +14,20 @@ import dev.lightdream.api.databases.ConsoleUser;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.managers.*;
 import dev.lightdream.api.managers.database.DatabaseManagerImpl;
-import fr.minuskube.inv.InventoryManager;
 import lombok.SneakyThrows;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.plugin.Plugin;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("CanBeFinal")
-public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
+public abstract class LightDreamPlugin extends Plugin implements IAPI {
 
     //Settings
     public String projectName = "Undefined";
@@ -46,13 +42,9 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     public Lang baseLang;
 
     //Managers
-    public Economy economy;
-    public Permission permission;
     public FileManager fileManager;
-    public InventoryManager inventoryManager;
     public MessageManager messageManager;
     public Command baseCommand;
-    public EventManager eventManager;
     //Bot
     public JDA bot;
     //API
@@ -82,13 +74,8 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
 
         //Managers
         registerLangManager();
-        this.economy = api.economy;
-        this.permission = api.permission;
         this.databaseManager = new DatabaseManagerImpl(this);
-        this.inventoryManager = new InventoryManager(this);
-        this.inventoryManager.init();
         this.messageManager = instantiateMessageManager();
-        this.eventManager = new EventManager(this);
 
         //Commands
         baseSubCommands.add(new ReloadCommand(this));
@@ -120,8 +107,6 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
         }
     }
 
-    public abstract @NotNull String parsePapi(OfflinePlayer player, String identifier);
-
     public void loadConfigs() {
         sqlConfig = fileManager.load(SQLConfig.class);
         baseConfig = fileManager.load(Config.class);
@@ -148,13 +133,8 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     }
 
     @Override
-    public JavaPlugin getPlugin() {
+    public Plugin getPlugin() {
         return this;
-    }
-
-    @Override
-    public Economy getEconomy() {
-        return economy;
     }
 
     @Override
@@ -193,7 +173,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     }
 
     @Override
-    public void setLang(Player player, String lang) {
+    public void setLang(ProxiedPlayer player, String lang) {
         setLang(databaseManager.getUser(player), lang);
     }
 
@@ -206,11 +186,6 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     @Override
     public ConsoleUser getConsoleUser() {
         return new ConsoleUser();
-    }
-
-    @Override
-    public InventoryManager getInventoryManager() {
-        return inventoryManager;
     }
 
     @Override
@@ -238,10 +213,6 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
         return baseCommand;
     }
 
-    @Override
-    public EventManager getEventManager() {
-        return eventManager;
-    }
 
     @Override
     public boolean debug() {

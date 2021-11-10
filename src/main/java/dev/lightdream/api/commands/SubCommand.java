@@ -3,8 +3,8 @@ package dev.lightdream.api.commands;
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.utils.MessageBuilder;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public abstract class SubCommand {
     }
 
     public void execute(CommandSender sender, List<String> args) {
-        if (sender instanceof Player) {
+        if (sender instanceof ProxiedPlayer) {
             execute(api.getDatabaseManager().getUser(sender), args);
         } else {
             execute(api.getConsoleUser(), args);
@@ -72,7 +72,7 @@ public abstract class SubCommand {
     public abstract void execute(User user, List<String> args);
 
     public List<String> onTabComplete(CommandSender sender, List<String> args) {
-        if (sender instanceof Player) {
+        if (sender instanceof ProxiedPlayer) {
             return onTabComplete(api.getDatabaseManager().getUser(sender), args);
         } else {
             return onTabComplete(api.getConsoleUser(), args);

@@ -1,18 +1,17 @@
 package dev.lightdream.api.commands;
 
 import dev.lightdream.api.IAPI;
-import dev.lightdream.api.commands.SubCommand;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.utils.MessageBuilder;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
-public class Command implements CommandExecutor, TabCompleter {
+public class Command extends net.md_5.bungee.api.plugin.Command {
 
     //todo add minimum required arguments
 
@@ -20,12 +19,12 @@ public class Command implements CommandExecutor, TabCompleter {
     private List<SubCommand> subCommands;
 
     public Command(IAPI api, String command, List<SubCommand> subCommands) {
+        super("command");
         this.api = api;
         try {
-            api.getPlugin().getCommand(command).setExecutor(this);
-            api.getPlugin().getCommand(command).setTabCompleter(this);
+            api.getPlugin().getProxy().getPluginManager().registerCommand(api.getPlugin(), this);
         } catch (NullPointerException e) {
-            api.getLogger().severe("The command '" + command + "' does not exist in plugin.yml");
+            api.getLogger().severe("The command '" + command + "' does not exist in bungee.yml");
             return;
         }
 
@@ -63,55 +62,7 @@ public class Command implements CommandExecutor, TabCompleter {
         user.sendMessage(api, helpCommandOutput.toString());
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, org.bukkit.command.Command bukkitCommand, String label, String[] args) {
-        if (args.length == 0) {
-            for (SubCommand subCommand : subCommands) {
-                if (subCommand.aliases.get(0).equals("")) {
-                    subCommand.execute(sender, Arrays.asList(args));
-                    return true;
-                }
-            }
-            sendUsage(sender);
-            return true;
-        }
-
-        for (SubCommand subCommand : subCommands) {
-            if (!(subCommand.aliases.contains(args[0].toLowerCase()))) {
-                continue;
-            }
-
-            if (subCommand.onlyForPlayers && !(sender instanceof Player)) {
-                api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().mustBeAPlayer));
-                return true;
-            }
-
-            if (subCommand.onlyForConsole && !(sender instanceof ConsoleCommandSender)) {
-                api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().mustBeConsole));
-                return true;
-            }
-
-            if (!hasPermission(sender, subCommand.permission)) {
-                api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().noPermission));
-                return true;
-            }
-
-            subCommand.execute(sender, new ArrayList<>(Arrays.asList(args).subList(1, args.length)));
-            return true;
-        }
-
-        for (SubCommand subCommand : subCommands) {
-            if (subCommand.aliases.get(0).equals("")) {
-                subCommand.execute(sender, Arrays.asList(args));
-                return true;
-            }
-        }
-
-        api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().unknownCommand));
-        return true;
-    }
-
-    @Override
+/*
     public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command bukkitCommand, String bukkitAlias, String[] args) {
         if (args.length == 1) {
             ArrayList<String> result = new ArrayList<>();
@@ -134,7 +85,52 @@ public class Command implements CommandExecutor, TabCompleter {
         return Collections.emptyList();
     }
 
+ */
+
     private boolean hasPermission(CommandSender sender, String permission) {
         return ((sender.hasPermission(permission) || permission.equalsIgnoreCase("")));
+    }
+
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if (args.length == 0) {
+            for (SubCommand subCommand : subCommands) {
+                if (subCommand.aliases.get(0).equals("")) {
+                    subCommand.execute(sender, Arrays.asList(args));
+                    return;
+                }
+            }
+            sendUsage(sender);
+            return;
+        }
+
+        for (SubCommand subCommand : subCommands) {
+            if (!(subCommand.aliases.contains(args[0].toLowerCase()))) {
+                continue;
+            }
+
+            if (subCommand.onlyForPlayers && !(sender instanceof ProxiedPlayer)) {
+                api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().mustBeAPlayer));
+                return;
+            }
+
+            if (!hasPermission(sender, subCommand.permission)) {
+                api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().noPermission));
+                return;
+            }
+
+            subCommand.execute(sender, new ArrayList<>(Arrays.asList(args).subList(1, args.length)));
+            return;
+        }
+
+        for (SubCommand subCommand : subCommands) {
+            if (subCommand.aliases.get(0).equals("")) {
+                subCommand.execute(sender, Arrays.asList(args));
+                return;
+            }
+        }
+
+        api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().unknownCommand));
+        return;
     }
 }
