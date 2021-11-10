@@ -21,6 +21,7 @@ public abstract class DatabaseEntry {
         api.getDatabaseManager().save(this, cache);
     }
 
+    @SuppressWarnings("unused")
     public void delete() {
         api.getDatabaseManager().delete(this);
     }

@@ -131,6 +131,5 @@ public class Command extends net.md_5.bungee.api.plugin.Command {
         }
 
         api.getMessageManager().sendMessage(sender, new MessageBuilder(api.getLang().unknownCommand));
-        return;
     }
 }

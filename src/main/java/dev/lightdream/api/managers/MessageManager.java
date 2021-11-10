@@ -26,6 +26,7 @@ public class MessageManager {
         sendMessage(sender, new MessageBuilder(message));
     }
 
+    @SuppressWarnings("deprecation")
     public void sendMessage(CommandSender sender, MessageBuilder builder) {
         if (sender instanceof ProxiedPlayer) {
             User user = api.getDatabaseManager().getUser((ProxiedPlayer) sender);
@@ -97,12 +98,13 @@ public class MessageManager {
         sendMessage(target, new MessageBuilder(message), lang);
     }
 
+    @SuppressWarnings("deprecation")
     public void sendMessage(ProxiedPlayer target, MessageBuilder builder, String lang) {
         target.sendMessage(Utils.color(getMessage(builder, lang)));
     }
 
+    @SuppressWarnings("deprecation")
     public void broadcast(String message) {
-
         api.getPlugin().getProxy().broadcast(Utils.color(message));
     }
 

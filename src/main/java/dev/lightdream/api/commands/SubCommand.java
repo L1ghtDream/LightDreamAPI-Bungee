@@ -71,6 +71,7 @@ public abstract class SubCommand {
 
     public abstract void execute(User user, List<String> args);
 
+    @SuppressWarnings("unused")
     public List<String> onTabComplete(CommandSender sender, List<String> args) {
         if (sender instanceof ProxiedPlayer) {
             return onTabComplete(api.getDatabaseManager().getUser(sender), args);

@@ -34,11 +34,13 @@ public class ConsoleUser extends User {
     public void setLang(String lang) {
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void sendMessage(IAPI api, String msg) {
         api.getPlugin().getProxy().getConsole().sendMessage(msg);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void sendMessage(IAPI api, MessageBuilder msg) {
         api.getPlugin().getProxy().getConsole().sendMessage(msg.parseString());

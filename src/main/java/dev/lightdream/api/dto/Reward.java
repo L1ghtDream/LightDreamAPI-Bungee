@@ -18,7 +18,7 @@ public class Reward {
         this.type = RewardType.COMMAND;
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings({"ConstantConditions", "SwitchStatementWithTooFewBranches"})
     public void win(User user) {
         switch (this.type) {
             case COMMAND:

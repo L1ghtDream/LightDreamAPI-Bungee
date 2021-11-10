@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@SuppressWarnings("unused")
 public class Utils {
 
     public static @NotNull List<String> color(@NotNull List<String> list) {

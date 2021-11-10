@@ -41,6 +41,7 @@ public interface IAPI {
 
     String getProjectVersion();
 
+    @SuppressWarnings("unused")
     void setLang(ProxiedPlayer player, String lang);
 
     void setLang(User user, String lang);
@@ -67,5 +68,6 @@ public interface IAPI {
 
     boolean debug();
 
+    @SuppressWarnings("unused")
     void registerUser(ProxiedPlayer player);
 }

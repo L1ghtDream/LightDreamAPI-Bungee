@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "SqlNoDataSourceInspection"})
 public class HikariDatabaseManager extends DatabaseManager {
 
     private HikariDataSource ds;
