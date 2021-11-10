@@ -85,11 +85,6 @@ public class ConsoleUser extends User {
     }
 
     @Override
-    public Integer getID() {
-        return -1;
-    }
-
-    @Override
     public void sendMessage(IAPI api, String msg) {
         Bukkit.getConsoleSender().sendMessage(msg);
     }

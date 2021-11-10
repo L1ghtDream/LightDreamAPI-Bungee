@@ -1,6 +1,7 @@
 package dev.lightdream.api;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import dev.lightdream.api.commands.Command;
 import dev.lightdream.api.commands.SubCommand;
 import dev.lightdream.api.commands.commands.base.HelpCommand;
 import dev.lightdream.api.commands.commands.base.ReloadCommand;
@@ -50,7 +51,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     public FileManager fileManager;
     public InventoryManager inventoryManager;
     public MessageManager messageManager;
-    public CommandManager baseCommandManager;
+    public Command baseCommand;
     public EventManager eventManager;
     //Bot
     public JDA bot;
@@ -94,7 +95,7 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
         baseSubCommands.add(new VersionCommand(this));
         baseSubCommands.add(new HelpCommand(this));
         loadBaseCommands();
-        baseCommandManager = new CommandManager(this, projectID, baseSubCommands);
+        baseCommand = new Command(this, projectID, baseSubCommands);
 
         //Bot
         if (baseJdaConfig != null) {
@@ -233,8 +234,8 @@ public abstract class LightDreamPlugin extends JavaPlugin implements IAPI {
     }
 
     @Override
-    public CommandManager getBaseCommandManager() {
-        return baseCommandManager;
+    public Command getBaseCommandManager() {
+        return baseCommand;
     }
 
     @Override

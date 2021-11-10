@@ -3,6 +3,7 @@ package dev.lightdream.api.managers.database;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import dev.lightdream.api.IAPI;
+import dev.lightdream.api.annotations.DatabaseField;
 import dev.lightdream.api.annotations.DatabaseTable;
 import dev.lightdream.api.databases.DatabaseEntry;
 import lombok.SneakyThrows;
@@ -12,14 +13,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("unused")
 public class HikariDatabaseManager extends DatabaseManager {
 
     private HikariDataSource ds;
+
     @SuppressWarnings("FieldMayBeFinal")
-    //private HashMap<Class<?>, String> tables = new HashMap<>();
 
     public HikariDatabaseManager(IAPI api) {
         this.api = api;
@@ -46,8 +48,7 @@ public class HikariDatabaseManager extends DatabaseManager {
     @SneakyThrows
     @Override
     public <T> List<T> getAll(Class<T> clazz) {
-
-        if(!clazz.isAnnotationPresent(DatabaseTable.class)){
+        if (!clazz.isAnnotationPresent(DatabaseTable.class)) {
             //todo logger
             return new ArrayList<>();
         }
@@ -69,28 +70,74 @@ public class HikariDatabaseManager extends DatabaseManager {
     }
 
     @SneakyThrows
+    public <T> List<T> get(Class<T> clazz, HashMap<String, Object> queries) {
+        if (queries.size() == 0) {
+            return getAll(clazz);
+        }
+
+        if (!clazz.isAnnotationPresent(DatabaseTable.class)) {
+            //todo logger
+            return new ArrayList<>();
+        }
+        StringBuilder query = new StringBuilder("SELECT * FROM ? WHERE ");
+
+        for (String key : queries.keySet()) {
+            Object value = queries.get(key);
+            query.append(key)
+                    .append("=")
+                    .append(formatQueryArgument(value))
+                    .append(" AND ");
+        }
+        query.append(" ");
+        query = new StringBuilder(query.toString().replace(" AND  ", ""));
+
+
+        List<T> output = new ArrayList<>();
+        PreparedStatement statement = getConnection().prepareStatement(query.toString());
+        statement.setString(1, clazz.getAnnotation(DatabaseTable.class).table());
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            T obj = clazz.newInstance();
+            Field[] fields = obj.getClass().getFields();
+            for (Field field : fields) {
+                field.set(obj, rs.getString(field.getName()));
+            }
+            output.add(obj);
+        }
+        return output;
+    }
+
+    @SuppressWarnings("StringConcatenationInLoop")
+    @SneakyThrows
     @Override
     public void createTable(Class<?> clazz) {
 
-        if(!clazz.isAnnotationPresent(DatabaseTable.class)){
+        if (!clazz.isAnnotationPresent(DatabaseTable.class)) {
             //todo logger
-return;
+            return;
         }
 
         Object obj = clazz.newInstance();
-        StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS ?.?(");
+        String query = "CREATE TABLE IF NOT EXISTS ?.?(";
 
         Field[] fields = obj.getClass().getFields();
-        //todo get annotations
         for (Field field : fields) {
-            query.append(field.getName()).append(" ").append(getDataType(field)).append(",");
+            if (!field.isAnnotationPresent(DatabaseField.class)) {
+                return;
+            }
+            DatabaseField dbField = field.getAnnotation(DatabaseField.class);
+            query += dbField.columnName() + " " +
+                    getDataType(field) + " " +
+                    (dbField.unique() ? "UNIQUE " : "") +
+                    (dbField.autoGenerate() ? "AUTO_INCREMENT " : "") +
+                    ",";
         }
 
-        query.append(",");
-        query = new StringBuilder(query.toString().replace(",,", ""));
-        query.append(")");
+        query += ",";
+        query = query.replace(",,", "");
+        query += ")";
 
-        PreparedStatement statement = getConnection().prepareStatement(query.toString());
+        PreparedStatement statement = getConnection().prepareStatement(query);
         statement.setString(1, sqlConfig.database);
         statement.setString(2, clazz.getAnnotation(DatabaseTable.class).table());
     }
@@ -108,6 +155,7 @@ return;
 
     @Override
     public void save() {
+        //todo implement cache
         //todo
     }
 

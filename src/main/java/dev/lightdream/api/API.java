@@ -1,6 +1,7 @@
 package dev.lightdream.api;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import dev.lightdream.api.commands.Command;
 import dev.lightdream.api.commands.SubCommand;
 import dev.lightdream.api.commands.commands.base.HelpCommand;
 import dev.lightdream.api.commands.commands.base.ReloadCommand;
@@ -58,7 +59,7 @@ public final class API implements IAPI {
     public DatabaseManagerImpl databaseManager;
     public FileManager fileManager;
     public KeyDeserializerManager keyDeserializerManager;
-    public CommandManager commandManager;
+    public Command command;
     public EventManager eventManager;
 
     public API(JavaPlugin plugin) {
@@ -111,7 +112,7 @@ public final class API implements IAPI {
 
         //Commands
         List<SubCommand> baseSubCommands = new ArrayList<>(getBaseCommands());
-        commandManager = new CommandManager(this, getProjectID(), baseSubCommands);
+        command = new Command(this, getProjectID(), baseSubCommands);
 
         getLogger().info(ChatColor.GREEN + getProjectName() + "(by github.com/L1ghtDream) has been enabled");
     }
@@ -170,8 +171,8 @@ public final class API implements IAPI {
     }
 
     @Override
-    public CommandManager getBaseCommandManager() {
-        return commandManager;
+    public Command getBaseCommandManager() {
+        return command;
     }
 
     @Override
@@ -271,7 +272,7 @@ public final class API implements IAPI {
 
     @Override
     public String getProjectVersion() {
-        return "3.100";
+        return "3.101";
     }
 
     @Override

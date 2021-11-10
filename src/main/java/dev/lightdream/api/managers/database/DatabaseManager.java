@@ -2,14 +2,12 @@ package dev.lightdream.api.managers.database;
 
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.configs.SQLConfig;
-import dev.lightdream.api.utils.Debugger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.List;
 
-public abstract class DatabaseManager implements IDatabaseManager{
+public abstract class DatabaseManager implements IDatabaseManager {
 
     public IAPI api;
     public SQLConfig sqlConfig;
@@ -51,6 +49,27 @@ public abstract class DatabaseManager implements IDatabaseManager{
             default:
                 api.getLogger().severe("Datatype not recognised");
                 return "";
+        }
+    }
+
+    public String formatQueryArgument(Object object) {
+        String name = object.getClass().getSimpleName();
+        switch (name) {
+            case "int":
+            case "Integer":
+
+            case "boolean":
+            case "Boolean":
+            case "float":
+            case "Float":
+            case "double":
+            case "Double":
+                return object.toString();
+            case "String":
+                return "\"" + object + "\"";
+            default:
+                api.getLogger().severe("Datatype not recognised");
+                return "\"\"";
         }
     }
 

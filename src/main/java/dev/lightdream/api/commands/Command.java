@@ -1,4 +1,4 @@
-package dev.lightdream.api.managers;
+package dev.lightdream.api.commands;
 
 import dev.lightdream.api.IAPI;
 import dev.lightdream.api.commands.SubCommand;
@@ -12,12 +12,14 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public class CommandManager implements CommandExecutor, TabCompleter {
+public class Command implements CommandExecutor, TabCompleter {
+
+    //todo add minimum required arguments
 
     private final IAPI api;
     private List<SubCommand> subCommands;
 
-    public CommandManager(IAPI api, String command, List<SubCommand> subCommands) {
+    public Command(IAPI api, String command, List<SubCommand> subCommands) {
         this.api = api;
         try {
             api.getPlugin().getCommand(command).setExecutor(this);

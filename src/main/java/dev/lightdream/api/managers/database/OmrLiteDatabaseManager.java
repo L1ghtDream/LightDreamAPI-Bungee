@@ -8,9 +8,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.TableUtils;
 import dev.lightdream.api.IAPI;
-import dev.lightdream.api.configs.SQLConfig;
 import dev.lightdream.api.databases.DatabaseEntry;
-import dev.lightdream.api.databases.EditableDatabaseEntry;
 import dev.lightdream.api.utils.Debugger;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
@@ -152,9 +150,7 @@ public class OmrLiteDatabaseManager extends DatabaseManager {
         } else {
             List<T> list = (List<T>) queryAll(clazz);
             for (T t : list) {
-                if (t instanceof EditableDatabaseEntry) {
-                    ((EditableDatabaseEntry) t).setAPI(api);
-                }
+                ((DatabaseEntry) t).setAPI(api);
             }
             return list;
         }
@@ -174,7 +170,7 @@ public class OmrLiteDatabaseManager extends DatabaseManager {
         }
         List<Integer> output = new ArrayList<>();
         for (DatabaseEntry databaseEntry : entries) {
-            output.add(databaseEntry.getID());
+            output.add(databaseEntry.id);
         }
         return output;
     }

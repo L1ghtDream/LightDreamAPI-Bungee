@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @DatabaseTable(tableName = "users")
 @dev.lightdream.api.annotations.DatabaseTable(table = "users")
-public class User extends EditableDatabaseEntry {
+public class User extends DatabaseEntry {
 
     @SuppressWarnings("unused")
     @DatabaseField(columnName = "id", generatedId = true, canBeNull = false)
@@ -136,11 +136,6 @@ public class User extends EditableDatabaseEntry {
             return 0;
         }
         return Utils.getTotalExperience(getPlayer());
-    }
-
-    @Override
-    public Integer getID() {
-        return this.id;
     }
 
     @SuppressWarnings("unused")
